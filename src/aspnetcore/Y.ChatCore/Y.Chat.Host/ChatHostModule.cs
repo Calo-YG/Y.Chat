@@ -17,6 +17,24 @@ namespace Y.Chat.Host
             var app = context.GetApplicationBuilder();
 
             var env = (IHostEnvironment)context.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
+
+            // Configure the HTTP request pipeline.
+            if (env.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endOptions =>
+            {
+                endOptions.MapDefaultControllerRoute();
+                endOptions.MapRazorPages();
+            });
         }
     }
 }

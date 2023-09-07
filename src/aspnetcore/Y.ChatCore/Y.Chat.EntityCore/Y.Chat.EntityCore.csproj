@@ -10,4 +10,8 @@
     <PackageReference Include="Y.SqlsugarRepository" Version="1.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Y.Chat.Domain\Y.Chat.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

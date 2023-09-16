@@ -10,3 +10,5 @@
 /src/aspnetcore/Y.ChatCore/Y.Chat.Host/obj
 /src/aspnetcore/Y.ChatCore/.vs/ProjectEvaluation
 *.user
+/src/aspnetcore/Y.ChatCore/Y.Common/obj
+/src/aspnetcore/Y.ChatCore/Y.ChatCore.sln

@@ -7,6 +7,7 @@ namespace Y.Chat.EntityCore
     {
         public override void ConfigerService(ConfigerServiceContext context)
         {
+
             base.ConfigerService(context);
         }
     }

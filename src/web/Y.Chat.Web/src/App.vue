@@ -7,8 +7,8 @@ import { ElConfigProvider } from 'element-plus'
   <ElConfigProvider>
     <div class="common-layout">
     <el-container>
-      <el-aside class="left-side">Aside</el-aside>
-      <el-main>Main</el-main>
+      <el-aside class="left-side"></el-aside>
+      <el-main></el-main>
     </el-container>
   </div>
   </ElConfigProvider>

@@ -12,3 +12,8 @@
 *.user
 /src/aspnetcore/Y.ChatCore/Y.Common/obj
 /src/aspnetcore/Y.ChatCore/Y.ChatCore.sln
+/src/aspnetcore/Y.ChatCore/Y.Chat.Domain/bin/Debug/net7.0
+/src/aspnetcore/Y.ChatCore/Y.Common/bin/Debug/net7.0
+/src/aspnetcore/Y.ChatCore/Y.Chat.Application/bin/Debug/net7.0
+/src/aspnetcore/Y.ChatCore/Y.Chat.EntityCore/bin/Debug/net7.0
+/src/aspnetcore/Y.ChatCore/Y.Chat.Host/bin/Debug/net7.0

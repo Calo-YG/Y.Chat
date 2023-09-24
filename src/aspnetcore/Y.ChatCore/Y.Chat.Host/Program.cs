@@ -19,6 +19,6 @@ builder.Services.AddApplication<ChatHostModule>();
 
 var app = builder.Build();
 
-app.InitApplication();
+await app.InitApplicationAsync();
 
 app.Run();

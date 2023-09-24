@@ -14,6 +14,7 @@ import { ElConfigProvider } from 'element-plus'
   </ElConfigProvider>
 </template>
 
+
 <style scoped lang="less"> 
 .left-side {
   width: 60%;

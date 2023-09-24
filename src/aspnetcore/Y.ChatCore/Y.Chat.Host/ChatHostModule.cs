@@ -24,9 +24,9 @@ namespace Y.Chat.Host
             var configuration = context.GetConfiguartion();
 
             context.Services
-    .AddMvc()
-    .AddRazorPagesOptions(options => { })
-    .AddRazorRuntimeCompilation();
+                .AddMvc()
+                .AddRazorPagesOptions(options => { })
+                .AddRazorRuntimeCompilation();
 
             context.Services.AddHttpContextAccessor();
 
@@ -131,12 +131,6 @@ namespace Y.Chat.Host
             var env = (IHostEnvironment)
                 context.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
-            // Configure the HTTP request pipeline.
-            if (env.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
             app.UseCors("YChat");
 
             app.UseSerilogRequestLogging();
@@ -166,7 +160,12 @@ namespace Y.Chat.Host
                     options.DocExpansion(DocExpansion.None);
                     options.IndexStream = () =>
                     {
-                        var path = Path.Join(env.ContentRootPath, "wwwroot", "pages", "swagger.html");
+                        var path = Path.Join(
+                            env.ContentRootPath,
+                            "wwwroot",
+                            "pages",
+                            "swagger.html"
+                        );
                         return new FileInfo(path).OpenRead();
                     };
                 });

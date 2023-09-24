@@ -11,4 +11,8 @@
     <Folder Include="Entities\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Masa.BuildingBlocks.Ddd.Domain" Version="1.0.0" />
+  </ItemGroup>
+
 </Project>

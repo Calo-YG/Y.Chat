@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Y.Chat.Application",
+    "\\Y.Chat.Domain\\Shraed",
+    "\\Y.Chat.EntityCore",
+    "\\Y.Chat.Host"
+  ],
+  "SelectedNode": "\\Y.ChatCore.sln",
+  "PreviewInSolutionExplorer": false
+}

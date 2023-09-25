@@ -11,13 +11,25 @@
     <PackageReference Include="Masa.Contrib.Caching.MultilevelCache" Version="1.0.0" />
     <PackageReference Include="Masa.Contrib.Data.Contracts" Version="1.0.0" />
     <PackageReference Include="Masa.Contrib.Data.EFCore.SqlServer" Version="1.0.0" />
+    <PackageReference Include="Masa.Contrib.Data.IdGenerator.SequentialGuid" Version="1.0.0" />
     <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="1.0.0" />
     <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EFCore" Version="1.0.0" />
     <PackageReference Include="Masa.Contrib.Dispatcher.Events" Version="1.0.0" />
     <PackageReference Include="Masa.Contrib.Dispatcher.Events.FluentValidation" Version="1.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Y.Module" Version="2.0.0" />
     <PackageReference Include="Y.Tools" Version="1.0.6" />
 	<PackageReference Include="Masa.BuildingBlocks.Ddd.Domain" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\ChatDomain\ChatDomainService\" />
+    <Folder Include="Domain\FileDomain\Shared\" />
+    <Folder Include="Domain\FileDomain\FileDomainService\" />
+    <Folder Include="Domain\UserDomain\DomainService\" />
   </ItemGroup>
 
 </Project>

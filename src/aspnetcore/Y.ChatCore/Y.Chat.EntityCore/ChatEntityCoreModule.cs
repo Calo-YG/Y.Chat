@@ -29,6 +29,8 @@ namespace Y.Chat.EntityCore
             context.Services.AddMultilevelCache(
                 cacheBuilder => cacheBuilder.UseStackExchangeRedisCache()
             );
+
+            context.Services.AddSequentialGuidGenerator();
         }
     }
 }

@@ -17,7 +17,7 @@ builder.Host.UseSerilog(
 // ×¢Èë·þÎñ
 builder.Services.AddApplication<ChatHostModule>();
 
-var app = builder.Build();
+var app = builder.AddServices(); ;
 
 await app.InitApplicationAsync();
 

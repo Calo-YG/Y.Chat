@@ -14,6 +14,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         public User User { get; private set; }
         public ChatGroup ChatGroup { get; private set; }
 
+
+        public GuoupUser() { }  
         public GuoupUser(Guid groupId,Guid userId)
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();

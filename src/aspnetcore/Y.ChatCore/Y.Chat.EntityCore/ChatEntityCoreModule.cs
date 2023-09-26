@@ -6,6 +6,7 @@ using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Y.Module;
+using Y.Module.Extensions;
 using Y.Module.Modules;
 
 namespace Y.Chat.EntityCore
@@ -15,17 +16,6 @@ namespace Y.Chat.EntityCore
     {
         public override void ConfigerService(ConfigerServiceContext context)
         {
-            context.Services.AddMasaDbContext<YChatContext>(optionsBuilder =>
-            {
-                optionsBuilder.UseSqlServer();
-                optionsBuilder.UseFilter();
-            });
-
-            context.Services.AddDomainEventBus(options =>
-            {
-                options.UseRepository<YChatContext>();
-            });
-
             context.Services.AddMultilevelCache(
                 cacheBuilder => cacheBuilder.UseStackExchangeRedisCache()
             );

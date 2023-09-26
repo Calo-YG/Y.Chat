@@ -10,6 +10,7 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
 
         public Guid FriendId { get;private set; }
 
+        private Friends() { }   
         public Friends(Guid userId,Guid friendId) 
         { 
             UserId = userId;

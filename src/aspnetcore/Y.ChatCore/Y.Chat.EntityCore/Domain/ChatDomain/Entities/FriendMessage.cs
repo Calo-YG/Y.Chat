@@ -18,6 +18,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public bool IsRead {  get; private set; }   
 
+
+        public FriendMessage() { }
         public FriendMessage(Guid sendUserId,Guid recivedUserId,string content,MessageType messageType)
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();

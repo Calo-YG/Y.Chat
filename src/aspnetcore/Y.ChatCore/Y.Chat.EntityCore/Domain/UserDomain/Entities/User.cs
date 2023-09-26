@@ -18,6 +18,8 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
 
         public LoginType LoginType { get; private set; }
 
+
+        public User() { }
         public User(string name, string account, string password, string? email)
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();

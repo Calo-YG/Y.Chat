@@ -18,6 +18,8 @@ namespace Y.Chat.EntityCore.Domain.FileDomain.Entitis
 
         public ChatGroup ChatGroup { get; private set; }
 
+        public FileSystem() { }
+
         public FileSystem(string name,string description,bool isfolder,Guid groupId,Guid? parentId) 
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();

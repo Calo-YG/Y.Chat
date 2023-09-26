@@ -21,6 +21,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         //public bool IsRead { get; set; }
 
+        public ChatMessage() { }    
         public ChatMessage(Guid userId,Guid groupId,string content,MessageType messageType) 
         {
             Id=IdGeneratorFactory.SequentialGuidGenerator.NewId();

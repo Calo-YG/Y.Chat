@@ -18,6 +18,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public NoticeType NoticeType { get; private set; }
 
+        private Notice() { }
+
         public Notice(Guid inviteduserId,Guid recivedUserId,string content,NoticeType noticeType,Guid? groupId=null) 
         {
             Id=IdGeneratorFactory.SequentialGuidGenerator.NewId();

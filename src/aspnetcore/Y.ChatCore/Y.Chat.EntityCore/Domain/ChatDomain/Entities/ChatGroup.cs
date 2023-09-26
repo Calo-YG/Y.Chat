@@ -11,6 +11,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public string Avatar { get;private set; }
 
+        public ChatGroup() { }  
         public ChatGroup(string name, string? description, string avatar)
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();

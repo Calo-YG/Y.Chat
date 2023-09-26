@@ -24,6 +24,11 @@ namespace Y.Chat.EntityCore
         {
         }
 
+
+        protected override void OnConfiguring(MasaDbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+        }
         protected override void OnModelCreatingExecuting(ModelBuilder builder)
         {
             builder.CreatingModel();

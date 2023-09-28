@@ -1,4 +1,5 @@
-﻿using Y.Chat.EntityCore;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Y.Chat.EntityCore;
 using Y.Module;
 using Y.Module.Modules;
 
@@ -9,7 +10,7 @@ namespace Y.Chat.Application
     {
         public override void ConfigerService(ConfigerServiceContext context)
         {
-            base.ConfigerService(context);
+            context.Services.AddMapster();
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using Y.Chat.EntityCore;
+using Y.Chat.EntityCore.Hubs;
 using Y.Chat.Host;
 using Y.Module.Extensions;
 
@@ -38,5 +39,7 @@ builder.Services.AddApplication<ChatHostModule>();
 var app = builder.AddServices(); ;
 
 await app.InitApplicationAsync();
+
+app.MapHub<ChatHub>("/Chat");
 
 app.Run();

@@ -2,11 +2,8 @@
 using Calo.Blog.Common.Minio;
 using Calo.Blog.Common.Redis;
 using Masa.BuildingBlocks.Caching;
-using Masa.BuildingBlocks.Ddd.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Y.Module;
-using Y.Module.Extensions;
 using Y.Module.Modules;
 
 namespace Y.Chat.EntityCore
@@ -19,6 +16,7 @@ namespace Y.Chat.EntityCore
             context.Services.AddMultilevelCache(
                 cacheBuilder => cacheBuilder.UseStackExchangeRedisCache()
             );
+            context.Services.AddSignalR();
 
             context.Services.AddSequentialGuidGenerator();
         }

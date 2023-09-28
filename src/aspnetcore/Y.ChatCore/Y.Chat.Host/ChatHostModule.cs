@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text;
 using Y.Chat.Application;
+using Y.Chat.EntityCore.Hubs;
 using Y.Module;
 using Y.Module.Extensions;
 using Y.Module.Modules;

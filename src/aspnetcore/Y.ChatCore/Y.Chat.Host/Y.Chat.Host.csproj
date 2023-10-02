@@ -27,8 +27,4 @@
     <ProjectReference Include="..\Y.Chat.Application\Y.Chat.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

@@ -18,3 +18,5 @@
 /src/aspnetcore/Y.ChatCore/Y.Chat.EntityCore/bin/Debug/net7.0
 /src/aspnetcore/Y.ChatCore/Y.Chat.Host/bin/Debug/net7.0
 /src/aspnetcore/Y.ChatCore/debug.log
+/src/aspnetcore/Y.ChatCore/Y.Chat.Contracts/obj/Debug/net7.0
+/src/aspnetcore/Y.ChatCore/Y.Chat.Contracts/obj

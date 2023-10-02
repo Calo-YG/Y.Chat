@@ -36,10 +36,14 @@ builder.Services.AddDomainEventBus(options =>
 // ×¢Èë·þÎñ
 builder.Services.AddApplication<ChatHostModule>();
 
-var app = builder.AddServices(); ;
+builder.Services.AddMasaMinimalAPIs();
+
+var app = builder.Build();  
 
 await app.InitApplicationAsync();
 
 app.MapHub<ChatHub>("/Chat");
+
+app.MapMasaMinimalAPIs();
 
 app.Run();

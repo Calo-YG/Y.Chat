@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text;
 using Y.Chat.Application;
-using Y.Chat.EntityCore.Hubs;
 using Y.Module;
 using Y.Module.Extensions;
 using Y.Module.Modules;
@@ -23,6 +22,8 @@ namespace Y.Chat.Host
         public override void ConfigerService(ConfigerServiceContext context)
         {
             var configuration = context.GetConfiguartion();
+
+            context.Services.AddEndpointsApiExplorer();
 
             context.Services
                 .AddMvc()

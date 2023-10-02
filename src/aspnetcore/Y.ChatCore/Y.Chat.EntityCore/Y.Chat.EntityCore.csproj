@@ -30,11 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\ChatDomain\ChatDomainService\" />
     <Folder Include="Domain\FileDomain\Shared\" />
-    <Folder Include="Domain\FileDomain\FileDomainService\" />
-    <Folder Include="Domain\UserDomain\DomainService\" />
-    <Folder Include="Domain\UserDomain\Etos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Y.Chat.Contracts\Y.Chat.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

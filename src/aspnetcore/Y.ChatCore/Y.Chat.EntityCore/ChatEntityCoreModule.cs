@@ -8,7 +8,8 @@ using Y.Module.Modules;
 
 namespace Y.Chat.EntityCore
 {
-    [DependOn(typeof(CommonModule), typeof(MinioModule), typeof(RedisModule))]
+    [DependOn(typeof(CommonModule)
+        , typeof(MinioModule), typeof(RedisModule))]
     public class ChatEntityCoreModule : YModule
     {
         public override void ConfigerService(ConfigerServiceContext context)

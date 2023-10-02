@@ -1,6 +1,7 @@
-﻿namespace Y.Chat.Application.UserApplicationService.Commands
+﻿using Masa.BuildingBlocks.ReadWriteSplitting.Cqrs.Commands;
+using Y.Chat.Application.UserApplicationService.Dtos;
+
+namespace Y.Chat.Application.UserApplicationService.Commands
 {
-    public class CreateUserCommand
-    {
-    }
+    public record CreateUserCommand(CreateUserInput Input) : Command;
 }

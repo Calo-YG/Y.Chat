@@ -20,6 +20,8 @@ namespace Y.Chat.EntityCore
         public DbSet<Notice> Notices { get; set; }  
 
         public DbSet<FileSystem> FileSystems { get; set; }
+
+        public DbSet<EmailRecords> EmailRecords { get; set; }
         public YChatContext(MasaDbContextOptions<YChatContext> masaDbContextOptions) : base(masaDbContextOptions)
         {
         }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Y.Chat.EntityCore;
 
@@ -11,9 +12,11 @@ using Y.Chat.EntityCore;
 namespace Y.Chat.EntityCore.Migrations
 {
     [DbContext(typeof(YChatContext))]
-    partial class YChatContextModelSnapshot : ModelSnapshot
+    [Migration("20231003152949_Update_User_Password")]
+    partial class Update_User_Password
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

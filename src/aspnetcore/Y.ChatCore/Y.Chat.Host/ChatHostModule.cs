@@ -124,6 +124,8 @@ namespace Y.Chat.Host
                                 .AllowCredentials()
                     )
             );
+
+            context.Services.AddAutoInject(Assembly.GetExecutingAssembly());
         }
 
         public override void InitApplication(InitApplicationContext context)

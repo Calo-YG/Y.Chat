@@ -5,5 +5,9 @@ namespace Y.Chat.Application.UserApplicationService
     public interface IUserApplicationService
     {
         Task Create(CreateUserInput input);
+
+        Task SendCode(string email);
+
+        Task<string> Login(LoginInput input);
     }
 }

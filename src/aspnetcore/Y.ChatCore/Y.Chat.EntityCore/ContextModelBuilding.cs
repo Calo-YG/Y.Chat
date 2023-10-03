@@ -20,7 +20,7 @@ namespace Y.Chat.EntityCore
 
                 options.Property(p => p.Email).HasMaxLength(30);
                 options.Property(p => p.Account).HasMaxLength(30);
-                options.Property(p => p.Password).HasMaxLength(20);
+                options.Property(p => p.Password).HasMaxLength(200);
                 options.Property(p => p.Avatar).HasMaxLength(200);
             });
 

@@ -2,7 +2,7 @@
 
 namespace Y.Chat.Host
 {
-    public class BaseService<T> : ServiceBase where T : class
+    public abstract class BaseService<T> : ServiceBase where T : class
     {
         protected IEventBus _eventBus=>GetRequiredService<IEventBus>();   
         

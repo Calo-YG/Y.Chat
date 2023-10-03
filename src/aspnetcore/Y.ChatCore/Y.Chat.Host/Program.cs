@@ -36,7 +36,10 @@ builder.Services.AddDomainEventBus(options =>
 // ×¢Èë·şÎñ
 builder.Services.AddApplication<ChatHostModule>();
 
-builder.Services.AddMasaMinimalAPIs();
+builder.Services.AddMasaMinimalAPIs(options =>
+{
+   
+});
 
 var app = builder.Build();  
 

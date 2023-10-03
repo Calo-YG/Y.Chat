@@ -1,6 +1,7 @@
 ﻿using Y.Chat.Application.UserApplicationService;
 using Y.Chat.Application.UserApplicationService.Commands;
 using Y.Chat.Application.UserApplicationService.Dtos;
+using Y.Chat.Application.UserApplicationService.Queries;
 
 namespace Y.Chat.Host.Services
 {
@@ -17,6 +18,24 @@ namespace Y.Chat.Host.Services
             var cmd = new CreateUserCommand(input);
 
             await _eventBus.PublishAsync(cmd);
+        }
+
+        [RoutePattern(HttpMethod = "Get")]
+        public async Task SendCode(string email)
+        {
+           var emailCommand=new SendEmailCommand(email);
+
+           await _eventBus.PublishAsync(emailCommand);
+        }
+
+        [RoutePattern(HttpMethod ="Post")]
+        public async Task<string> Login(LoginInput input)
+        {
+            var query = new LoginQuery(input);
+
+            await _eventBus.PublishAsync(query);
+
+            return query.Result;
         }
     }
 }

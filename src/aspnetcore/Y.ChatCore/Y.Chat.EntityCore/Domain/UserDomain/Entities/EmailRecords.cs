@@ -1,5 +1,6 @@
 ﻿using Masa.BuildingBlocks.Data;
 using Masa.BuildingBlocks.Ddd.Domain.Entities;
+using Y.Chat.EntityCore.Domain.UserDomain.Shared;
 
 namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
 {
@@ -22,13 +23,16 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
         /// </summary>
         public DateTime ExpiredTime { get; set; }
 
-        public EmailRecords(string conteent, string email, DateTime sendTime, DateTime expiredTime)
+        public EmailRecordType RecordType { get; set; }
+
+        public EmailRecords(string conteent, string email, DateTime sendTime, DateTime expiredTime,EmailRecordType recordType)
         {
             Id=IdGeneratorFactory.SequentialGuidGenerator.NewId();
             Conteent = conteent;
             Email = email;
             SendTime = sendTime;
             ExpiredTime = expiredTime;
+            RecordType = recordType;
         }   
     }
 }

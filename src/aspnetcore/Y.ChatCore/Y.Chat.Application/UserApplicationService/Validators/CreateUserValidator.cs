@@ -16,6 +16,8 @@ namespace Y.Chat.Application.UserApplicationService.Validators
                 .Must(p => p.Length >= 10 && p.Length <= 15)
                 .WithMessage("密码长度10~15之间");
 
+            RuleFor(p => p.Input.Email).EmailAddress().WithMessage("请输入正确的邮箱地址");
+
             RuleFor(p => p.Input.Code).NotNull().NotEmpty().WithMessage("验证码不能为空");
         }
     }

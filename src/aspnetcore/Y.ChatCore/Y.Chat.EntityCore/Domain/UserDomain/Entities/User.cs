@@ -1,5 +1,6 @@
 ﻿using Masa.BuildingBlocks.Data;
 using Masa.BuildingBlocks.Ddd.Domain.Entities;
+using Masuit.Tools.Systems;
 using Y.Chat.EntityCore.Domain.UserDomain.Shared;
 
 namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
@@ -20,12 +21,13 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
 
 
         public User() { }
-        public User(string name, string account, string password, string? email)
+        public User(string name,string password, string? email)
         {
+            var sfn = SnowFlakeNew.GetInstance(); // 改良版雪花id，对时间回拨不敏感
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();
             Name = name;
             Email = email;
-            Account = account;
+            Account = sfn.GetUniqueId();
             Password = password;
         }
 

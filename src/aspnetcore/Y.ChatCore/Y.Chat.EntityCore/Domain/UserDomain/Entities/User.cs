@@ -29,6 +29,7 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
             Email = email;
             Account = sfn.GetUniqueId();
             Password = password;
+            Avatar = "";
         }
 
         public void SetAvatar(string avatar)

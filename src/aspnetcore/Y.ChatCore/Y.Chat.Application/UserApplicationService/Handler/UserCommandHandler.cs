@@ -1,6 +1,7 @@
 ﻿using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 using Masa.Contrib.Dispatcher.Events;
 using Masuit.Tools.Security;
+using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.UserApplicationService.Commands;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.UserDomain;
@@ -22,16 +23,20 @@ namespace Y.Chat.Application.UserApplicationService.Handler
             _userDomainService = userDomainService;
         }
 
-        [EventHandler(Order =1)]
-        public async Task CheckCode(CreateUserCommand createUserCommand)
+        [EventHandler]
+        public async Task CreateUser(CreateUserCommand createUserCommand)
         {
-           await _userDomainService.CheckEmailCode(createUserCommand.Input.Email
-               , createUserCommand.Input.Code);
-        }
+            await _userDomainService.CheckEmailCode(createUserCommand.Input.Email
+                      , createUserCommand.Input.Code);
 
-        [EventHandler(Order = 2)]
-        public async void CreateUser(CreateUserCommand createUserCommand)
-        {
+            var existsEmail =await _chatContext.Users
+                .AnyAsync(p=>p.Email==createUserCommand.Input.Email);
+
+            if (existsEmail)
+            {
+                throw new UserFriendlyException("该邮箱已被注册");
+            }
+
             var password = createUserCommand.Input.Password.SHA256();
 
             var user = new User(createUserCommand.Input.UserName
@@ -39,12 +44,14 @@ namespace Y.Chat.Application.UserApplicationService.Handler
                 ,createUserCommand.Input.Email);
 
             await _chatContext.Users.AddAsync(user);   
+
+            await _chatContext.SaveChangesAsync();
         }
 
         [EventHandler]
-        public void SendCode(SendEmailCommand sendEmailCommand)
+        public async Task SendCode(SendEmailCommand sendEmailCommand)
         {
-           _userDomainService.SendEmailCode(sendEmailCommand.email);
+          await _userDomainService.SendEmailCode(sendEmailCommand.email);
         }
     }
 }

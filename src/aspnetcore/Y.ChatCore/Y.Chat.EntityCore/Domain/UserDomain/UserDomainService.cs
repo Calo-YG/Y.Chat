@@ -22,10 +22,17 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
         {
             _context = context;
             _cache = cache;
+            _tokenProvider= tokenProvider;
         }  
 
-        public void SendEmailCode(string email)
+        public async Task SendEmailCode(string email)
         {
+            var key = YChatConst.EmailPrefix + email;
+            if(await RedisHelper.ExistsAsync(key))       
+            {
+                throw new UserFriendlyException("验证码已发送请勿重复发送");
+            }
+
             Random rnd = new Random();
             int num = rnd.StrictNext();//产生真随机数
 
@@ -34,50 +41,52 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
                 SmtpServer = "smtp.163.com",// SMTP服务器
                 SmtpPort = 25, // SMTP服务器端口
                 EnableSsl = true,//使用SSL
-                Username = "wyg154511sjq.com",// 邮箱用户名
-                Password = "123456",// 邮箱密码
+                Username = "wyg154511sjq@163.com",// 邮箱用户名
+                Password = "YBVNLAROJICNZDUU",// 邮箱密码
                 Tos = email, //收件人
                 Subject = "YChat注册通知",//邮件标题
-                Body = $"你的邮箱注册码为{num}",//邮件内容
+                Body = $"你的邮箱注册码为{num}",//邮件内容 
             };
 
-             _email.SendAsync(async p =>
-            {
-                var emailrecords = new EmailRecords(_email.Body
-                    ,_email.Tos
-                    ,DateTime.Now
-                    ,DateTime.Now.AddMinutes(10)
-                    ,EmailRecordType.Register);
+            _email.Send();
 
-                await  _context.EmailRecords.AddAsync(emailrecords);
+            var emailrecords = new EmailRecords(_email.Body
+                , _email.Tos
+                , DateTime.Now
+                , DateTime.Now.AddMinutes(10)
+                , EmailRecordType.Register);
 
-                var emailcache = new EmailCache(email,num.ToString());
+            await _context.EmailRecords.AddAsync(emailrecords);
+            await _context.SaveChangesAsync();  
 
-                await RedisHelper.SetAsync($"{YChatConst.EmailPrefix}{email}",emailcache,600);
-            });
+            var emailcache = new EmailCache(email, num.ToString());
+
+            await RedisHelper.SetAsync($"{YChatConst.EmailPrefix}{email}", emailcache, 600);
         }
 
-        public async Task<bool> CheckEmailCode(string email,string code)
+        public async Task CheckEmailCode(string email,string code)
         {
-            var key = YChatConst.EmailPrefix + email;
+            var key =$"{YChatConst.EmailPrefix}{email}";
 
             var exists = await RedisHelper.ExistsAsync(key);
 
-            if (!exists)
-            {
-                return false;
-            }
+            bool success = exists;
 
             var cache = await RedisHelper.GetAsync<EmailCache>(key);
 
-            return cache.Code == code;  
+            success = cache?.Code is null ?false : cache.Code == code;
+
+            if(!success)
+            {
+                throw new UserFriendlyException("邮箱验证码不正确或者过期");
+            }
         }
 
         public string GenerateToken(string username,Guid userId)
         {
-            var tokenModle=new TokenModle()
+            var tokenModle=new UserTokenModel()
             {
-                UserId = userId,
+                UserId = userId.ToString(),
                 UserName = username,
             };
 

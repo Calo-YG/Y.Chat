@@ -1,4 +1,5 @@
-﻿using Masuit.Tools.Security;
+﻿using Masa.Contrib.Dispatcher.Events;
+using Masuit.Tools.Security;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.UserApplicationService.Queries;
 using Y.Chat.EntityCore;
@@ -17,6 +18,7 @@ namespace Y.Chat.Application.UserApplicationService.Handler
             _userDomainService = userDomainService;
         }
 
+        [EventHandler]
         public async Task Login(LoginQuery query)
         {
             var password = query.Input.Password.SHA256();

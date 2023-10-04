@@ -29,7 +29,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Y.Module" Version="2.0.0" />
-    <PackageReference Include="Y.Tools" Version="1.0.6" />
+    <PackageReference Include="Y.Tools" Version="1.0.7" />
 	<PackageReference Include="Masa.BuildingBlocks.Ddd.Domain" Version="1.0.0" />
   </ItemGroup>
 

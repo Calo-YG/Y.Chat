@@ -3,7 +3,6 @@ using Calo.Blog.Common.Minio;
 using Calo.Blog.Common.Redis;
 using Masa.BuildingBlocks.Caching;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using Y.Chat.EntityCore.Domain.UserDomain;
 using Y.Module;
 using Y.Module.Modules;
@@ -11,7 +10,8 @@ using Y.Module.Modules;
 namespace Y.Chat.EntityCore
 {
     [DependOn(typeof(CommonModule)
-        , typeof(MinioModule), typeof(RedisModule))]
+        , typeof(MinioModule)
+        , typeof(RedisModule))]
     public class ChatEntityCoreModule : YModule
     {
         public override void ConfigerService(ConfigerServiceContext context)

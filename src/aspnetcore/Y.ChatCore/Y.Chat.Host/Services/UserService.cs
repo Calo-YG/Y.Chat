@@ -29,7 +29,7 @@ namespace Y.Chat.Host.Services
         }
 
         [RoutePattern(HttpMethod ="Post")]
-        public async Task<string> Login(LoginInput input)
+        public async Task<AuthenticationDto> Login(LoginInput input)
         {
             var query = new LoginQuery(input);
 

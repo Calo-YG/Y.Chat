@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ElConfigProvider } from 'element-plus'
+import login from './Apps/login/login.vue';
 
 </script>
 
@@ -8,7 +9,9 @@ import { ElConfigProvider } from 'element-plus'
     <div class="common-layout">
     <el-container>
       <el-aside class="left-side"></el-aside>
-      <el-main></el-main>
+      <el-main>
+        <login></login>
+      </el-main>
     </el-container>
   </div>
   </ElConfigProvider>

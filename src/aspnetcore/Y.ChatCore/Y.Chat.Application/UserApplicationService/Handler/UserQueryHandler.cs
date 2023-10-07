@@ -33,7 +33,13 @@ namespace Y.Chat.Application.UserApplicationService.Handler
 
             var token = _userDomainService.GenerateToken(user.Name, user.Id);
 
-            query.Result = token;
+            query.Result = new Dtos.AuthenticationDto
+            {
+                Token = token,
+                UserId = user.Id,
+                UserName = user.Name,    
+                Avatar = user.Avatar,
+            };
         }
     }
 }

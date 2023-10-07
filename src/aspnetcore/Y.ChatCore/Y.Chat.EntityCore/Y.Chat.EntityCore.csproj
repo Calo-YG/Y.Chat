@@ -33,8 +33,4 @@
 	<PackageReference Include="Masa.BuildingBlocks.Ddd.Domain" Version="1.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\FileDomain\Shared\" />
-  </ItemGroup>
-
 </Project>

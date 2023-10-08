@@ -21,9 +21,11 @@ namespace Y.Chat.EntityCore.Domain.FileDomain.Entitis
 
         public FileType FileType { get; private set; }
 
+        public string MinioName { get; private set; }   
+
         public FileSystem() { }
 
-        public FileSystem(string name,string description,bool isfolder, FileType fileType, Guid? groupId,Guid? parentId) 
+        public FileSystem(string name,string description="",bool isfolder=false, FileType fileType=FileType.Avatar, Guid? groupId=null,Guid? parentId = null) 
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();
             Name = name;
@@ -34,5 +36,17 @@ namespace Y.Chat.EntityCore.Domain.FileDomain.Entitis
             FileType = fileType;
         }
 
+        public void SetAvatar()
+        {
+            FileType = FileType.Avatar;
+            ParentId = null;
+            GroupId = null;
+            Isfolder = false;
+        }
+
+        public void SetMinioName(string name)
+        {
+            MinioName = name;
+        }
     }
 }

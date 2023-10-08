@@ -9,6 +9,14 @@
         /// <summary>
         /// 聊天文件
         /// </summary>
-        ChatFile
+        ChatFile,
+        /// <summary>
+        ///  头像文件
+        /// </summary>
+        Avatar,
+        /// <summary>
+        /// 表情包文件
+        /// </summary>
+        Emoj
     }
 }

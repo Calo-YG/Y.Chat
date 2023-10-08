@@ -8,6 +8,7 @@
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
+            <el-button type="primary" @click="toRegister()">注册</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -17,6 +18,8 @@ import { reactive, ref } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
 import userService from "../../services/userServices";
 import { useCookies } from "vue3-cookies";
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const { cookies } = useCookies();
 
 const ruleFormRef = ref<FormInstance>();
@@ -63,4 +66,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
         } 
     });
 };
+
+const toRegister=()=>{
+   console.info(router)
+   router.push('/register')
+}
 </script>

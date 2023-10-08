@@ -7,5 +7,7 @@
         Task CheckEmailCode(string email, string code);
 
         string GenerateToken(string username, Guid userId);
+
+        Task SetAvatar(Guid userId,string avatar);
     }
 }

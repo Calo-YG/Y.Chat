@@ -17,4 +17,8 @@
     <PackageReference Include="Masa.Contrib.Data.Mapping.Mapster" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FileApplicationService\Validators\" />
+  </ItemGroup>
+
 </Project>

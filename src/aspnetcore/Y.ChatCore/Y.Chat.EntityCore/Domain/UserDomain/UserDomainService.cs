@@ -2,6 +2,7 @@
 using Masa.BuildingBlocks.Ddd.Domain.Services;
 using Masuit.Tools;
 using Masuit.Tools.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
@@ -100,6 +101,8 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
             var user = _context.Users.FirstOrDefault(p=>p.Id == userId);
 
             user.SetAvatar(avatar);
+
+            _context.Users.Update(user);
 
             await _context.SaveChangesAsync();  
         }

@@ -25,21 +25,22 @@ namespace Y.Chat.Application.FileApplicationService.Handler
         [EventHandler]
         public async Task UploadAvatar(UploadAvatarCommand command)
         {
-            await _fileDomainService.UploadMinio(command.File
-                , command.FileName
-                , command.ContentType);
-
             Random rnd = new Random();
             var num = rnd.StrictNext();
 
             var minioname = $"{YChatConst.MinioAvatar}_{num}_{command.FileName}";
+
+            await _fileDomainService.UploadMinio(command.File
+                , minioname
+                , command.ContentType);
+
 
             var file = new FileSystem(command.FileName);
             file.SetAvatar();
             file.SetMinioName(minioname);   
 
             await _context.FileSystems.AddAsync(file);
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
             await _userDomainService.SetAvatar(command.UserId, minioname);   
         }

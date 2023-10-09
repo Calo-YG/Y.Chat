@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import config from '../config';
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
 
 
 class Request {
@@ -10,7 +12,7 @@ class Request {
         // 全局请求拦截
         this.instance.interceptors.request.use(
             (config) => {
-                const token = localStorage.getItem("token")
+                const token = (cookies.get('authentication') as any)['token']
                 if (token) {
                     config.headers.Authorization = `Bearer ${token}`
                 }

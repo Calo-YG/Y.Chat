@@ -20,7 +20,9 @@ namespace Y.Chat.EntityCore
             context.Services.AddMultilevelCache(
                 cacheBuilder => cacheBuilder.UseStackExchangeRedisCache()
             );
-            context.Services.AddSignalR();
+            context.Services.AddSignalR()
+                .AddMessagePackProtocol()
+                .AddStackExchangeRedis("124.71.15.19:6379,password=154511,defaultDatabase=1,ssl=false,writeBuffer=10240");
 
             context.Services.AddSequentialGuidGenerator();
 

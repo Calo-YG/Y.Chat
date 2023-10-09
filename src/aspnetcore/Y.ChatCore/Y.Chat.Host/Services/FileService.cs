@@ -8,7 +8,7 @@ namespace Y.Chat.Host.Services
 {
     public class FileService:BaseService<FileService>,IFileApplicationService
     {
-        static string[] suffixs = new string[] { "jpg","png","jepg" };
+        static string[] suffixs = new string[] { "jpg","png","jpeg" };
         private IHttpContextAccessor httpContextAccessor=>GetRequiredService<IHttpContextAccessor>();
         public FileService()
         {
@@ -22,16 +22,14 @@ namespace Y.Chat.Host.Services
         /// <returns></returns>
         /// <exception cref="UserFriendlyException"></exception>
         [RoutePattern(HttpMethod ="Post")]
-        public async Task UploadAvatar([FromForm]IFormFileCollection files)
+        public async Task UploadAvatar([FromForm]IFormFile file)
         {
-            if(files?.Any() ?? false)
+            if(file is null)
             {
                 throw new UserFriendlyException("请选择文件");
             }
             
-            var file = files?.FirstOrDefault();
-
-            var suffix = file?.Name.Split(".")[1];
+            var suffix = file?.FileName.Split(".")[1];
 
             if (!suffixs.Contains(suffix))
             {
@@ -41,7 +39,7 @@ namespace Y.Chat.Host.Services
             var userId = Guid.Parse(httpContextAccessor.HttpContext.Request.Form["userId"].ToString());
 
             UploadAvatarCommand cmd = new UploadAvatarCommand(file.OpenReadStream()
-                ,file.Name
+                ,file.FileName
                 ,file.ContentType
                 ,userId);
 

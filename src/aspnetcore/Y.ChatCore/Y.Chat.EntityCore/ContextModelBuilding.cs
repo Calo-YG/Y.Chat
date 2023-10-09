@@ -86,7 +86,7 @@ namespace Y.Chat.EntityCore
                 options.TryConfigureConcurrencyStamp();
                 options.HasKey(p => p.Id);
 
-                options.Property(p=>p.Name).IsRequired().HasMaxLength(30);
+                options.Property(p=>p.Name).IsRequired().HasMaxLength(100);
                 options.Property(p=>p.Description).HasMaxLength(200);
 
                 options.HasOne(p => p.ChatGroup).WithMany().HasForeignKey(p => p.GroupId);

@@ -19,6 +19,8 @@
     <PackageReference Include="Masa.Utils.Extensions.Enums" Version="1.0.0" />
     <PackageReference Include="Masa.Utils.Extensions.Expressions" Version="1.0.0" />
     <PackageReference Include="Masuit.Tools.Core" Version="2.6.7.2" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="7.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,7 +31,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Y.Module" Version="2.0.0" />
-    <PackageReference Include="Y.Tools" Version="1.0.7" />
+    <PackageReference Include="Y.Tools" Version="1.0.11" />
 	<PackageReference Include="Masa.BuildingBlocks.Ddd.Domain" Version="1.0.0" />
   </ItemGroup>
 

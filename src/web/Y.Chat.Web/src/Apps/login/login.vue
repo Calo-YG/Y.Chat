@@ -11,6 +11,7 @@
             <el-button type="primary" @click="toRegister()">注册</el-button>
         </el-form-item>
     </el-form>
+    <upload></upload>
 </template>
 
 <script lang="ts" setup>
@@ -19,10 +20,14 @@ import type { FormInstance, FormRules } from "element-plus";
 import userService from "../../services/userServices";
 import { useCookies } from "vue3-cookies";
 import { useRouter } from 'vue-router'
+import upload from "./../components/upload.vue"
+
 const router = useRouter()
 const { cookies } = useCookies();
 
 const ruleFormRef = ref<FormInstance>();
+
+const uploadApi = 'http://localhost:5088/api/v1/Files/UploadAvatar'
 
 const validatePass = (value: any, callback: any) => {
     console.info(callback)

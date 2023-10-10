@@ -7,6 +7,6 @@ namespace Y.Chat.Application.FileApplicationService
     {
         Task UploadAvatar([FromForm] IFormFile file);
 
-        Task<IActionResult> GetFile(string filename);
+        Task<IResult> GetFile(string filename);
     }
 }

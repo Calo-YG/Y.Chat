@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Y.Chat.Application.FileApplicationService;
 using Y.Chat.Application.FileApplicationService.Commands;
@@ -50,14 +51,13 @@ namespace Y.Chat.Host.Services
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public async Task<IActionResult> GetFile(string filename)
+        public async Task<IResult> GetFile(string filename)
         {
             var query = new GetFileQuery(filename);
 
             await _eventBus.PublishAsync(query);
 
-            return new FileStreamResult(query.Result.FileStream
-                ,query.Result.ContentType);
+            return Results.Stream(query.Result.FileStream,query.Result.ContentType);
         }
     }
 }

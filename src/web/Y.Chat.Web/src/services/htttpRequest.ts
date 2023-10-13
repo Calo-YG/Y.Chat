@@ -12,9 +12,9 @@ class Request {
         // 全局请求拦截
         this.instance.interceptors.request.use(
             (config) => {
-                const token = (cookies.get('authentication') as any)['token']
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`
+                const obj = (cookies.get('authentication') as any)['token']
+                if (!!obj&&!!obj['token']) {
+                    config.headers.Authorization = `Bearer ${obj['token']}`
                 }
 
                 return config
@@ -28,10 +28,10 @@ class Request {
                 // 只需要返回data即可
             },
             (error) => {
-                if(error.response.status === 401){
-                    localStorage.clear();
-                    location.href = '/login';
-                }
+                // if(error.response.status === 401){
+                //     localStorage.clear();
+                //     location.href = '/login';
+                // }
                 
                 return error
             },

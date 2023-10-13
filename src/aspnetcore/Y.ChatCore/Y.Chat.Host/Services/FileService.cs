@@ -23,7 +23,7 @@ namespace Y.Chat.Host.Services
         /// <returns></returns>
         /// <exception cref="UserFriendlyException"></exception>
         [RoutePattern(HttpMethod ="Post")]
-        public async Task UploadAvatar([FromForm]IFormFile file)
+        public async Task<string> UploadAvatar([FromForm]IFormFile file)
         {
             if(file is null)
             {
@@ -44,7 +44,9 @@ namespace Y.Chat.Host.Services
                 ,file.ContentType
                 ,userId);
 
-            await _eventBus.PublishAsync(cmd);  
+            await _eventBus.PublishAsync(cmd);
+
+            return cmd.FilePath;
         }
         /// <summary>
         /// 获取文件

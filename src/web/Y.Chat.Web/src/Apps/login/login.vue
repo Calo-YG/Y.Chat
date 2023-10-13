@@ -38,7 +38,6 @@ const validatePass = (value: any, callback: any) => {
    callback()
 };
 const validateUserName = (value: any, callback: any) => {
-    console.info(callback)
     if (value === '') {
         callback(new Error("请输入用户名"))
         return;

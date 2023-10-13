@@ -5,7 +5,7 @@ namespace Y.Chat.Application.FileApplicationService
 {
     public interface IFileApplicationService
     {
-        Task UploadAvatar([FromForm] IFormFile file);
+        Task<string> UploadAvatar([FromForm] IFormFile file);
 
         Task<IResult> GetFile(string filename);
     }

@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@microsoft/signalr": "^7.0.12",
+    "@microsoft/signalr-protocol-msgpack": "^7.0.12",
     "axios": "^1.5.1",
     "element-plus": "^2.3.12",
     "pinia": "^2.1.6",

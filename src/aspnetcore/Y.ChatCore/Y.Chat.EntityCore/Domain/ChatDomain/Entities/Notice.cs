@@ -32,9 +32,10 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         private void SetGroupId(Guid? groupId)
         {
-            if (NoticeType == NoticeType.GroupRequest)
+            if (NoticeType != NoticeType.GroupRequest)
             {
                 GroupId=groupId;
+                NoticeType = NoticeType.GroupRequest;
             }
         }
         public void SetAggreed()

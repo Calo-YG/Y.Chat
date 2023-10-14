@@ -42,6 +42,7 @@ namespace Y.Chat.Host
                     context.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     context.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
+                .AddCookie()
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters()
@@ -64,11 +65,17 @@ namespace Y.Chat.Host
                     {
                         OnMessageReceived = context =>
                         {
-                            var accessToken = context.Request.Cookies["x-access-token"];
+                            var accessToken = context.Request.Headers["x-access-token"];
+                            var chatToken = context.Request.Query["access_token"];
 
                             if (!string.IsNullOrEmpty(accessToken))
                             {
                                 context.Token = accessToken;
+                            }
+                            //signlir提供token
+                            if (!string.IsNullOrEmpty(chatToken) && context.Request.Path.StartsWithSegments("/chat"))
+                            {
+                                context.Token = chatToken;
                             }
 
                             return Task.CompletedTask;

@@ -22,6 +22,8 @@ namespace Y.Chat.EntityCore
         public DbSet<FileSystem> FileSystems { get; set; }
 
         public DbSet<EmailRecords> EmailRecords { get; set; }
+
+        public DbSet<Friends> Friends { get; set; }
         public YChatContext(MasaDbContextOptions<YChatContext> masaDbContextOptions) : base(masaDbContextOptions)
         {
         }

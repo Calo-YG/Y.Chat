@@ -21,6 +21,7 @@ import userService from "../../services/userServices";
 import { useCookies } from "vue3-cookies";
 import { useRouter } from 'vue-router'
 import upload from "./../components/upload.vue"
+import chathub from "./../hubs/chathub.ts"
 
 const router = useRouter()
 const { cookies } = useCookies();
@@ -66,6 +67,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             .then(res=>{
                 console.info(res);
                 cookies.set("authentication",res)
+                chathub.start()
             })
         } 
     });

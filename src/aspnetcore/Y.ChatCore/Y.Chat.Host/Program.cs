@@ -45,7 +45,7 @@ var app = builder.Build();
 
 await app.InitApplicationAsync();
 
-app.MapHub<ChatHub>("/Chat");
+app.MapHub<ChatHub>("/chat");
 
 app.MapMasaMinimalAPIs();
 

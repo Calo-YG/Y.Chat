@@ -2,7 +2,7 @@
   <el-upload
     class="avatar-uploader"
     :action="uploadApi"
-    :show-file-list="true"
+    :show-file-list="false"
     :on-success="uploadSuccess"
     :before-upload="beforeAvatarUpload"
     :data="data"
@@ -23,8 +23,6 @@ import config from '/src/config.ts'
 
 const { cookies } = useCookies();
 const fileList: UploadUserFile[] = ref([]);
-
-
 
 let uploadApi = ref("");
 

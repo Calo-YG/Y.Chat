@@ -7,5 +7,7 @@
         public string Message { get; set; }
 
         public Guid? GroupId { get; set; }
+
+        public Guid? ReplyMessagedId { get; set; }
     }
 }

@@ -37,8 +37,9 @@ namespace Y.Chat.Application.UserApplicationService.Handler
             {
                 Token = token,
                 UserId = user.Id,
-                UserName = user.Name,    
+                UserName = user.Name,
                 Avatar = user.Avatar,
+                Email = user.Email
             };
         }
     }

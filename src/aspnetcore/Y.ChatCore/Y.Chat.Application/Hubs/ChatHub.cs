@@ -31,10 +31,11 @@ namespace Y.Chat.EntityCore.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            _logger.LogWarning(exception.Message);
+            _logger.LogWarning(exception?.Message ?? "断开连接信息异常");
             var userId = GetUserId();
             var userStaus =await RedisHelper.GetAsync<UserStatus>(userId.ToString());
             userStaus.SetLeave();
+            await RedisHelper.SetAsync(userId.ToString(), userStaus, exists: CSRedis.RedisExistence.Xx);
 
         }
 

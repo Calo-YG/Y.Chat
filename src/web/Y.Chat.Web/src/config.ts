@@ -1,4 +1,4 @@
-var url;
+let url:string;
 
 if (import.meta.env.MODE === "development") {
     url = "http://localhost:5088"
@@ -7,7 +7,9 @@ if (import.meta.env.MODE === "development") {
 }
 
 const config = {
-    API: url
+    API: url,
+    UploadAvatarApi:url+'/api/v1/Files/UploadAvatar',
+    getFile:(filename:string)=>url+'/api/v1/Files/File?filename='+filename
 }
 
 export default config

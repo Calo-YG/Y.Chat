@@ -1,7 +1,10 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import config from '../config';
 import { useCookies } from "vue3-cookies";
+import { useRouter } from "vue-router";
+
 const { cookies } = useCookies();
+const router = useRouter();
 
 
 class Request {
@@ -15,8 +18,9 @@ class Request {
                 const obj = (cookies.get('authentication') as any)['token']
                 if (!!obj&&!!obj['token']) {
                     config.headers.Authorization = `Bearer ${obj['token']}`
+                }else{
+                    //
                 }
-
                 return config
             }
         )

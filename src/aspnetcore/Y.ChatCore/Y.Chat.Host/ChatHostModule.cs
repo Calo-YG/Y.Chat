@@ -65,7 +65,7 @@ namespace Y.Chat.Host
                     {
                         OnMessageReceived = context =>
                         {
-                            var accessToken = context.Request.Headers["x-access-token"];
+                            var accessToken = context.Request.Headers["authorization"];
                             var chatToken = context.Request.Query["access_token"];
 
                             if (!string.IsNullOrEmpty(accessToken))

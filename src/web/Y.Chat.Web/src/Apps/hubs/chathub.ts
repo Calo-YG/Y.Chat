@@ -23,7 +23,8 @@ class ChatHub {
         //.withHubProtocol(new signalR..MessagePackHubProtocol())
         .configureLogging(signalR.LogLevel.Information)
         .build();
-      this.connection.keepAliveIntervalInMilliseconds = 300000;
+      this.connection.keepAliveIntervalInMilliseconds = 5;
+      
     }
   }
 
@@ -35,28 +36,36 @@ class ChatHub {
     return "";
   }
 
-  private getUserId(): string {
-    const obj = cookies.get("authentication");
-    if (!!obj && !!(obj as any)["userId"]) {
-      return (obj as any)["userId"];
-    }
-    return "";
-  }
 
   public start() {
     this.initHunConnection();
     this.connection?.start().then(() => {
       console.info("signalr启动成功");
     });
-    this.connection?.onreconnected(() => {
-      console.info("signalr连接成功");
-    });
+    console.info(this.connection?.state)
+    if(this.connection?.state===signalR.HubConnectionState.Disconnected){
+      this.connection.onreconnected(() => {
+        console.info("signalr重连连接成功");
+      });
+    }
   }
 
-  public send():void{
+  public send(messsage:string):void{
     this.initHunConnection();
-    connection.send("")
+    this.connection!.send("",messsage)
+  }
+
+  public close(){
+    this.connection!.onclose((error:Error|undefined)=>{
+      console.info(error?.message??"断开连接")
+    })
+    this.connection!.stop().then(()=>{
+      console.info(this.connection?.state)
+    });
+    
   }
 }
 
-export default new ChatHub();
+export {
+  ChatHub
+};

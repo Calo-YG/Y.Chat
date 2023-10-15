@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ElConfigProvider } from 'element-plus'
 import login from './Apps/login/login.vue';
+import { provide, inject } from 'vue'
+import {ChatHub} from './Apps/hubs/chathub.ts'
+
+provide("chatHub",()=>new ChatHub())
+
 
 </script>
 
@@ -8,10 +13,7 @@ import login from './Apps/login/login.vue';
   <ElConfigProvider>
     <div class="common-layout">
     <el-container>
-      <el-aside class="left-side"></el-aside>
-      <el-main>
-        <login></login>
-      </el-main>
+      <router-view></router-view>
     </el-container>
   </div>
   </ElConfigProvider>
@@ -19,7 +21,5 @@ import login from './Apps/login/login.vue';
 
 
 <style scoped lang="less"> 
-.left-side {
-  width: 60%;
-}
+
 </style>

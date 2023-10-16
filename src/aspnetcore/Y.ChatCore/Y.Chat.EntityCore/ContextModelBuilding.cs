@@ -43,6 +43,7 @@ namespace Y.Chat.EntityCore
                 options.Property(p => p.Avatar).IsRequired().HasMaxLength(200);
                 options.Property(p => p.Description).HasMaxLength(200);
                 options.Property(p => p.Name).IsRequired().HasMaxLength(20);
+                options.Property(p=>p.GroupNumber).IsRequired().HasMaxLength(30);   
             });
 
             builder.Entity<GuoupUser>(options =>

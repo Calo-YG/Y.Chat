@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ChatApplicationService\Dtos\" />
+    <Folder Include="ChatApplicationService\Queries\" />
+    <Folder Include="ChatApplicationService\Validators\" />
     <Folder Include="FileApplicationService\Validators\" />
   </ItemGroup>
 

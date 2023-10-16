@@ -17,6 +17,10 @@
         /// <summary>
         /// 表情包文件
         /// </summary>
-        Emoj
+        Emoj,
+        /// <summary>
+        /// 群头像
+        /// </summary>
+        GroupAvatar
     }
 }

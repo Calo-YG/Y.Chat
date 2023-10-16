@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Masa.BuildingBlocks.Dispatcher.Events;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
@@ -8,9 +9,12 @@ namespace Y.Chat.EntityCore.Hubs
     public class ChatHub:Hub
     {
         private readonly ILogger _logger;
-        public ChatHub(ILoggerFactory loggerFactory)
+        private readonly IEventBus _eventBus;
+        public ChatHub(ILoggerFactory loggerFactory
+            ,IEventBus eventBus)
         {
             _logger = loggerFactory.CreateLogger<ChatHub>();
+            _eventBus = eventBus;
         }
 
         public override async Task OnConnectedAsync()

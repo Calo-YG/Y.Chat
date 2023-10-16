@@ -26,3 +26,7 @@ onBeforeUnmount(()=>{
 })
 
 </script>
+
+<style lang="ts" setup>
+
+</style>

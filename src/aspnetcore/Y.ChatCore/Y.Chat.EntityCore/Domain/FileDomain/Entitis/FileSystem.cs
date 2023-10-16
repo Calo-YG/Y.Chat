@@ -38,6 +38,14 @@ namespace Y.Chat.EntityCore.Domain.FileDomain.Entitis
 
         public void SetAvatar()
         {
+            FileType = FileType.GroupAvatar;
+            ParentId = null;
+            GroupId = null;
+            Isfolder = false;
+        }
+
+        public void SetGroupAvatar()
+        {
             FileType = FileType.Avatar;
             ParentId = null;
             GroupId = null;

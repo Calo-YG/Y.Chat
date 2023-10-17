@@ -13,9 +13,9 @@ namespace Y.Chat.EntityCore
 
         public DbSet<ChatMessage> ChatMessages { get; set; }
 
-        public DbSet<FriendMessage> FriendMessages { get; set; }    
+        ///public DbSet<FriendMessage> FriendMessages { get; set; }    
 
-        public DbSet<GuoupUser> GuoupUsers { get; set; }
+        public DbSet<GroupUser> GroupUsers { get; set; }
 
         public DbSet<Notice> Notices { get; set; }  
 

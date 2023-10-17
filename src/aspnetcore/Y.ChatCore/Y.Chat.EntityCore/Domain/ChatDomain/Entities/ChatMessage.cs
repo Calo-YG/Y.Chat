@@ -19,6 +19,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public ChatGroup ChatGroup { get; set; }
 
+        public ChatType ChatType { get; set; }
+
         //public bool IsRead { get; set; }
 
         public ChatMessage() { }    

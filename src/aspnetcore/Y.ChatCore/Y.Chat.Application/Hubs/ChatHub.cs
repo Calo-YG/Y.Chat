@@ -19,7 +19,6 @@ namespace Y.Chat.EntityCore.Hubs
 
         public override async Task OnConnectedAsync()
         {
-           
             var userId=GetUserId();
             var status = new UserStatus(userId);
             if(await RedisHelper.ExistsAsync(userId.ToString()))
@@ -30,7 +29,6 @@ namespace Y.Chat.EntityCore.Hubs
             {
                await RedisHelper.SetAsync(userId.ToString(), status, exists: CSRedis.RedisExistence.Nx);
             }
-            
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
@@ -45,7 +43,6 @@ namespace Y.Chat.EntityCore.Hubs
 
         public Task SendMessage(SendMessageModel message)
         {
-            
             return Task.CompletedTask;
         }
 

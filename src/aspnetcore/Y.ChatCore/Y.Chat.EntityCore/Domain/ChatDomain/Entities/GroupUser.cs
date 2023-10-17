@@ -6,7 +6,7 @@ using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 {
-    public class GuoupUser: AuditAggregateRoot<Guid,Guid>
+    public class GroupUser: AuditAggregateRoot<Guid,Guid>
     {
         public Guid GroupId { get;private set; }
 
@@ -15,8 +15,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         public ChatGroup ChatGroup { get; private set; }
 
 
-        public GuoupUser() { }  
-        public GuoupUser(Guid groupId,Guid userId)
+        public GroupUser() { }  
+        public GroupUser(Guid groupId,Guid userId)
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();
             GroupId = groupId;

@@ -46,7 +46,7 @@ namespace Y.Chat.EntityCore
                 options.Property(p=>p.GroupNumber).IsRequired().HasMaxLength(30);   
             });
 
-            builder.Entity<GuoupUser>(options =>
+            builder.Entity<GroupUser>(options =>
             {
                 options.TryConfigureConcurrencyStamp();
                 options.HasKey(p => p.Id);

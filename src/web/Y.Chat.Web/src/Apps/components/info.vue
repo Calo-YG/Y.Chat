@@ -1,7 +1,9 @@
 <template>
   <div class="outbox">
     <div class="box">
-      <el-avatar shape="circle" :size="80" fit="fill" :src="url" />
+        <el-badge :is-dot="true" type="success" >
+            <el-avatar shape="circle" :size="60" fit="fill" :src="url" @error="error"/>
+        </el-badge>
     </div>
     <div class="box">
       <div class="textbox">
@@ -39,18 +41,20 @@ const email = computed(() => {
 });
 
 const error = () => {
-  _url = "";
+  _url = config.defaultAvatar;
 };
+
 </script>
 
 <style lang="less" scoped>
 .box {
   float: left;
-  width: 120px;
+  width: 80px;
 }
 .outbox {
   width: 240px;
   height: 120px;
+  margin-top:5px;
 }
 .textbox {
   width: 100%;

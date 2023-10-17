@@ -37,5 +37,11 @@ namespace Y.Chat.Host.Services
 
             return query.Result;
         }
+        [RoutePattern(HttpMethod ="Patch")]
+        public async Task SetSign(SignInput input)
+        {
+            var cmd = new SetUserSignCommand(input.Sign, input.UserId);
+            await _eventBus.PublishAsync(cmd);
+        }
     }
 }

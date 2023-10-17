@@ -22,6 +22,7 @@ namespace Y.Chat.EntityCore
                 options.Property(p => p.Account).HasMaxLength(30);
                 options.Property(p => p.Password).HasMaxLength(200);
                 options.Property(p => p.Avatar).HasMaxLength(200);
+                options.Property(p=>p.Autograph).HasMaxLength(50);
             });
 
             builder.Entity<Friends>(options =>
@@ -68,11 +69,11 @@ namespace Y.Chat.EntityCore
                 options.HasOne(p => p.ChatGroup).WithMany().HasForeignKey(p => p.GroupId);
             });
 
-            builder.Entity<FriendMessage>(options =>
-            {
-                options.TryConfigureConcurrencyStamp();
-                options.HasIndex(p => p.Id);
-            });
+            //builder.Entity<FriendMessage>(options =>
+            //{
+            //    options.TryConfigureConcurrencyStamp();
+            //    options.HasIndex(p => p.Id);
+            //});
 
             builder.Entity<Notice>(options =>
             {

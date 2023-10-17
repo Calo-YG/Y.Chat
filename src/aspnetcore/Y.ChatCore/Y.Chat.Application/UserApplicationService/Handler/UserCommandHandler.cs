@@ -53,5 +53,18 @@ namespace Y.Chat.Application.UserApplicationService.Handler
         {
           await _userDomainService.SendEmailCode(sendEmailCommand.email);
         }
+        [EventHandler]
+        public async Task SetSign(SetUserSignCommand command) 
+        {
+            var user =await _chatContext.Users.FirstOrDefaultAsync(p => p.Id == command.UserId);
+            if(user is null)
+            {
+                throw new UserFriendlyException("用户不存在");
+            }
+
+            user.SetAutograph(command.Sign);
+            _chatContext.Users.Update(user);
+            await _chatContext.SaveChangesAsync();  
+        }
     }
 }

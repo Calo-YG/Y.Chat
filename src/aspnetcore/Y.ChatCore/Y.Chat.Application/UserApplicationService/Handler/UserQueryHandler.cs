@@ -39,7 +39,8 @@ namespace Y.Chat.Application.UserApplicationService.Handler
                 UserId = user.Id,
                 UserName = user.Name,
                 Avatar = user.Avatar,
-                Email = user.Email
+                Email = user.Email,
+                Sign=user.Autograph
             };
         }
     }

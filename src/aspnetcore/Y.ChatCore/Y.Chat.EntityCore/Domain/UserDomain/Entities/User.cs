@@ -18,7 +18,10 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
         public string Avatar { get; private set; }
 
         public LoginType LoginType { get; private set; }
-
+        /// <summary>
+        /// 个性签名
+        /// </summary>
+        public string? Autograph { get; private set; }
 
         public User() { }
         public User(string name,string password, string? email)
@@ -45,6 +48,11 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
         public void SetLoginType(LoginType loginType)
         {
             LoginType = loginType;
+        }
+
+        public void SetAutograph(string autograph)
+        {
+            Autograph = autograph;  
         }
     }
 }

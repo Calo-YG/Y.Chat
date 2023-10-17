@@ -9,5 +9,7 @@ namespace Y.Chat.Application.UserApplicationService
         Task SendCode(string email);
 
         Task<AuthenticationDto> Login(LoginInput input);
+
+        Task SetSign(SignInput input);
     }
 }

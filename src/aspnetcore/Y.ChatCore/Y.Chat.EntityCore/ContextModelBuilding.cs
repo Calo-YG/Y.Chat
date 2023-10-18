@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.FileDomain.Entitis;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
@@ -31,6 +30,7 @@ namespace Y.Chat.EntityCore
                 options.HasKey(p => p.Id);
 
                 options.HasOne(p => p.User).WithMany().HasForeignKey(p => p.UserId);
+                options.Property(p=>p.Comment).HasMaxLength(20);
             });
             #endregion
 

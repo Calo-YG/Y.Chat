@@ -1,6 +1,8 @@
 import * as signalR from "@microsoft/signalr";
 import config from "../../config";
 import { useCookies } from "vue3-cookies";
+import * as msgpack from "@microsoft/signalr-protocol-msgpack";
+
 const { cookies } = useCookies();
 
 class ChatHub {
@@ -20,11 +22,13 @@ class ChatHub {
           skipNegotiation: true,
           transport: signalR.HttpTransportType.WebSockets,
         })
-        //.withHubProtocol(new signalR..MessagePackHubProtocol())
+        .withHubProtocol(new msgpack.MessagePackHubProtocol())
         .configureLogging(signalR.LogLevel.Information)
         .build();
       this.connection.keepAliveIntervalInMilliseconds = 5;
-      
+      this.connection.on("RecivedMessage",(msg)=>{
+        console.info(msg);
+      })
     }
   }
 
@@ -42,11 +46,10 @@ class ChatHub {
     this.connection?.start().then(() => {
       console.info("signalr启动成功");
     });
-    console.info(this.connection?.state)
     if(this.connection?.state===signalR.HubConnectionState.Disconnected){
       this.connection.onreconnected(() => {
         console.info("signalr重连连接成功");
-      });
+      })
     }
   }
 

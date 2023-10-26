@@ -29,6 +29,7 @@ namespace Y.Chat.EntityCore.Hubs
             {
                await RedisHelper.SetAsync(userId.ToString(), status, exists: CSRedis.RedisExistence.Nx);
             }
+            await Clients.User(userId.ToString()).SendAsync("RecivedMessage", "发送成功");
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)

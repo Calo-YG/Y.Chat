@@ -33,6 +33,8 @@ namespace Y.Chat.Application.UserApplicationService.Handler
 
             var token = _userDomainService.GenerateToken(user.Name, user.Id);
 
+            await RedisHelper.SetAsync(user.Id.ToString(), token);
+
             query.Result = new Dtos.AuthenticationDto
             {
                 Token = token,

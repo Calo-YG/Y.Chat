@@ -47,7 +47,7 @@ namespace Y.Chat.Host.Services
                 throw new UserFriendlyException("头像仅支持 jpg png jepg");
             }
             Guid groupId;
-            var parse = Guid.TryParse(httpContextAccessor.HttpContext.Request.Form["userId"].ToString(),out groupId);
+            var parse = Guid.TryParse(httpContextAccessor.HttpContext.Request.Form["groupId"].ToString(),out groupId);
             if (!parse)
             {
                 return;

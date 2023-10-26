@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.AspNetCore.Mvc;
 using Y.Chat.Application.FileApplicationService;
 using Y.Chat.Application.FileApplicationService.Commands;
 using Y.Chat.Application.FileApplicationService.Queries;
@@ -37,7 +35,12 @@ namespace Y.Chat.Host.Services
                 throw new UserFriendlyException("头像仅支持 jpg png jepg");
             }
             //var fileProvider =new FileExtensionContentTypeProvider();
-            var userId = Guid.Parse(httpContextAccessor.HttpContext.Request.Form["userId"].ToString());
+            Guid userId;
+            var isParse = Guid.TryParse(httpContextAccessor.HttpContext.Request.Form["userId"].ToString(),out userId);
+            if (!isParse)
+            {
+                throw new UserFriendlyException("Guid转换失败");
+            }
 
             UploadAvatarCommand cmd = new UploadAvatarCommand(file.OpenReadStream()
                 ,file.FileName

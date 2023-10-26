@@ -18,7 +18,7 @@ import chatTab from './../components/chat-tab.vue'
 import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
 import { provide, inject } from 'vue'
 
-const chathub = inject<ChatHub>("chatHub")()
+const chathub = inject<ChatHub>("chatHub")
 
 onMounted(()=>{
     chathub.start();

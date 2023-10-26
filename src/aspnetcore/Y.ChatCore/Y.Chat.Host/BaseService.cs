@@ -7,5 +7,7 @@ namespace Y.Chat.Host
         protected IEventBus _eventBus=>GetRequiredService<IEventBus>();   
         
         protected ILogger _logger => GetRequiredService<ILoggerFactory>().CreateLogger<T>();
+
+        protected IHttpContextAccessor HttpContextAccessor => GetRequiredService<IHttpContextAccessor>() ?? throw new ArgumentNullException($"{nameof(HttpContextAccessor)} 未注入");
     }
 }

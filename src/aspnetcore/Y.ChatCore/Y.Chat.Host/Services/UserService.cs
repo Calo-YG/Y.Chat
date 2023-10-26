@@ -1,4 +1,8 @@
-﻿using Y.Chat.Application.UserApplicationService;
+﻿using Calo.Blog.Common.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
+using Y.Chat.Application.UserApplicationService;
 using Y.Chat.Application.UserApplicationService.Commands;
 using Y.Chat.Application.UserApplicationService.Dtos;
 using Y.Chat.Application.UserApplicationService.Queries;
@@ -35,6 +39,11 @@ namespace Y.Chat.Host.Services
 
             await _eventBus.PublishAsync(query);
 
+            var tokenModle = new UserTokenModel()
+            {
+                UserId = query.Result.UserId.ToString(),
+                UserName = query.Result.UserName,
+            };
             return query.Result;
         }
         [RoutePattern(HttpMethod ="Patch")]

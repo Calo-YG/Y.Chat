@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Y.Chat.Application.ChatApplicationService;
 using Y.Chat.Application.ChatApplicationService.Commands;
+using Y.Chat.Application.ChatApplicationService.Dtos;
+using Y.Chat.Application.ChatApplicationService.Queries;
 using Y.Chat.Application.FileApplicationService.Dtos;
 
 namespace Y.Chat.Host.Services
@@ -33,6 +35,7 @@ namespace Y.Chat.Host.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
+        [RoutePattern(HttpMethod = "Post")]
         public async Task UploadAvatar([FromForm] IFormFile file)
         {
             if (file is null)
@@ -59,6 +62,16 @@ namespace Y.Chat.Host.Services
                ,file.ContentType);
 
             await _eventBus.PublishAsync(cmd);
+        }
+        [RoutePattern(HttpMethod = "Get")]
+        public async Task<List<GroupDto>> QueryGroup(GroupQueryInput input)
+        {
+            var query = new GroupQuery(input.GroupName
+                ,input.GroupNumber);
+
+            await _eventBus.PublishAsync(query);
+
+            return query.Result;
         }
     }
 }

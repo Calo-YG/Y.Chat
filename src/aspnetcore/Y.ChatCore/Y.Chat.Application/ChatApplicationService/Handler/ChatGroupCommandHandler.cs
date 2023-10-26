@@ -4,7 +4,6 @@ using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
-using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 using Y.Chat.EntityCore.Domain.FileDomain;
 using Y.Chat.EntityCore.Domain.FileDomain.Entitis;
 

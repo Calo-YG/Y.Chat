@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.FileDomain;
 using Y.Chat.EntityCore.Domain.UserDomain;
+using Y.Chat.EntityCore.Domain.UserDomain.Events;
 using Y.Chat.EntityCore.Domain.UserDomain.Repositories;
+using Y.EventBus;
 using Y.Module;
 using Y.Module.Modules;
 
@@ -27,11 +29,13 @@ namespace Y.Chat.EntityCore
                 .AddStackExchangeRedis("124.71.15.19:6379,password=154511,defaultDatabase=1,ssl=false,writeBuffer=10240");
 
             context.Services.AddSequentialGuidGenerator();
+            context.Services.AddEventBus();
 
             context.Services.AddTransient<IUserDomainService, UserDomainService>();
             context.Services.AddTransient<IFileDomainService, FileDomainService>();
             context.Services.AddTransient<IUserRepository,UserRepository>();
             context.Services.AddTransient<IGroupRepository, GroupRepository>();
+            context.Services.AddTransient<IFriendRepository, FriendRepository>();
 
             //context.Services.AddAutoInject(Assembly.GetExecutingAssembly());
         }

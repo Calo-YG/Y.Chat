@@ -64,7 +64,7 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChatGroups");
+                    b.ToTable("ChatGroups", (string)null);
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatMessage", b =>
@@ -106,7 +106,7 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasIndex("Id");
 
-                    b.ToTable("ChatMessages");
+                    b.ToTable("ChatMessages", (string)null);
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.GroupUser", b =>
@@ -136,7 +136,7 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("GroupUsers");
+                    b.ToTable("GroupUsers", (string)null);
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.Notice", b =>
@@ -178,7 +178,7 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notices");
+                    b.ToTable("Notices", (string)null);
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.FileDomain.Entitis.FileSystem", b =>
@@ -229,7 +229,7 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("FileSystems");
+                    b.ToTable("FileSystems", (string)null);
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.UserDomain.Entities.EmailRecords", b =>
@@ -257,7 +257,7 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailRecords");
+                    b.ToTable("EmailRecords", (string)null);
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.UserDomain.Entities.Friends", b =>
@@ -293,7 +293,7 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Friends");
+                    b.ToTable("Friends", (string)null);
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.UserDomain.Entities.User", b =>
@@ -337,7 +337,7 @@ namespace Y.Chat.EntityCore.Migrations
                     b.HasIndex("Account")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatMessage", b =>

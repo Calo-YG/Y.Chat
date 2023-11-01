@@ -1,8 +1,10 @@
 ﻿using Masa.Contrib.Dispatcher.Events;
 using Masuit.Tools.Security;
 using Microsoft.EntityFrameworkCore;
+using Y.Chat.Application.UserApplicationService.Dtos;
 using Y.Chat.Application.UserApplicationService.Queries;
 using Y.Chat.EntityCore;
+using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.UserDomain;
 
 namespace Y.Chat.Application.UserApplicationService.Handler
@@ -11,11 +13,14 @@ namespace Y.Chat.Application.UserApplicationService.Handler
     {
         private readonly YChatContext _context;
         private readonly IUserDomainService _userDomainService;
+        private readonly IFriendRepository _friendRepository;
         public UserQueryHandler(YChatContext context
-            , IUserDomainService userDomainService)
+            , IUserDomainService userDomainService
+            , IFriendRepository friendRepository)
         {
             _context = context; 
             _userDomainService = userDomainService;
+            _friendRepository = friendRepository;
         }
 
         [EventHandler]
@@ -44,6 +49,22 @@ namespace Y.Chat.Application.UserApplicationService.Handler
                 Email = user.Email,
                 Sign=user.Autograph
             };
+        }
+
+        [EventHandler]
+
+        public async Task Friends(FriendsQuery query)
+        {
+            var select = await _friendRepository.GetUserFriends(query.UserId)
+                .Select(p=>new FriendDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Avatar = p.Avatar,
+                    Sign=p.Autograph
+                })
+                .ToListAsync();
+            query.Result = select;
         }
     }
 }

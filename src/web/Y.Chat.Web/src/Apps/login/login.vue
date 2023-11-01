@@ -64,7 +64,6 @@ const ruleForm = ref({
   username: "",
   password: "",
 });
-
 const rules = reactive<FormRules<typeof ruleForm>>({
   username: [{ required: true, validator: validatePass, trigger: "blur" }],
   password: [{ required: true, validator: validateUserName, trigger: "blur" }],

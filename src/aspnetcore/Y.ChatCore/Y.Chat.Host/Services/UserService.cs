@@ -1,7 +1,4 @@
 ﻿using Calo.Blog.Common.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Security.Claims;
 using Y.Chat.Application.UserApplicationService;
 using Y.Chat.Application.UserApplicationService.Commands;
 using Y.Chat.Application.UserApplicationService.Dtos;
@@ -51,6 +48,14 @@ namespace Y.Chat.Host.Services
         {
             var cmd = new SetUserSignCommand(input.Sign, input.UserId);
             await _eventBus.PublishAsync(cmd);
+        }
+
+        [RoutePattern(HttpMethod ="Get")]
+        public async Task<List<FriendDto>> Friends(Guid userId)
+        {
+            var query = new FriendsQuery(userId);   
+            await _eventBus.PublishAsync(query);
+            return query.Result;
         }
     }
 }

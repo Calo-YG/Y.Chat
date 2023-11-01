@@ -21,6 +21,7 @@
   <ItemGroup>
     <Folder Include="ChatApplicationService\Validators\" />
     <Folder Include="FileApplicationService\Validators\" />
+    <Folder Include="UserApplicationService\Etos\" />
   </ItemGroup>
 
 </Project>

@@ -3,22 +3,12 @@ import { ElConfigProvider } from 'element-plus'
 import login from './Apps/login/login.vue';
 import { provide, inject } from 'vue'
 import {ChatHub} from './Apps/hubs/chathub.ts'
-import { TokenHub } from './Apps/hubs/tokenhub.ts'
 import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
 
-var tokenhub=new TokenHub()
 var chatHub=new ChatHub()
-provide("tokenhub",tokenhub)
 provide("chatHub",chatHub)
 
 
-onMounted(()=>{
-  //tokenhub.start();
-})
-
-onBeforeUnmount(()=>{
-  tokenhub.close();
-})
 
 </script>
 

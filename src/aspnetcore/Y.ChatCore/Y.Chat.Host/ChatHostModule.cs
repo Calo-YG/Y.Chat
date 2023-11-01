@@ -65,19 +65,12 @@ namespace Y.Chat.Host
                     {
                         OnMessageReceived = context =>
                         {
-                            var accessToken = context.Request.Headers["authorization"];
                             var chatToken = context.Request.Query["access_token"];
-
-                            if (!string.IsNullOrEmpty(accessToken))
-                            {
-                                context.Token = accessToken;
-                            }
                             //signlir提供token
                             if (!string.IsNullOrEmpty(chatToken) && context.Request.Path.StartsWithSegments("/chat"))
                             {
                                 context.Token = chatToken;
                             }
-
                             return Task.CompletedTask;
                         },
                     };

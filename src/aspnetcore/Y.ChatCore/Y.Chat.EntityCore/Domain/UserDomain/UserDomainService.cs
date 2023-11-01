@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
+using Y.Chat.EntityCore.Domain.UserDomain.Events;
 using Y.Chat.EntityCore.Domain.UserDomain.Shared;
+using Y.EventBus;
 
 namespace Y.Chat.EntityCore.Domain.UserDomain
 {
@@ -17,13 +19,17 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
         private readonly IDistributedCache _cache;
 
         private readonly ITokenProvider _tokenProvider;
+
+        private readonly ILocalEventBus _localEventBus;
         public UserDomainService(YChatContext context
             ,IDistributedCache cache
-            ,ITokenProvider tokenProvider) 
+            ,ITokenProvider tokenProvider
+            , ILocalEventBus localEventBus) 
         {
             _context = context;
             _cache = cache;
             _tokenProvider= tokenProvider;
+            _localEventBus = localEventBus;
         }  
 
         public async Task SendEmailCode(string email)
@@ -37,22 +43,8 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
             Random rnd = new Random();
             int num = rnd.StrictNext();//产生真随机数
 
-            var _email = new Email()
-            {
-                SmtpServer = "smtp.163.com",// SMTP服务器
-                SmtpPort = 25, // SMTP服务器端口
-                EnableSsl = true,//使用SSL
-                Username = "wyg154511sjq@163.com",// 邮箱用户名
-                Password = "YBVNLAROJICNZDUU",// 邮箱密码
-                Tos = email, //收件人
-                Subject = "YChat注册通知",//邮件标题
-                Body = $"你的邮箱注册码为{num}",//邮件内容 
-            };
-
-            _email.Send();
-
-            var emailrecords = new EmailRecords(_email.Body
-                , _email.Tos
+            var emailrecords = new EmailRecords($"你的邮箱注册码为{num}"
+                , email
                 , DateTime.Now
                 , DateTime.Now.AddMinutes(10)
                 , EmailRecordType.Register);
@@ -63,6 +55,13 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
             var emailcache = new EmailCache(email, num.ToString());
 
             await RedisHelper.SetAsync($"{YChatConst.EmailPrefix}{email}", emailcache, 600);
+
+            var _event = new SendEmailEvent()
+            {
+                Email = email,
+                Numbers = num.ToString(),
+            };
+            await _localEventBus.PublichAsync(_event);
         }
 
         public async Task CheckEmailCode(string email,string code)

@@ -13,7 +13,11 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         {
             _context = context;
         }
-
+        /// <summary>
+        /// 搜索群聊
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public async Task QueryGroup(GroupQuery query)
         {
             var list = await _context.ChatGroups

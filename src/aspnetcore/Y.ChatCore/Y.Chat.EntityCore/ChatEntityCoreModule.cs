@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.FileDomain;
 using Y.Chat.EntityCore.Domain.UserDomain;
-using Y.Chat.EntityCore.Domain.UserDomain.Events;
 using Y.Chat.EntityCore.Domain.UserDomain.Repositories;
 using Y.EventBus;
 using Y.Module;

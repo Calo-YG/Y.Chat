@@ -1,4 +1,5 @@
-﻿using Masa.Contrib.Dispatcher.Events;
+﻿using Calo.Blog.Common.UserSession;
+using Masa.Contrib.Dispatcher.Events;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.EntityCore;
@@ -14,14 +15,17 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         private readonly YChatContext _context;
         private readonly IFileDomainService _fileDomainService;
         private readonly IGroupRepository _groupRepository;
+        private IUserSession _currentuser;
 
         public ChatGroupCommandHandler(YChatContext context
             , IFileDomainService fileDomainService
-            , IGroupRepository groupRepository)
+            , IGroupRepository groupRepository
+            , IUserSession currentuser)
         {
             _context = context;
             _fileDomainService = fileDomainService;
             _groupRepository = groupRepository;
+            _currentuser = currentuser;
         }
         [EventHandler]
         public async Task CreateGroup(CreateGroupCommand command)
@@ -47,6 +51,18 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             if (group is null)
             {
                 return;
+            }
+
+            Guid userId;
+            var tryparse=Guid.TryParse(_currentuser.UserId, out userId);
+            if (!tryparse)
+            {
+                throw new UserFriendlyException("用户信息异常");
+            }
+            var grouponwer =await _groupRepository.IsGroupOnwer(group.Id, userId);
+            if (!grouponwer)
+            {
+                throw new UserFriendlyException("没有修改群聊头像权限");
             }
 
             var minioname = $"{YChatConst.MinioAvatar}_{group.GroupNumber}_{command.Name}";

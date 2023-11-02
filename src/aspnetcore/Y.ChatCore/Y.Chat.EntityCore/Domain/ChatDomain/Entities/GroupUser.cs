@@ -17,6 +17,10 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         /// 群主
         /// </summary>
         public bool Grouper { get; private set; }
+        /// <summary>
+        /// 群聊昵称
+        /// </summary>
+        public string? NickName { get; private set; }
 
         public GroupUser() { }  
         public GroupUser(Guid groupId,Guid userId)

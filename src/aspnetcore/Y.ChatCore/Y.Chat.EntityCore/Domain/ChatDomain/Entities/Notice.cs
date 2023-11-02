@@ -21,7 +21,10 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         /// 申请备注
         /// </summary>
         public string? Remark { get;private set; }  
-
+        /// <summary>
+        /// 是否已读
+        /// </summary>
+        public bool Read {  get;private set; }
         private Notice() { }
 
         public Notice(Guid inviteduserId,Guid recivedUserId,string content,NoticeType noticeType,string? reamrk,Guid? groupId=null) 
@@ -32,6 +35,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
             Content=content;
             NoticeType=noticeType;
             Remark = reamrk;
+            Read = false;
             SetGroupId(groupId);
         }
 
@@ -46,6 +50,11 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         public void SetAggreed()
         {
             Agred = true;
+        }
+
+        public void SetRead()
+        {
+            Read = true;
         }
     }
 }

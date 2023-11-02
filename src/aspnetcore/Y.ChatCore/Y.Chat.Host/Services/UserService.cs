@@ -59,5 +59,15 @@ namespace Y.Chat.Host.Services
             await _eventBus.PublishAsync(query);
             return query.Result;
         }
+        [Authorize]
+        [RoutePattern(HttpMethod = "Post")]
+        public async Task UpdateUserRemark(UpdateFriendRemarkInput input)
+        {
+            var cmd = new UpdateFriendReamrkCommand(input.UserId,
+                input.FriendId,
+                input.Content);
+
+            await _eventBus.PublishAsync(cmd);
+        }
     }
 }

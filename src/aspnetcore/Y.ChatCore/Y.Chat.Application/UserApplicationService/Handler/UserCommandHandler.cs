@@ -66,5 +66,26 @@ namespace Y.Chat.Application.UserApplicationService.Handler
             _chatContext.Users.Update(user);
             await _chatContext.SaveChangesAsync();  
         }
+        /// <summary>
+        /// 修改好友备注
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns></returns>
+        [EventHandler]
+        public async Task UpdateFriendRemark(UpdateFriendReamrkCommand cmd)
+        {
+            var entity = await _chatContext.Friends.FirstOrDefaultAsync(p=>p.UserId==cmd.UserId&&p.FriendId==cmd.FriendId);
+
+            if(entity is null)
+            {
+                throw new UserFriendlyException("尚未添加好友");
+            }
+
+            entity.SetComment(cmd.Content);
+
+            _chatContext.Update(entity);
+
+            await _chatContext.SaveChangesAsync();
+        }
     }
 }

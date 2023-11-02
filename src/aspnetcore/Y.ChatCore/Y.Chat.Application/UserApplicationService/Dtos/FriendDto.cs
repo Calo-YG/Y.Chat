@@ -10,17 +10,6 @@
 
         public string? Sign {  get; set; }
 
-        private string comment;
-        public string Comment { get=>comment; set {
-                if (value != null)
-                {
-                    comment = value;
-                }
-                else
-                {
-                    comment = Name;
-                }
-            }
-        }
+        public string Comment { get; set; }
     }
 }

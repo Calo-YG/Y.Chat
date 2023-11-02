@@ -21,5 +21,10 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
             FriendId = friendId;
             Comment = comment;
         }
+
+        public void SetComment(string comment)
+        {
+            Comment = comment;
+        }
     }
 }

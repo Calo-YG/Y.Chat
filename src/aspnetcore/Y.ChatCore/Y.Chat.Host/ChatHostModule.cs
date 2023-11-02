@@ -10,6 +10,13 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text;
 using Y.Chat.Application;
+using Y.Chat.Application.ChatApplicationService;
+using Y.Chat.Application.FileApplicationService;
+using Y.Chat.Application.UserApplicationService;
+using Y.Chat.EntityCore;
+using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
+using Y.Chat.EntityCore.Domain.UserDomain.Entities;
+using Y.Chat.Host.Services;
 using Y.Module;
 using Y.Module.Extensions;
 using Y.Module.Modules;
@@ -126,10 +133,43 @@ namespace Y.Chat.Host
             );
 
             context.Services.AddAutoInject(Assembly.GetExecutingAssembly());
+
+            context.Services.AddScoped<IGroupApplicationService, GroupService>();
+            context.Services.AddScoped<IUserApplicationService, UserService>();
+            context.Services.AddScoped<INoticeApplicationService, NoticeService>();
+            context.Services.AddScoped<IFileApplicationService, FileService>();
+            
         }
 
         public override void InitApplication(InitApplicationContext context)
         {
+            using var scope = context.ServiceProvider.CreateAsyncScope();
+            var provider = scope.ServiceProvider;
+            var dbcontext = provider.GetRequiredService<YChatContext>();
+            var any = dbcontext.ChatGroups.Any(p => p.Name == "世界频道");
+            if (!any)
+            {
+                var user = dbcontext.Users.FirstOrDefault(p => p.Name == "wyg");
+
+                if (user is null)
+                {
+                    user = new User("wyg","wyg154511","3164522206");
+                    dbcontext.Users.Add(user);
+                }
+
+                var defaultGroup = new ChatGroup("世界频道",
+                    user.Id,
+                    "世界频道欢迎来访");
+                defaultGroup.SetGroupNumber();
+
+                var chatgoupuser = new GroupUser(defaultGroup.Id,user.Id);
+                chatgoupuser.Owner();
+
+                dbcontext.ChatGroups.Add(defaultGroup);
+                dbcontext.GroupUsers.Add(chatgoupuser);
+                dbcontext.SaveChanges();
+            }
+
             var app = context.GetApplicationBuilder();
 
             var env = (IHostEnvironment)

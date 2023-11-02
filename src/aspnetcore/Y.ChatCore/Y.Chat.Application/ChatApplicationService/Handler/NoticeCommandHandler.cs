@@ -1,5 +1,6 @@
 ﻿using Masa.Contrib.Dispatcher.Events;
 using Microsoft.EntityFrameworkCore;
+using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.ChatDomain.Events;
@@ -56,6 +57,33 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 notices.Add(notice);
             }
            await _noticeRepository.AddRangeAsync(notices);
+           await _context.SaveChangesAsync();
+        }
+
+        [EventHandler]
+        public async Task NoticeAggred(NoticeAgreeCommand cmd)
+        {
+            var notice = await _noticeRepository.FindAsync(p => p.Id == cmd.Id && p.RecivedUserId == cmd.ReceviedUserId);
+
+            notice.SetAggreed();
+
+            notice.SetRead();
+
+            await _noticeRepository.UpdateAsync(notice);
+
+            await _context.SaveChangesAsync();
+        }
+
+        [EventHandler]
+        public async Task NoticeRead(NoticeReadCommand cmd)
+        {
+            var notice = await _noticeRepository.FindAsync(p => p.Id == cmd.Id && p.RecivedUserId == cmd.ReceviedId);
+
+            notice.SetAggreed();
+
+            await _noticeRepository.UpdateAsync(notice);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

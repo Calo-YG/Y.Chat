@@ -6,6 +6,7 @@ using Y.Chat.Application.UserApplicationService.Queries;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.UserDomain;
+using Y.Chat.EntityCore.Domain.UserDomain.Repositories;
 
 namespace Y.Chat.Application.UserApplicationService.Handler
 {
@@ -14,13 +15,16 @@ namespace Y.Chat.Application.UserApplicationService.Handler
         private readonly YChatContext _context;
         private readonly IUserDomainService _userDomainService;
         private readonly IFriendRepository _friendRepository;
+        private readonly IUserRepository _userRepository;
         public UserQueryHandler(YChatContext context
             , IUserDomainService userDomainService
-            , IFriendRepository friendRepository)
+            , IFriendRepository friendRepository
+            , IUserRepository userRepository)
         {
             _context = context; 
             _userDomainService = userDomainService;
             _friendRepository = friendRepository;
+            _userRepository = userRepository;
         }
 
         [EventHandler]
@@ -55,16 +59,9 @@ namespace Y.Chat.Application.UserApplicationService.Handler
 
         public async Task Friends(FriendsQuery query)
         {
-            var select = await _friendRepository.GetUserFriends(query.UserId)
-                .Select(p=>new FriendDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Avatar = p.Avatar,
-                    Sign=p.Autograph
-                })
+            var list = await _userRepository.GetFriends(query.UserId)
                 .ToListAsync();
-            query.Result = select;
+            query.Result = list.Map<List<FriendDto>>();
         }
     }
 }

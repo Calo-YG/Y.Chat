@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Y.Chat.Application.FileApplicationService;
 using Y.Chat.Application.FileApplicationService.Commands;
 using Y.Chat.Application.FileApplicationService.Queries;
 
 namespace Y.Chat.Host.Services
 {
+    [Authorize]
     public class FileService:BaseService<FileService>,IFileApplicationService
     {
         static string[] suffixs = new string[] { "jpg","png","jpeg" };

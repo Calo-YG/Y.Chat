@@ -1,4 +1,5 @@
 ﻿using Calo.Blog.Common.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Y.Chat.Application.UserApplicationService;
 using Y.Chat.Application.UserApplicationService.Commands;
 using Y.Chat.Application.UserApplicationService.Dtos;
@@ -43,13 +44,14 @@ namespace Y.Chat.Host.Services
             };
             return query.Result;
         }
+        [Authorize]
         [RoutePattern(HttpMethod ="Patch")]
         public async Task SetSign(SignInput input)
         {
             var cmd = new SetUserSignCommand(input.Sign, input.UserId);
             await _eventBus.PublishAsync(cmd);
         }
-
+        [Authorize]
         [RoutePattern(HttpMethod ="Get")]
         public async Task<List<FriendDto>> Friends(Guid userId)
         {

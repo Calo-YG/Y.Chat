@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Y.Chat.Application.ChatApplicationService;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.ChatApplicationService.Dtos;
@@ -7,6 +8,7 @@ using Y.Chat.Application.FileApplicationService.Dtos;
 
 namespace Y.Chat.Host.Services
 {
+    [Authorize]
     public class GroupService : BaseService<GroupService>, IGroupApplicationService
     {
         static string[] suffixs = new string[] { "jpg", "png", "jpeg" };
@@ -63,6 +65,11 @@ namespace Y.Chat.Host.Services
 
             await _eventBus.PublishAsync(cmd);
         }
+        /// <summary>
+        /// 搜索群聊
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [RoutePattern(HttpMethod = "Get")]
         public async Task<List<GroupDto>> QueryGroup(GroupQueryInput input)
         {
@@ -71,6 +78,18 @@ namespace Y.Chat.Host.Services
 
             await _eventBus.PublishAsync(query);
 
+            return query.Result;
+        }
+        /// <summary>
+        /// 用户群聊列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [RoutePattern(HttpMethod = "Get")]
+        public async Task<List<GroupDto>> UserGroup(Guid userId)
+        {
+            var query =new UserGroupQuery(userId);
+            await _eventBus.PublishAsync(query);
             return query.Result;
         }
     }

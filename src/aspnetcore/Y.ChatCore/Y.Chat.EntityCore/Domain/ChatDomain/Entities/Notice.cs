@@ -17,22 +17,27 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         public bool Agred {  get;private set; }
 
         public NoticeType NoticeType { get; private set; }
+        /// <summary>
+        /// 申请备注
+        /// </summary>
+        public string? Remark { get;private set; }  
 
         private Notice() { }
 
-        public Notice(Guid inviteduserId,Guid recivedUserId,string content,NoticeType noticeType,Guid? groupId=null) 
+        public Notice(Guid inviteduserId,Guid recivedUserId,string content,NoticeType noticeType,string? reamrk,Guid? groupId=null) 
         {
             Id=IdGeneratorFactory.SequentialGuidGenerator.NewId();
             InviteUserId=inviteduserId;
             RecivedUserId=recivedUserId;
             Content=content;
             NoticeType=noticeType;
+            Remark = reamrk;
             SetGroupId(groupId);
         }
 
         private void SetGroupId(Guid? groupId)
         {
-            if (NoticeType != NoticeType.GroupRequest)
+            if (NoticeType == NoticeType.GroupRequest&&groupId.HasValue)
             {
                 GroupId=groupId;
                 NoticeType = NoticeType.GroupRequest;

@@ -14,14 +14,14 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         /// <summary>
         /// 群主
         /// </summary>
-        public Guid Bachelors {  get; private set; }
+        public Guid? Bachelors {  get; private set; }
         /// <summary>
         /// 群号
         /// </summary>
         public string GroupNumber { get; private set; }   
 
         public ChatGroup() { }  
-        public ChatGroup(string name,Guid bachelors, string? description, string avatar="")
+        public ChatGroup(string name,Guid? bachelors, string? description, string avatar="")
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();
             Bachelors = bachelors;

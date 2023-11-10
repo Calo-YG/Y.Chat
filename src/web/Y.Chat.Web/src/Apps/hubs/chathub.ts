@@ -26,7 +26,7 @@ class ChatHub {
         .configureLogging(signalR.LogLevel.Information)
         .build();
       this.connection.keepAliveIntervalInMilliseconds = 5;
-      this.connection.on("RecivedMessage",(msg)=>{
+      this.connection.on("InitChat",(msg)=>{
         console.info(msg);
       })
     }

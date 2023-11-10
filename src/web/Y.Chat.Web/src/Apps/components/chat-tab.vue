@@ -8,6 +8,7 @@
             <span>好友</span>
           </span>
         </template>
+        <list url="v1/Users/Friends"></list>
       </el-tab-pane>
       <el-tab-pane >
         <template #label>
@@ -16,11 +17,16 @@
             <span>群聊</span>
           </span>
         </template>
+        <list  url="v1/Groups/UserGroup"></list>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { reactive, ref ,onMounted,onBeforeMount} from "vue";
+import list from "/src/Apps/components/list.vue"
+
+</script>
 
 <style lang="less" scoped></style>

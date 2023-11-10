@@ -9,9 +9,13 @@
 
         public DateTime? LeaveTime { get;private set; }
 
-        public UserStatus(Guid id)      
+        public string ConnectionId { get;private set; }
+
+
+        public UserStatus(Guid id, string connectionId)      
         {
             Id = id;
+            ConnectionId = connectionId;
             OnlineType = OnlineType.OnLine;
             OnLineTime = DateTime.Now;
         }

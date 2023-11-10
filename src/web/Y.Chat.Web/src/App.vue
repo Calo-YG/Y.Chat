@@ -5,7 +5,7 @@ import { provide, inject } from 'vue'
 import {ChatHub} from './Apps/hubs/chathub.ts'
 import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
 
-var chatHub=new ChatHub()
+const chatHub=new ChatHub()
 provide("chatHub",chatHub)
 
 

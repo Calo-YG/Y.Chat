@@ -1,10 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import config from '../config';
-import { useCookies } from "vue3-cookies";
-import { useRouter } from "vue-router";
-
-const { cookies } = useCookies();
-const router = useRouter();
+import localStorage from './localStorage.ts'
 
 
 class Request {
@@ -15,11 +11,9 @@ class Request {
         // 全局请求拦截
         this.instance.interceptors.request.use(
             (config) => {
-                const obj = (cookies.get('authentication') as any)['token']
-                if (!!obj&&!!obj['token']) {
+                const obj = localStorage.getCache("user")
+                if (!!obj) {
                     config.headers.Authorization = `Bearer ${obj['token']}`
-                }else{
-                    //
                 }
                 return config
             }

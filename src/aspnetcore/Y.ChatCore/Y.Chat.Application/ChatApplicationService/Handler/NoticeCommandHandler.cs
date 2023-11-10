@@ -1,4 +1,5 @@
-﻿using Masa.Contrib.Dispatcher.Events;
+﻿using Masa.BuildingBlocks.Dispatcher.Events;
+using Masa.Contrib.Dispatcher.Events;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.EntityCore;
@@ -13,12 +14,15 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
     {
         private readonly YChatContext _context;
         private readonly INoticeRepository _noticeRepository;
+        private readonly IEventBus _eventbus;
         
         public NoticeCommandHandler(YChatContext context,
-            INoticeRepository noticeRepository) 
+            INoticeRepository noticeRepository,
+            IEventBus eventBus) 
         { 
             _context = context;
             _noticeRepository = noticeRepository;
+            _eventbus = eventBus;
         }
 
         [EventHandler]
@@ -70,6 +74,20 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             notice.SetRead();
 
             await _noticeRepository.UpdateAsync(notice);
+
+            if(notice.NoticeType==NoticeType.FriendRequest)
+            {
+                var friendcmd = new CreateFriendCommand(notice.InviteUserId,
+                    notice.RecivedUserId,
+                    notice.Remark);
+                await _eventbus.PublishAsync(friendcmd);
+            }
+            else
+            {
+                var joingroupcmd = new JoinGroupCommand((Guid)notice.GroupId,
+                    notice.InviteUserId);
+                await _eventbus.PublishAsync(joingroupcmd);
+            }
 
             await _context.SaveChangesAsync();
         }

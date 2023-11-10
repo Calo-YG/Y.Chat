@@ -23,6 +23,7 @@ namespace Y.Chat.Host.Services
         /// <param name="userId"></param>
         /// <param name="description"></param>
         /// <returns></returns>
+        [Authorize]
         [RoutePattern(HttpMethod ="Post")]
         public async Task Create(CreateGroupInput input)
         {
@@ -37,6 +38,7 @@ namespace Y.Chat.Host.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
+        [Authorize]
         [RoutePattern(HttpMethod = "Post")]
         public async Task UploadAvatar([FromForm] IFormFile file)
         {
@@ -70,6 +72,7 @@ namespace Y.Chat.Host.Services
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [Authorize]
         [RoutePattern(HttpMethod = "Get")]
         public async Task<List<GroupDto>> QueryGroup(GroupQueryInput input)
         {
@@ -85,6 +88,7 @@ namespace Y.Chat.Host.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
+        [Authorize]
         [RoutePattern(HttpMethod = "Get")]
         public async Task<List<GroupDto>> UserGroup(Guid userId)
         {

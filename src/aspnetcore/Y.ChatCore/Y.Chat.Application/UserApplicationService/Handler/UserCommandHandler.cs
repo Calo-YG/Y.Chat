@@ -1,7 +1,9 @@
 ﻿using Masa.BuildingBlocks.Ddd.Domain.Repositories;
+using Masa.BuildingBlocks.Dispatcher.Events;
 using Masa.Contrib.Dispatcher.Events;
 using Masuit.Tools.Security;
 using Microsoft.EntityFrameworkCore;
+using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.UserApplicationService.Commands;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.UserDomain;
@@ -14,13 +16,16 @@ namespace Y.Chat.Application.UserApplicationService.Handler
         private readonly YChatContext _chatContext;
         private readonly IRepository<User, Guid> _userRepository;
         private readonly IUserDomainService _userDomainService;
+        private readonly IEventBus _eventBus;
         public UserCommandHandler(IRepository<User,Guid> userRepositroy
             ,YChatContext context
-            ,IUserDomainService userDomainService)
+            ,IUserDomainService userDomainService
+            , IEventBus eventBus)
         {
             _userRepository = userRepositroy;
             _chatContext = context; 
             _userDomainService = userDomainService;
+            _eventBus = eventBus;
         }
 
         [EventHandler]
@@ -43,7 +48,13 @@ namespace Y.Chat.Application.UserApplicationService.Handler
                 ,password
                 ,createUserCommand.Input.Email);
 
-            await _chatContext.Users.AddAsync(user);   
+            await _chatContext.Users.AddAsync(user);
+
+            var defaultgroup = await _chatContext.ChatGroups.FirstOrDefaultAsync(p => p.Name == "世界频道");
+
+            var cmd = new JoinGroupCommand(defaultgroup.Id, user.Id);
+
+            await _eventBus.PublishAsync(cmd);
 
             await _chatContext.SaveChangesAsync();
         }

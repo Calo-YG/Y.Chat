@@ -138,7 +138,7 @@ namespace Y.Chat.Host
             context.Services.AddScoped<IUserApplicationService, UserService>();
             context.Services.AddScoped<INoticeApplicationService, NoticeService>();
             context.Services.AddScoped<IFileApplicationService, FileService>();
-            
+            context.Services.AddScoped<IChatMessageApplicationService, ChatMessageService>();
         }
 
         public override void InitApplication(InitApplicationContext context)

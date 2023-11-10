@@ -1,10 +1,7 @@
 import * as signalR from "@microsoft/signalr";
 import config from "../../config";
-import { useCookies } from "vue3-cookies";
 import * as msgpack from "@microsoft/signalr-protocol-msgpack";
-
-const { cookies } = useCookies();
-
+import localStorage from '/src/services/localStorage'
 class ChatHub {
   private connection: signalR.HubConnection | undefined;
 
@@ -33,9 +30,9 @@ class ChatHub {
   }
 
   private getToken(): string {
-    const obj = cookies.get("authentication");
-    if (!!obj && !!(obj as any)["token"]) {
-      return (obj as any)["token"];
+    const obj=localStorage.getCache("user")
+    if(!!obj){
+      return obj["token"]
     }
     return "";
   }
@@ -69,6 +66,4 @@ class ChatHub {
   }
 }
 
-export {
-  ChatHub
-};
+export default new ChatHub();

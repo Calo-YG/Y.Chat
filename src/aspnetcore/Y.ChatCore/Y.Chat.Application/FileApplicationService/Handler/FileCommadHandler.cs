@@ -5,6 +5,7 @@ using Y.Chat.Application.FileApplicationService.Commands;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.FileDomain;
 using Y.Chat.EntityCore.Domain.FileDomain.Entitis;
+using Y.Chat.EntityCore.Domain.FileDomain.Shared;
 using Y.Chat.EntityCore.Domain.UserDomain;
 
 namespace Y.Chat.Application.FileApplicationService.Handler
@@ -34,16 +35,35 @@ namespace Y.Chat.Application.FileApplicationService.Handler
                 , minioname
                 , command.ContentType);
 
+            await command.File.DisposeAsync();
 
             var file = new FileSystem(command.FileName);
             file.SetAvatar();
             file.SetMinioName(minioname);   
 
             await _context.FileSystems.AddAsync(file);
-            //await _context.SaveChangesAsync();
 
             await _userDomainService.SetAvatar(command.UserId, minioname);   
             command.FilePath= file.MinioName;
+        }
+
+        [EventHandler]
+        public async Task UploadGroupFile(UploadGroupFileCommand cmd)
+        {
+            await _fileDomainService.UploadMinio(cmd.File
+                  , cmd.FileName
+                  , cmd.ContentType);
+
+            await cmd.File.DisposeAsync();
+
+            var file = new FileSystem(cmd.FileName,
+                 "群聊文件",
+                 false,
+                FileType.GroupFile,
+                cmd.GroupId,
+                cmd.ParentId);
+
+           await _context.FileSystems.AddAsync(file);
         }
     }
 }

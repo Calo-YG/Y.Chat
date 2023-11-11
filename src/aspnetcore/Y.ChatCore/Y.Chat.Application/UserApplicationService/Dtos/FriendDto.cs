@@ -11,5 +11,7 @@
         public string? Sign {  get; set; }
 
         public string Comment { get; set; }
+
+        public bool Online { get; set; }
     }
 }

@@ -20,28 +20,21 @@
 import authorization from "../../utils/authorization.ts";
 import config from "../../config.ts";
 import { ref, computed, watch, onMounted } from "vue";
+import localCache from "/src/services/localStorage.ts";
 
-let _url = "";
-const url = computed({
-  get() {
-    _url = config.getFile(authorization.getAvatar());
-    return _url;
-  },
-  set(value) {
-    if (!!value) {
-      _url = value;
-    }
-  },
-});
-const username = computed(() => {
-  return authorization.getUserName();
-});
-const email = computed(() => {
-  return authorization.getEmail();
-});
+const url =ref("")
+const username = ref("")
+const email = ref("")
+
+onMounted(()=>{
+  const user= localCache.getCache('user')
+  url.value=config.getFile(user.avatar)
+  username.value=user.name
+  email.value=user.email
+})
 
 const error = () => {
-  _url = config.defaultAvatar;
+  url.value = config.defaultAvatar;
 };
 
 </script>

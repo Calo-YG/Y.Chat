@@ -3,11 +3,11 @@
     public enum ChatType
     {
         /// <summary>
-        /// 群聊
+        /// 私聊
         /// </summary>
         Default,
         /// <summary>
-        /// 私聊
+        /// 群聊
         /// </summary>
         Group
     }

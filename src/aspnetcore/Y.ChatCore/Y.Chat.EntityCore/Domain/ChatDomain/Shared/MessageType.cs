@@ -23,4 +23,32 @@
         /// </summary>
         Audio
     }
+
+    public class ChangeEnum
+    {
+        public static MessageType Change(string type)
+        {
+            if(MessageType.Img.ToString() == type)
+            {
+                return MessageType.Img;
+            }
+            if (MessageType.Text.ToString() == type)
+            {
+                return MessageType.Img;
+            }
+            if (MessageType.Emojis.ToString() == type)
+            {
+                return MessageType.Emojis;
+            }
+            if (MessageType.Video.ToString() == type)
+            {
+                return MessageType.Video;
+            }
+            if (MessageType.Audio.ToString() == type)
+            {
+                return MessageType.Audio;
+            }
+            return MessageType.Text;
+        }
+    }
 }

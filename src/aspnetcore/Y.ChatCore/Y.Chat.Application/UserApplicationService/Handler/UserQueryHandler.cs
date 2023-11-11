@@ -61,7 +61,17 @@ namespace Y.Chat.Application.UserApplicationService.Handler
         {
             var list = await _userRepository.GetFriends(query.UserId)
                 .ToListAsync();
+            
             query.Result = list.Map<List<FriendDto>>();
+
+            foreach (var item in query.Result)
+            {
+                var id = item.Id.ToString();
+
+                var exists = await RedisHelper.ExistsAsync(id);
+
+                item.Online = exists;
+            }
         }
     }
 }

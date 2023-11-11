@@ -19,10 +19,6 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public ChatGroup ChatGroup { get; set; }
 
-        public ChatType ChatType { get; set; }
-
-        //public bool IsRead { get; set; }
-
         public ChatMessage() { }    
         public ChatMessage(Guid userId,Guid groupId,string content,MessageType messageType) 
         {
@@ -32,6 +28,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
             Content=content;
             MessageType = messageType;
             CreationTime = DateTime.Now;
+            Creator = userId;
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class UserStatus
     {
-        public Guid Id { get;private set; }
+        public Guid? Id { get;private set; }
         public OnlineType OnlineType { get;private set; }
 
         public DateTime OnLineTime { get;private set; }
@@ -12,7 +12,7 @@
         public string ConnectionId { get;private set; }
 
 
-        public UserStatus(Guid id, string connectionId)      
+        public UserStatus(Guid? id, string connectionId)      
         {
             Id = id;
             ConnectionId = connectionId;

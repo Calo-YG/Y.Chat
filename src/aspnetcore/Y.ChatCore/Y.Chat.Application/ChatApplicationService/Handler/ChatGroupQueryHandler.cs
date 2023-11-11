@@ -38,6 +38,24 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             var list = await _groupRepository.UserGroups(query.userId).ToListAsync();
             query.Result = list.Map<List<GroupDto>>();
         }
+        [EventHandler]
+        public async Task GroupUser(GroupUserQuery query)
+        {
+            var users = await _groupRepository.GroupUsers(query.GroupId).ToListAsync();
+
+            var data = users.Map<List<GroupUserDto>>();
+
+            var onlinuser =await RedisHelper.GetAsync<List<string>>(query.GroupId.ToString("N"));
+
+            foreach (var user in data)
+            {
+                var id = user.Id.ToString();
+
+                user.Online = onlinuser.Contains(id);
+            }
+
+            query.Result = data;
+        }
 
     }
 }

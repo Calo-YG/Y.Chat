@@ -5,21 +5,20 @@ using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 
 namespace Y.Chat.Application.ChatApplicationService.Handler
 {
-    public class ChatMessageCommandHandler
+    public class SystemCommandHandler
     {
         private readonly YChatContext Context;
-        public ChatMessageCommandHandler(YChatContext context)
-        { 
-             Context = context;
-        }
-
-        [EventHandler]
-        public async Task CreateMessage(CreateMessageCommand cmd)
+        public SystemCommandHandler(YChatContext context) 
         {
-            var message = new ChatMessage(cmd.UserId,
-                cmd.GroupId,
+            Context = context;  
+        }
+        [EventHandler]
+        public async Task Create(CreateNotifyCommand cmd)
+        {
+            var message = new SystemMessage(cmd.UserId,
                 cmd.Content,
-                cmd.Type);
+                cmd.Type,
+                cmd.Recived);
 
             await Context.AddAsync(message);
 

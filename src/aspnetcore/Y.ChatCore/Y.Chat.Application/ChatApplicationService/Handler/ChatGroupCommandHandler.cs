@@ -71,6 +71,8 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 , minioname
                 , command.ContentType);
 
+            await command.File.DisposeAsync();    
+
             var file = new FileSystem(command.Name);
             file.SetGroupAvatar();
             file.SetMinioName(minioname);
@@ -78,6 +80,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             await _context.AddAsync(file);
 
             group.SetGroupAvatar(minioname);
+
             _context.ChatGroups.Update(group);
             await _context.SaveChangesAsync();  
         }

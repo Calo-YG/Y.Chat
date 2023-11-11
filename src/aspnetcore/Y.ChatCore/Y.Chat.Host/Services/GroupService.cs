@@ -96,5 +96,18 @@ namespace Y.Chat.Host.Services
             await _eventBus.PublishAsync(query);
             return query.Result;
         }
+        /// <summary>
+        /// 获取群聊用户
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        [Authorize]
+        [RoutePattern(HttpMethod = "Get")]
+        public async Task<List<GroupUserDto>> GroupUser(Guid groupId)
+        {
+            var query = new GroupUserQuery(groupId);    
+            await _eventBus.PublishAsync(query);
+            return query.Result;
+        }
     }
 }

@@ -80,6 +80,12 @@ namespace Y.Chat.EntityCore
                 options.TryConfigureConcurrencyStamp();
                 options.HasKey(p => p.Id);
             });
+
+            builder.Entity<SystemMessage>(options =>
+            {
+                options.TryConfigureConcurrencyStamp();
+                options.HasKey(p => p.Id);
+            });
             #endregion
 
             #region file

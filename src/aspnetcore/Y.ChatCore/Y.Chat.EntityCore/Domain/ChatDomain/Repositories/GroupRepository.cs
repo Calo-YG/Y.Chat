@@ -2,6 +2,7 @@
 using Masa.Contrib.Ddd.Domain.Repository.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
+using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 {
@@ -40,6 +41,14 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
             return Context.GroupUsers
                 .Where(p => p.GroupId == groupId && p.IsAdmin && p.UserId == userId)
                 .AnyAsync();
+        }
+
+        public IQueryable<User> GroupUsers(Guid groupId)
+        {
+            return from g in Context.GroupUsers
+                   where g.GroupId == groupId
+                   join u in Context.Users on g.UserId equals u.Id
+                   select u;
         }
     }
 }

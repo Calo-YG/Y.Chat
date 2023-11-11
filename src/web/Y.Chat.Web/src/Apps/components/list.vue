@@ -1,38 +1,43 @@
 <template>
   <el-descriptions :column="1">
-    <el-descriptions-item
-      label="Username"
-      label-align="right"
-      align="center"
-      label-class-name="my-label"
-      class-name="my-content"
-      width="100%"
-      >kooriookami</el-descriptions-item
-    >
-  </el-descriptions>
+    <el-descriptions-item>
+      <template #default>
 
+      </template>
+    </el-descriptions-item>
+  </el-descriptions>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
-import Request from "/src/services/htttpRequest.ts"
-import localCache from "/src/services/localStorage.ts"
+import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
+import Request from "/src/services/htttpRequest.ts";
+import localCache from "/src/services/localStorage.ts";
+import { FriendGroupListDto } from "/src/services/dtos.ts";
+import cofig from '/src/config.ts'
 
 const props = defineProps<{
-  url:String
+  url: String;
 }>();
-const data=ref<Array>([])
+const data = ref<Array<FriendGroupListDto>>([]);
 
-onMounted(()=>{
-    var user= localCache.getCache("user");
-   const _url=props.url+"?userId="+user.userId;
-   Request.get(_url).then((res)=>{
-    console.info(res);
-   }).catch((error)=>{
-    console.error(error)
-   })
-})
-
+onMounted(() => {
+  var user = localCache.getCache("user");
+  const _url = props.url + "?userId=" + user.userId;
+  Request.get(_url)
+    .then((res) => {
+      res.map(p=>{
+        const value:FriendGroupListDto={
+          id:p.id,
+          name=p.name,
+          avatar=cofig.getFile(p.avatar)
+        }
+        data.push(value);
+      })
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
 </script>
 
 <style lang="less" scoped>

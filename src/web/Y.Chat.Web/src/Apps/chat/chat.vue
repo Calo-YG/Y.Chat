@@ -13,8 +13,8 @@
 </template>
 
 <script lang="ts" setup>
-import info from './../components/info.vue'
-import chatTab from './../components/chat-tab.vue'
+import info from '/src/Apps/components/info.vue'
+import chatTab from '/src/Apps/components/chat-tab.vue'
 import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
 import { provide, inject } from 'vue'
 import chathub from '/src/Apps/hubs/chathub.ts'

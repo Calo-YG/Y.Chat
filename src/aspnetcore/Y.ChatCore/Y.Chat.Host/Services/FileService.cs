@@ -61,7 +61,6 @@ namespace Y.Chat.Host.Services
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        [Authorize]
         public async Task<IResult> GetFile(string filename)
         {
             var query = new GetFileQuery(filename);

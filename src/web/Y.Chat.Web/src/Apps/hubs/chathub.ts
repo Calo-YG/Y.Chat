@@ -1,7 +1,7 @@
 import * as signalR from "@microsoft/signalr";
 import config from "../../config";
 import * as msgpack from "@microsoft/signalr-protocol-msgpack";
-import localStorage from '/src/services/localStorage'
+import localStorage from './../../services/localStorage.ts'
 class ChatHub {
   private connection: signalR.HubConnection | undefined;
 

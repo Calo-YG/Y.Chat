@@ -29,7 +29,7 @@ const email = ref("")
 onMounted(()=>{
   const user= localCache.getCache('user')
   url.value=config.getFile(user.avatar)
-  username.value=user.UserName
+  username.value=user.userName
   email.value=user.email
 })
 

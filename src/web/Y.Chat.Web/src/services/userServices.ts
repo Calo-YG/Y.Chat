@@ -18,7 +18,7 @@ class UserServices{
        return Request.get(sendCode+"?email="+email);
     }
   
-    register(data:Register){
+    register(data:any){
         return Request.post(baseUrl,data);
     }
 }

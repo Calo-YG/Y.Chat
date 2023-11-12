@@ -91,6 +91,11 @@ class Request {
             ...config,
         })
     }
+
+    public getGile(file:string){
+        const url="/api/v1/Files/File?filename"+file;
+        return this.get(url);
+    }
 }
 
 export default new Request({

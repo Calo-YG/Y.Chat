@@ -38,9 +38,9 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
-import userService from "../../services/userServices";
+import userService from "/src/services/userServices";
 import { useRouter } from "vue-router";
-import upload from "./../components/upload.vue";
+import upload from "/src/Apps/components/upload.vue";
 import { provide, inject } from 'vue'
 import localCache from '/src/services/localStorage.ts'
 
@@ -81,7 +81,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       userService
         .login(ruleForm.value.username, ruleForm.value.password)
         .then((res) => {
-          console.info(res);
           localCache.setCache("user",res);
           router.push("/chat");
         });

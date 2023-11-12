@@ -15,11 +15,11 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
         /// 用户通知
         /// </summary>
         /// <returns></returns>
-        public  Task<List<NoticeModel>> UserNotice(Guid userId)
+        public  Task<List<NoticeModel>> UserNotice(Guid userId,NoticeType type)
         {
             var query = from n in Context.Notices
                         join u in Context.Users on n.InviteUserId equals u.Id
-                        where n.RecivedUserId==userId
+                        where n.RecivedUserId==userId && n.NoticeType==type
                         select new NoticeModel
                         {
                             Id=n.Id,

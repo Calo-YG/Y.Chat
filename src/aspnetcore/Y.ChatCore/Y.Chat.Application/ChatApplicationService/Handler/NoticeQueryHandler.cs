@@ -23,7 +23,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         [EventHandler]
         public async Task UserNotice(UserNoticeQuery query)
         {
-            var list = await _noticeRepository.UserNotice(query.userId);
+            var list = await _noticeRepository.UserNotice(query.userId,query.Type);
 
             query.Result = list.Map<List<NoticeDto>>();
         }

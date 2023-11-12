@@ -4,6 +4,7 @@ using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.ChatApplicationService.Dtos;
 using Y.Chat.Application.ChatApplicationService.Queries;
 using Y.Chat.EntityCore.Domain.ChatDomain.Events;
+using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 
 namespace Y.Chat.Host.Services
 {
@@ -58,9 +59,9 @@ namespace Y.Chat.Host.Services
         /// <returns></returns>
         [Authorize]
         [RoutePattern(HttpMethod = "Get")]
-        public async Task<List<NoticeDto>> UserNotices(Guid userId)
+        public async Task<List<NoticeDto>> UserNotices(Guid userId, NoticeType type)
         {
-            var query = new UserNoticeQuery(userId);
+            var query = new UserNoticeQuery(userId,type);
 
             await _eventBus.PublishAsync(query);
 

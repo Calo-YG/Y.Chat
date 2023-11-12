@@ -28,7 +28,7 @@ namespace Y.Chat.EntityCore.Hubs
             var status = new UserStatus(userId, GetConnectionId());
 
             await RedisHelper.SetAsync($"{ChatConst.Online}_{userId}",userId);
-            await RedisHelper.SetAsync($"{ChatConst.UserOnlineList}_{userId}",userId);
+            await RedisHelper.LPushAsync($"{ChatConst.UserOnlineList}_{userId}",userId);
 
             var usergroup = new UserGroupQuery((Guid)userId);
 

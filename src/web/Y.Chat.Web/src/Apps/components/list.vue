@@ -1,51 +1,38 @@
 <template>
-  <el-descriptions :column="1">
-    <el-descriptions-item>
-      <template #default> </template>
-    </el-descriptions-item>
-  </el-descriptions>
+  <div v-if="!!props.data">
+    <ul class="infinite-list" style="overflow: auto">
+      <li v-for="item in props.data" :key="item" class="infinite-list-item">
+        <slot name="default" :item="item"></slot>
+    </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
-import Request from "/src/services/htttpRequest.ts";
-import localCache from "/src/services/localStorage.ts";
-import cofig from "/src/config.ts";
+import { ref, reactive, computed } from "vue";
 
-const props = defineProps<{
-  url: String;
-}>();
-const data = ref<Array>([]);
-
-onMounted(() => {
-  var user = localCache.getCache("user");
-  const url = props.url + "?userId=" + user.userId;
-  Request.get(url)
-    .then((res) => {
-      if (!!res) {
-        res.map((p) => {
-          // const value: FriendGroupListDto = {
-          //   id: p.id,
-          //   name: p.name,
-          //   avatar: cofig.getFile(p.avatar),
-          //   description: "",
-          //   comment: "",
-          // };
-          // data.push(value);
-        });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+const props = defineProps({
+  data: Array<any>,
 });
+
 </script>
 
 <style lang="less" scoped>
-:deep(.my-label) {
-  background: var(--el-color-success-light-9) !important;
+.infinite-list {
+  height: 100px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
-:deep(.my-content) {
-  background: var(--el-color-danger-light-9);
+.infinite-list .infinite-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin: 10px;
+  color: var(--el-color-primary);
+}
+.infinite-list .infinite-list-item + .list-item {
+  margin-top: 10px;
 }
 </style>

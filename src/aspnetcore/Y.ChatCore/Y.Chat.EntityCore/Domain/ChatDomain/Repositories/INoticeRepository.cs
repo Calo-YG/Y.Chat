@@ -6,6 +6,6 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 {
     public interface INoticeRepository:IRepository<Notice,Guid>
     {
-        Task<List<NoticeModel>> UserNotice(Guid userId);
+        Task<List<NoticeModel>> UserNotice(Guid userId, NoticeType type);
     }
 }

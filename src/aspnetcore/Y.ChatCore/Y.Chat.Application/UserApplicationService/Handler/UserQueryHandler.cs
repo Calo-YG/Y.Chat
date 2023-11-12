@@ -1,11 +1,13 @@
 ﻿using Masa.Contrib.Dispatcher.Events;
 using Masuit.Tools.Security;
 using Microsoft.EntityFrameworkCore;
+using Y.Chat.Application.Hubs;
 using Y.Chat.Application.UserApplicationService.Dtos;
 using Y.Chat.Application.UserApplicationService.Queries;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.UserDomain;
+using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 using Y.Chat.EntityCore.Domain.UserDomain.Repositories;
 
 namespace Y.Chat.Application.UserApplicationService.Handler
@@ -66,7 +68,7 @@ namespace Y.Chat.Application.UserApplicationService.Handler
 
             foreach (var item in query.Result)
             {
-                var id = item.Id.ToString();
+                var id = $"{ChatConst.Online}_{item.Id}";
 
                 var exists = await RedisHelper.ExistsAsync(id);
 

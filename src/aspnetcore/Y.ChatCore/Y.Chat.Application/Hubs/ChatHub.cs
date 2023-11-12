@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.ChatApplicationService.Queries;
+using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 
@@ -25,22 +26,9 @@ namespace Y.Chat.EntityCore.Hubs
         {
             var userId = GetUserId();
             var status = new UserStatus(userId, GetConnectionId());
-            if (await RedisHelper.ExistsAsync(userId.ToString()))
-            {
-                await RedisHelper.SetAsync(
-                    userId.ToString(),
-                    status,
-                    exists: CSRedis.RedisExistence.Xx
-                );
-            }
-            else
-            {
-                await RedisHelper.SetAsync(
-                    userId.ToString(),
-                    status,
-                    exists: CSRedis.RedisExistence.Nx
-                );
-            }
+
+            await RedisHelper.SetAsync($"{ChatConst.Online}_{userId}",userId);
+            await RedisHelper.SetAsync($"{ChatConst.UserOnlineList}_{userId}",userId);
 
             var usergroup = new UserGroupQuery((Guid)userId);
 
@@ -48,7 +36,7 @@ namespace Y.Chat.EntityCore.Hubs
 
             foreach (var item in usergroup.Result)
             {
-                var key = item.Id.ToString("N");
+                var key = $"{ChatConst.Group}_{item.Id}";
                 // 加入群组
                 await Groups.AddToGroupAsync(Context.ConnectionId, item.Id.ToString("N"));
 
@@ -65,9 +53,14 @@ namespace Y.Chat.EntityCore.Hubs
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             _logger.LogWarning(exception?.Message ?? "断开连接信息异常");
+
             var userId = GetUserId();
-            var userStaus = await RedisHelper.GetAsync<UserStatus>(userId.ToString());
-            userStaus.SetLeave();
+
+            var currentusers =await RedisHelper.LRangeAsync($"{ChatConst.UserOnlineList}_{userId}", 0, 2);
+            if (currentusers.Length > 1)
+            {
+                return;
+            }
 
             var usergroup = new UserGroupQuery(userId);
 
@@ -77,17 +70,19 @@ namespace Y.Chat.EntityCore.Hubs
 
             foreach (var item in usergroup.Result)
             {
-                var key = item.Id.ToString("N");
+                var key = $"{ChatConst.Group}_{item.Id}";
 
                 await Groups.RemoveFromGroupAsync(connectionid, item.Id.ToString("N"));
 
-                await RedisHelper.LRemAsync(key, -1, connectionid);
+                await RedisHelper.LRemAsync(key, -1, userId);
             }
 
             var systemMsg = new CreateNotifyCommand(userId, "用户下线", NotfiyType.Online);
             await _eventBus.PublishAsync(systemMsg);
 
-            await RedisHelper.DelAsync(userId.ToString());
+            await RedisHelper.DelAsync($"{ChatConst.Online}_{userId}");
+
+            await RedisHelper.LRemAsync($"{ChatConst.UserOnlineList}_{userId}", count: 1,userId);
         }
         /// <summary>
         /// 发送消息
@@ -101,8 +96,7 @@ namespace Y.Chat.EntityCore.Hubs
             if (string.IsNullOrEmpty(content))
             {
                 return;
-            }
-            
+            }      
             var userId=GetUserId();
 
             string key = $"user:{userId}:count";

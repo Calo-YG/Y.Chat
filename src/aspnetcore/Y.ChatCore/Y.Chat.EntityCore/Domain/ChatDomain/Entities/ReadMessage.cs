@@ -1,9 +1,8 @@
-﻿using AngleSharp.Dom;
-using Masa.BuildingBlocks.Ddd.Domain.Entities;
+﻿using Masa.BuildingBlocks.Ddd.Domain.Entities.Auditing;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 {
-    public class ReadMessage:Entity<Guid>
+    public class ReadMessage: AuditEntity<Guid,Guid>
     {
         public Guid GroupId { get; set; }
 

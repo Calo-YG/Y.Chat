@@ -1,5 +1,6 @@
 ﻿using Masa.Contrib.Dispatcher.Events;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Y.Chat.Application.ChatApplicationService.Dtos;
 using Y.Chat.Application.ChatApplicationService.Queries;
 using Y.Chat.EntityCore;
@@ -45,13 +46,22 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
 
             var data = users.Map<List<GroupUserDto>>();
 
-            var onlinuser =await RedisHelper.GetAsync<List<string>>(query.GroupId.ToString("N"));
+            var id = query.GroupId.ToString("N");
+
+            List<string>? onlinuser = null;
+
+            var exists = await RedisHelper.ExistsAsync(id);
+
+            if (exists)
+            {
+                onlinuser = await RedisHelper.GetAsync<List<string>>(id);
+            }
 
             foreach (var user in data)
             {
-                var id = user.Id.ToString();
+                var userid = user.Id.ToString();
 
-                user.Online = onlinuser.Contains(id);
+                user.Online = onlinuser?.Contains(userid) ?? false;
             }
 
             query.Result = data;

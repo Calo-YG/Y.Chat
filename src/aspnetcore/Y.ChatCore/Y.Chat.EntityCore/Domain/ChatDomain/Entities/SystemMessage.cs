@@ -1,8 +1,9 @@
 ﻿using Masa.BuildingBlocks.Ddd.Domain.Entities;
+using Masa.BuildingBlocks.Ddd.Domain.Entities.Auditing;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 {
-    public class SystemMessage:Entity<Guid>
+    public class SystemMessage: AuditEntity<Guid,Guid>
     {
         public Guid UserId { get;private set; }
 
@@ -20,6 +21,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
             Content = content;
             NotfiyType = notfiyType;
             RecivedUserId = recivedUserId;
+            CreationTime = DateTime.Now;
+            Creator = userId;
         }   
     }
 }

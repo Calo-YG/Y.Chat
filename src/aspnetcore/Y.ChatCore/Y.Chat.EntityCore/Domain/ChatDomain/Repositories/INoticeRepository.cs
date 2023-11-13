@@ -7,5 +7,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
     public interface INoticeRepository:IRepository<Notice,Guid>
     {
         Task<List<NoticeModel>> UserNotice(Guid userId, NoticeType type);
+
+        Task GroupRequestAggree(Guid userId, Guid grouid);
     }
 }

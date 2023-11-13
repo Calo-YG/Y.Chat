@@ -101,9 +101,7 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
 
             user.SetAvatar(avatar);
          
-            _context.Users.Update(user);
-
-            await _context.SaveChangesAsync();  
+            _context.Users.Update(user); 
         }
     }
 }

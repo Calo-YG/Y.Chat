@@ -9,8 +9,6 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         public Guid GroupId { get;private set; }
 
         public Guid UserId { get; private set; }
-        public User User { get; private set; }
-        public ChatGroup ChatGroup { get; private set; }
 
         public bool IsAdmin { get; private set; }
         /// <summary>
@@ -39,12 +37,18 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public void Admin()
         {
-            IsAdmin = false;
+            IsAdmin = true;
         }
 
         public void CancelAdmin()
         {
             IsAdmin = false;
+        }
+
+        public void Friend()
+        {
+            IsAdmin=false;
+            Grouper = true;
         }
     }
 }

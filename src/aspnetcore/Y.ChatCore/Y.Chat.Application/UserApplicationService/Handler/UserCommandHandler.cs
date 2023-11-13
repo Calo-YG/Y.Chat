@@ -52,11 +52,15 @@ namespace Y.Chat.Application.UserApplicationService.Handler
 
             var defaultgroup = await _chatContext.ChatGroups.FirstOrDefaultAsync(p => p.Name == "世界频道");
 
+            var defaultuser = await _chatContext.Users.FirstOrDefaultAsync(p => p.Name == "lhl");
+
+            var joindefaultusercmd = new CreateFriendCommand(user.Id, defaultuser.Id, "lhl");
+
             var cmd = new JoinGroupCommand(defaultgroup.Id, user.Id);
 
-            await _eventBus.PublishAsync(cmd);
+            await _eventBus.PublishAsync(joindefaultusercmd);
 
-            await _chatContext.SaveChangesAsync();
+            await _eventBus.PublishAsync(cmd);
         }
 
         [EventHandler]
@@ -74,8 +78,7 @@ namespace Y.Chat.Application.UserApplicationService.Handler
             }
 
             user.SetAutograph(command.Sign);
-            _chatContext.Users.Update(user);
-            await _chatContext.SaveChangesAsync();  
+            _chatContext.Users.Update(user); 
         }
         /// <summary>
         /// 修改好友备注
@@ -95,8 +98,6 @@ namespace Y.Chat.Application.UserApplicationService.Handler
             entity.SetComment(cmd.Content);
 
             _chatContext.Update(entity);
-
-            await _chatContext.SaveChangesAsync();
         }
     }
 }

@@ -1,18 +1,19 @@
 <template>
   <div class="item">
-      <div>
-        <el-avatar :src="props.avatar"></el-avatar>
+      <div class="item-float avatar-item">
+        <el-badge :is-dot="true" type="success" :hidden="!props.online">
+            <el-avatar :src="props.avatar"></el-avatar>
+        </el-badge>
       </div>
-      <div>
-        <el-text class="mx-1" truncated>{{props.name}}</el-text>
-        <el-text class="mx-1" truncated>{{props.description}}</el-text>
+      <div class="item-float description-item">
+        <el-text  truncated>{{props.name}}</el-text>
+        <el-text  truncated>{{props.description}}</el-text>
       </div> 
   </div>
 </template>
 
 <script lang="ts" setup>
 import { defaultavatar } from "/src/utils/static.ts";
-
 
 const props= defineProps({
     id:{
@@ -30,8 +31,12 @@ const props= defineProps({
     avatar:{
         type:String,
         default:defaultavatar
+    },online:{
+        type:Boolean,
+        default:false
     }
 });
+
 
 </script>
 
@@ -44,4 +49,14 @@ const props= defineProps({
     font-size:18px
 }
 
+.item-float{
+    float:left;
+}
+.avatar-item{
+    width:40%;
+}
+.description-item{
+    width:60%;
+    height:40px;
+}
 </style>

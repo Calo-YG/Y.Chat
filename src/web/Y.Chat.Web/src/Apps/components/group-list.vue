@@ -17,7 +17,7 @@
 import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
 import Request from "/src/services/htttpRequest.ts";
 import localCache from "/src/services/localStorage.ts";
-import cofig from "/src/config.ts";
+import config from "/src/config.ts";
 import UserGroupItem from "/src/Apps/components/user-group-item.vue";
 import list from "/src/Apps/components/list.vue";
 
@@ -33,12 +33,13 @@ onMounted(() => {
     .then((res) => {
       if (!!res) {
         res.map((p) => {
-          const avatar = p.avatar==="" ? undefined : p.avatar;
+          const avatar = p.avatar==="" ? undefined : config.getFile(p.avatar);
           const value = {
             id: p.id,
             name: p.name,
             description: p.description,
             avatar: avatar,
+            online:false
           };
           data.value.push(value);
         });

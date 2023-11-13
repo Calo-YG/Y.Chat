@@ -35,5 +35,22 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 
             return  query.ToListAsync();
         }
+        /// <summary>
+        /// 设置群聊同意
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="grouid"></param>
+        /// <returns></returns>
+        public async Task GroupRequestAggree(Guid userId,Guid grouid)
+        {
+            var notices = Context.Notices.Where(p=>p.GroupId==grouid && p.InviteUserId==userId&&p.NoticeType==NoticeType.GroupRequest);
+
+            foreach (var notice in notices)
+            {
+                notice.SetAggreed();
+                notice.SetRead();
+            }
+           await base.UpdateRangeAsync(notices);
+        }
     }
 }

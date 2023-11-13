@@ -13,11 +13,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public Guid UserId { get; set; }
 
-        public User User { get; set; }
-
         public Guid GroupId { get; set; }
-
-        public ChatGroup ChatGroup { get; set; }
 
         public ChatMessage() { }    
         public ChatMessage(Guid userId,Guid groupId,string content,MessageType messageType) 

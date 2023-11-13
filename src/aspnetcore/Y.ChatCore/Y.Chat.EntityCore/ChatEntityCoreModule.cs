@@ -2,6 +2,8 @@
 using Calo.Blog.Common.Minio;
 using Calo.Blog.Common.Redis;
 using Masa.BuildingBlocks.Caching;
+using Masa.BuildingBlocks.Data.UoW;
+using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.FileDomain;
@@ -24,8 +26,8 @@ namespace Y.Chat.EntityCore
                 cacheBuilder => cacheBuilder.UseStackExchangeRedisCache()
             );
             context.Services.AddSignalR()
-                .AddMessagePackProtocol()
-                .AddStackExchangeRedis("124.71.15.19:6379,password=154511,defaultDatabase=1,ssl=false,writeBuffer=10240");
+                .AddMessagePackProtocol();
+                //.AddStackExchangeRedis("124.71.15.19:6379,password=154511,defaultDatabase=1,ssl=false,writeBuffer=10240");
 
             context.Services.AddSequentialGuidGenerator();
             context.Services.AddEventBus();

@@ -1,4 +1,5 @@
 ﻿using Masa.BuildingBlocks.Dispatcher.Events;
+using Masa.Contrib.Data.UoW.EFCore;
 using Masa.Contrib.Dispatcher.Events;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.ChatApplicationService.Commands;
@@ -29,12 +30,19 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         public async Task SendNotice(SendApplyCommand cmd)
         {
             var inviteuserId = cmd.ApplyUserId;
-            var applyuser = await _context.Users.FirstOrDefaultAsync(p => p.Id == cmd.UserId);
-            var content = cmd.IsGroup ? $"{applyuser.Name}入群申请" : $"{applyuser.Name}好友申请";
+
             List<Notice> notices = new List<Notice>();
+
             Notice notice;
             if (cmd.IsGroup)
             {
+                var group =await _context.ChatGroups.FirstOrDefaultAsync(p => p.Id == cmd.ApplyGroupId);
+
+                if(group is null)
+                {
+                    throw new UserFriendlyException("好友不存在");
+                }
+
                 var userids=await _context.GroupUsers.Where(p=>p.GroupId== cmd.ApplyGroupId)
                      .Where(p=>p.IsAdmin||p.Grouper)
                      .Select(p=>  p.UserId)
@@ -44,7 +52,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 {
                     notice = new Notice(cmd.UserId
                         ,user
-                        ,content
+                        ,"入群申请"
                         ,NoticeType.GroupRequest
                         ,cmd.Remark);
 
@@ -53,9 +61,16 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             }
             else
             {
+                var applyuser = await _context.Users.FirstOrDefaultAsync(p => p.Id == cmd.ApplyUserId);
+
+                if(applyuser is null)
+                {
+                    throw new UserFriendlyException("好友不存在");
+                }
+
                 notice = new Notice(cmd.UserId
                     , (Guid)cmd.ApplyUserId
-                    , content
+                    , "好友申请"
                     , NoticeType.FriendRequest
                     , cmd.Remark);
                 notices.Add(notice);
@@ -67,29 +82,31 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         [EventHandler]
         public async Task NoticeAggred(NoticeAgreeCommand cmd)
         {
-            var notice = await _noticeRepository.FindAsync(p => p.Id == cmd.Id && p.RecivedUserId == cmd.ReceviedUserId);
+            var notice = await _context.Notices.FirstOrDefaultAsync(p => p.Id == cmd.Id && p.RecivedUserId == cmd.ReceviedUserId);
 
-            notice.SetAggreed();
-
-            notice.SetRead();
-
-            await _noticeRepository.UpdateAsync(notice);
-
-            if(notice.NoticeType==NoticeType.FriendRequest)
+            if (notice.NoticeType==NoticeType.FriendRequest)
             {
                 var friendcmd = new CreateFriendCommand(notice.InviteUserId,
                     notice.RecivedUserId,
                     notice.Remark);
+
                 await _eventbus.PublishAsync(friendcmd);
+
+                notice.SetAggreed();
+
+                notice.SetRead();
+
+                await _noticeRepository.UpdateAsync(notice);
             }
             else
             {
                 var joingroupcmd = new JoinGroupCommand((Guid)notice.GroupId,
                     notice.InviteUserId);
-                await _eventbus.PublishAsync(joingroupcmd);
-            }
 
-            await _context.SaveChangesAsync();
+                await _eventbus.PublishAsync(joingroupcmd);
+
+                await _noticeRepository.GroupRequestAggree(notice.InviteUserId, (Guid)notice.GroupId);
+            }
         }
 
         [EventHandler]
@@ -97,11 +114,9 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         {
             var notice = await _noticeRepository.FindAsync(p => p.Id == cmd.Id && p.RecivedUserId == cmd.ReceviedId);
 
-            notice.SetAggreed();
+            notice.SetRead();
 
             await _noticeRepository.UpdateAsync(notice);
-
-            await _context.SaveChangesAsync();
         }
     }
 }

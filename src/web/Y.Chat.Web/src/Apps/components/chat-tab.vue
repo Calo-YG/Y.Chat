@@ -9,6 +9,7 @@
           </span>
         </template>
         <!-- <list url="v1/Users/Friends"></list> -->
+        <user-list url="v1/Users/Friends"></user-list>
       </el-tab-pane>
       <el-tab-pane >
         <template #label>
@@ -26,6 +27,7 @@
 <script lang="ts" setup>
 import { reactive, ref ,onMounted,onBeforeMount} from "vue";
 import GroupList from "/src/Apps/components/group-list.vue"
+import UserList from "/src/Apps/components/user-list.vue"
 
 </script>
 

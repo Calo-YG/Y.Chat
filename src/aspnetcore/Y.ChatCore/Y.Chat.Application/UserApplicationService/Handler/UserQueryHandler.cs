@@ -1,5 +1,6 @@
 ﻿using Masa.Contrib.Dispatcher.Events;
 using Masuit.Tools.Security;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.Hubs;
 using Y.Chat.Application.UserApplicationService.Dtos;
@@ -18,15 +19,18 @@ namespace Y.Chat.Application.UserApplicationService.Handler
         private readonly IUserDomainService _userDomainService;
         private readonly IFriendRepository _friendRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public UserQueryHandler(YChatContext context
             , IUserDomainService userDomainService
             , IFriendRepository friendRepository
-            , IUserRepository userRepository)
+            , IUserRepository userRepository
+            , IHttpContextAccessor httpContextAccessor)
         {
             _context = context; 
             _userDomainService = userDomainService;
             _friendRepository = friendRepository;
             _userRepository = userRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [EventHandler]
@@ -45,6 +49,8 @@ namespace Y.Chat.Application.UserApplicationService.Handler
             var token = _userDomainService.GenerateToken(user.Name, user.Id);
 
             await RedisHelper.SetAsync(user.Id.ToString(), token);
+
+            _httpContextAccessor.HttpContext.Response.Cookies.Append("x-access-token", token);
 
             query.Result = new Dtos.AuthenticationDto
             {

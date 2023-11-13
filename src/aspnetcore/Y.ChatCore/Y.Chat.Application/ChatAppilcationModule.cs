@@ -1,6 +1,7 @@
-﻿using Calo.Blog.Common.Authorization.Authorize;
-using FluentValidation;
+﻿using FluentValidation;
+using Masa.BuildingBlocks.Data.UoW;
 using Masa.BuildingBlocks.Dispatcher.Events;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Y.Chat.Application.UserApplicationService.Handler;
@@ -19,7 +20,11 @@ namespace Y.Chat.Application
         {
             context.Services.AddMapster();
             context.Services.AddValidatorsFromAssembly(Assembly.GetEntryAssembly());
-            context.Services.AddEventBus(eventBusBuilder => eventBusBuilder.UseMiddleware(typeof(ValidatorEventMiddleware<>)));
+            context.Services.AddEventBus(eventBusBuilder =>
+            {
+                eventBusBuilder.UseMiddleware(typeof(ValidatorEventMiddleware<>));
+                eventBusBuilder.UseUoW<YChatContext>(options => options.UseSqlServer());
+            });
             context.Services.AddEventBus();
             context.Services.Subscribes(p =>
             {

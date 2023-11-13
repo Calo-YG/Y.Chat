@@ -25,6 +25,7 @@ builder.Services.AddMasaDbContext<YChatContext>(optionsBuilder =>
 {
     optionsBuilder.UseSqlServer(configruartion.GetSection("ConnectionString:Default").Value);
     optionsBuilder.UseFilter();
+   // optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
 builder.Services.AddDomainEventBus(options =>

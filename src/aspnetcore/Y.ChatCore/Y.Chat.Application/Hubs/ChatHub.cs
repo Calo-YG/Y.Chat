@@ -25,9 +25,8 @@ namespace Y.Chat.EntityCore.Hubs
         public override async Task OnConnectedAsync()
         {
             var userId = GetUserId();
-            var status = new UserStatus(userId, GetConnectionId());
 
-            await RedisHelper.SetAsync($"{ChatConst.Online}_{userId}",userId);
+            await RedisHelper.SetAsync($"{ChatConst.Online}_{userId}",GetConnectionId());
             await RedisHelper.LPushAsync($"{ChatConst.UserOnlineList}_{userId}",userId);
 
             var usergroup = new UserGroupQuery((Guid)userId);
@@ -78,6 +77,7 @@ namespace Y.Chat.EntityCore.Hubs
             }
 
             var systemMsg = new CreateNotifyCommand(userId, "用户下线", NotfiyType.Online);
+
             await _eventBus.PublishAsync(systemMsg);
 
             await RedisHelper.DelAsync($"{ChatConst.Online}_{userId}");
@@ -93,40 +93,50 @@ namespace Y.Chat.EntityCore.Hubs
         /// <returns></returns>
         public async Task SendMessage(string content,Guid groupid,string type)
         {
-            if (string.IsNullOrEmpty(content))
+            try
             {
-                return;
-            }      
-            var userId=GetUserId();
-
-            string key = $"user:{userId}:count";
-
-            var exists =await RedisHelper.ExistsAsync(key);
-            if (exists)
-            {
-                var count = await RedisHelper.GetAsync<int>(key);
-
-                if (count>=25)
+                if (string.IsNullOrEmpty(content))
                 {
                     return;
                 }
-            }
-            var messagetype = ChangeEnum.Change(type);
-            var messagecmd = new CreateMessageCommand(userId,groupid, content, messagetype);
+                var userId = GetUserId();
 
-            if (exists)
+                string key = $"user:{userId}:count";
+
+                var exists = await RedisHelper.ExistsAsync(key);
+                if (exists)
+                {
+                    var count = await RedisHelper.GetAsync<int>(key);
+
+                    if (count >= 25)
+                    {
+                        return;
+                    }
+                }
+                var messagetype = ChangeEnum.Change(type);
+                var messagecmd = new CreateMessageCommand(userId, groupid, content, messagetype);
+
+                if (exists)
+                {
+                    await RedisHelper.IncrByAsync(key, 1);
+                }
+                else
+                {
+                    await RedisHelper.SetNxAsync(key, 1);
+                    await RedisHelper.ExpireAsync(key, 60);
+                }
+
+                await _eventBus.PublishAsync(messagecmd);
+
+                await Clients.Groups(groupid.ToString("N")).SendAsync(ChatConst.Recive, groupid, content);
+            }
+            catch (Exception ex)
             {
-                await RedisHelper.IncrByAsync(key, 1);
-            }
-            else
-            {
-                await RedisHelper.SetNxAsync(key, 1);
-                await RedisHelper.ExpireAsync(key, 60);
+                _logger.LogWarning("消息发送失败");
+                _logger.LogError(ex.Message);
+                throw;
             }
 
-            await _eventBus.PublishAsync(messagecmd);
-
-            await Clients.Groups(groupid.ToString("N")).SendAsync("ReciveMessage", groupid, content);
         }
 
         private Guid GetUserId()

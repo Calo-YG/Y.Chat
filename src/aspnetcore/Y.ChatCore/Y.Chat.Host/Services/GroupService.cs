@@ -25,7 +25,7 @@ namespace Y.Chat.Host.Services
         /// <returns></returns>
         [Authorize]
         [RoutePattern(HttpMethod ="Post")]
-        public async Task Create(CreateGroupInput input)
+        public async Task Create([FromBody]CreateGroupInput input)
         {
             var command = new CreateGroupCommand(input.UserId
                 ,input.Name

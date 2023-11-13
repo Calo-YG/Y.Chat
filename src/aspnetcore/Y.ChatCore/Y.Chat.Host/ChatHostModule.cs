@@ -150,23 +150,28 @@ namespace Y.Chat.Host
             if (!any)
             {
                 var user = dbcontext.Users.FirstOrDefault(p => p.Name == "wyg");
-
+                var defaultuser = dbcontext.Users.FirstOrDefault(p => p.Name == "lhl");
                 if (user is null)
                 {
-                    user = new User("wyg","wyg154511","3164522206");
+                    user = new User("wyg","wyg154511","3164522206@qq.com");
                     dbcontext.Users.Add(user);
                 }
-
+                if (defaultuser is null)
+                {
+                    defaultuser = new User("lhl", "wyg154511", "3164522206LHL@qq.com");
+                    dbcontext.Users.Add(defaultuser);
+                }
                 var defaultGroup = new ChatGroup("世界频道",
                     user.Id,
                     "世界频道欢迎来访");
                 defaultGroup.SetGroupNumber();
-
+                
                 var chatgoupuser = new GroupUser(defaultGroup.Id,user.Id);
                 chatgoupuser.Owner();
 
                 dbcontext.ChatGroups.Add(defaultGroup);
                 dbcontext.GroupUsers.Add(chatgoupuser);
+
                 dbcontext.SaveChanges();
             }
 

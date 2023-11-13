@@ -1,4 +1,5 @@
 ﻿using Y.Chat.Application.ChatApplicationService.Dtos;
+using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 
 namespace Y.Chat.Application.ChatApplicationService
 {

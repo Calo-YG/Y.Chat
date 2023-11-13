@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Y.Chat.EntityCore;
 
@@ -11,9 +12,11 @@ using Y.Chat.EntityCore;
 namespace Y.Chat.EntityCore.Migrations
 {
     [DbContext(typeof(YChatContext))]
-    partial class YChatContextModelSnapshot : ModelSnapshot
+    [Migration("20231113133328_update_table_chatmessage_1")]
+    partial class update_table_chatmessage_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,9 +75,6 @@ namespace Y.Chat.EntityCore.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,6 +83,9 @@ namespace Y.Chat.EntityCore.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("Creator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("Id")
@@ -97,7 +100,7 @@ namespace Y.Chat.EntityCore.Migrations
                     b.Property<Guid>("Modifier")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("UserId", "GroupId");
+                    b.HasKey("UserId");
 
                     b.HasIndex("Id");
 
@@ -338,6 +341,8 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Friends");
                 });
 
@@ -385,6 +390,17 @@ namespace Y.Chat.EntityCore.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatMessage", b =>
+                {
+                    b.HasOne("Y.Chat.EntityCore.Domain.UserDomain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.FileDomain.Entitis.FileSystem", b =>
                 {
                     b.HasOne("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatGroup", "ChatGroup")
@@ -392,6 +408,17 @@ namespace Y.Chat.EntityCore.Migrations
                         .HasForeignKey("GroupId");
 
                     b.Navigation("ChatGroup");
+                });
+
+            modelBuilder.Entity("Y.Chat.EntityCore.Domain.UserDomain.Entities.Friends", b =>
+                {
+                    b.HasOne("Y.Chat.EntityCore.Domain.UserDomain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

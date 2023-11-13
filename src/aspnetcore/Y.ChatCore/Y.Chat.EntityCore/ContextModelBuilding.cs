@@ -29,7 +29,6 @@ namespace Y.Chat.EntityCore
                 options.TryConfigureConcurrencyStamp();
                 options.HasKey(p => p.Id);
 
-                options.HasOne(p => p.User).WithMany().HasForeignKey(p => p.UserId);
                 options.Property(p=>p.Comment).HasMaxLength(20);
             });
             #endregion
@@ -53,9 +52,6 @@ namespace Y.Chat.EntityCore
                 options.HasKey(p => p.Id);
 
                 options.HasKey(x => new { x.UserId, x.GroupId });
-
-                options.HasOne(p => p.User).WithMany().HasForeignKey(p => p.UserId);
-                options.HasOne(p => p.ChatGroup).WithMany().HasForeignKey(p => p.GroupId);
             });
 
             builder.Entity<ChatMessage>(options =>
@@ -63,10 +59,7 @@ namespace Y.Chat.EntityCore
                 options.TryConfigureConcurrencyStamp();
                 options.HasIndex(p => p.Id);
 
-                options.HasKey(x => new { x.UserId, x.GroupId });
-
-                options.HasOne(p => p.User).WithMany().HasForeignKey(p => p.UserId);
-                options.HasOne(p => p.ChatGroup).WithMany().HasForeignKey(p => p.GroupId);
+                options.HasKey(x => new { x.UserId ,x.GroupId});
             });
 
             //builder.Entity<FriendMessage>(options =>

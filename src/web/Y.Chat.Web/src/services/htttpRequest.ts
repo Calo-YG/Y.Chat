@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import config from '../config';
 import localStorage from './localStorage.ts'
+import { ElNotification } from 'element-plus'
 
 
 class Request {
@@ -26,11 +27,14 @@ class Request {
                 // 只需要返回data即可
             },
             (error) => {
-                // if(error.response.status === 401){
-                //     localStorage.clear();
-                //     location.href = '/login';
-                // }
-                
+                if(error.response.status === 401){
+                    ElNotification({
+                        message: '登录过期',
+                        type: 'warning',
+                    })
+                    localStorage.clear();
+                    location.href = '/login';
+                }
                 return error
             },
         )

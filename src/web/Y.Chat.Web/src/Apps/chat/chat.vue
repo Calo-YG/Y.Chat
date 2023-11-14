@@ -6,7 +6,10 @@
         <chat-tab></chat-tab>
       </el-aside>
       <el-container>
-        <el-main></el-main>
+        <el-main>
+         <chat-list></chat-list>
+         <chat-main></chat-main>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -15,9 +18,12 @@
 <script lang="ts" setup>
 import info from '/src/Apps/components/info.vue'
 import chatTab from '/src/Apps/components/chat-tab.vue'
-import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
+import { reactive, ref ,onMounted,onBeforeUnmount} from "vue"
 import { provide, inject } from 'vue'
 import chathub from '/src/Apps/hubs/chathub.ts'
+import ChatList from '/src/Apps/components/chat-list.vue'
+import ChatMain from '/src/Apps/components/chat-main.vue'
+
 
 
 onMounted(()=>{

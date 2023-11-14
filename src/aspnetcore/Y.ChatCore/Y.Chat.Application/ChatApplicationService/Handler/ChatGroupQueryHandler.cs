@@ -1,8 +1,10 @@
 ﻿using Masa.Contrib.Dispatcher.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Minio.DataModel;
 using Y.Chat.Application.ChatApplicationService.Dtos;
 using Y.Chat.Application.ChatApplicationService.Queries;
+using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 
@@ -43,18 +45,18 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         public async Task GroupUser(GroupUserQuery query)
         {
             var users = await _groupRepository.GroupUsers(query.GroupId).ToListAsync();
-
             var data = users.Map<List<GroupUserDto>>();
 
-            var id = query.GroupId.ToString("N");
+            var key = $"{ChatConst.Group}_{query.GroupId}";
 
-            List<string>? onlinuser = null;
+            string[]? onlinuser = null;
 
-            var exists = await RedisHelper.ExistsAsync(id);
+            var exists = await RedisHelper.ExistsAsync(key);
 
             if (exists)
             {
-                onlinuser = await RedisHelper.GetAsync<List<string>>(id);
+                onlinuser = await RedisHelper.LRangeAsync(key,0,-1);
+                onlinuser = onlinuser.Distinct().ToArray();
             }
 
             foreach (var user in data)

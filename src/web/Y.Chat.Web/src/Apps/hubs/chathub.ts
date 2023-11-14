@@ -23,7 +23,7 @@ class ChatHub {
         .configureLogging(signalR.LogLevel.Information)
         .build();
       this.connection.keepAliveIntervalInMilliseconds = 5;
-      this.connection.on("InitChat",(msg)=>{
+      this.connection.on("ReciveMessage",(id,msg)=>{
         console.info(msg);
       })
     }
@@ -52,7 +52,7 @@ class ChatHub {
 
   public send(messsage:string):void{
     this.initHunConnection();
-    this.connection!.send("",messsage)
+    this.connection!.send("SendMessage",messsage,'5b1de9da-27a9-6b1c-ba94-3a0edb6314cd','Text')
   }
 
   public close(){

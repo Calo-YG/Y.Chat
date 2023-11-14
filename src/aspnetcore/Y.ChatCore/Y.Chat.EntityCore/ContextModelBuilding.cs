@@ -59,7 +59,7 @@ namespace Y.Chat.EntityCore
                 options.TryConfigureConcurrencyStamp();
                 options.HasIndex(p => p.Id);
 
-                options.HasKey(x => new { x.UserId ,x.GroupId});
+                //options.HasKey(x => new { x.UserId ,x.GroupId});
             });
 
             //builder.Entity<FriendMessage>(options =>

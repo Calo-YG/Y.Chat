@@ -21,6 +21,9 @@
         <group-list  url="v1/Groups/UserGroup"></group-list>
       </el-tab-pane>
     </el-tabs>
+    <div>
+    <el-button @click="send()" primary>发送</el-button>
+</div>
   </div>
 </template>
 
@@ -29,6 +32,11 @@ import { reactive, ref ,onMounted,onBeforeMount} from "vue";
 import GroupList from "/src/Apps/components/group-list.vue"
 import UserList from "/src/Apps/components/user-list.vue"
 
+import chathub  from '/src/Apps/hubs/chathub.ts'
+
+const send =()=>{
+    chathub.send('你好')
+}
 </script>
 
 <style lang="less" scoped></style>

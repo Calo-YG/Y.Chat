@@ -3,10 +3,12 @@ using Masa.BuildingBlocks.Dispatcher.Events;
 using Masa.Contrib.Dispatcher.Events;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Minio.DataModel;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
+using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 using Y.Chat.EntityCore.Hubs;
 
@@ -18,13 +20,16 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         private readonly YChatContext Context;
         private readonly IHubContext<ChatHub> _chatContext;
         private readonly IEventBus _eventbus;
+        private readonly IFriendRepository _friendRepository;
         public  FriendCommadHandler(YChatContext context
             , IHubContext<ChatHub> hubContext
-            , IEventBus eventBus)
+            , IEventBus eventBus
+            , IFriendRepository friendRepository)
         {
             Context = context;
             _chatContext = hubContext;
             _eventbus = eventBus;
+            _friendRepository = friendRepository;
         }
         [EventHandler]
         public async Task CreateFriend(CreateFriendCommand cmd)
@@ -82,6 +87,44 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             await Context.Friends.AddRangeAsync(friend, userfriend);
 
             await _eventbus.PublishAsync(message);
+        }
+
+        [EventHandler]
+        public async Task DeleteUser(DeleteFriendCommand cmd)
+        {
+            var friends =await _friendRepository.HasFriend(cmd.ChatId);
+
+            if(friends.Count < 2)
+            {
+                throw new UserFriendlyException("好友关系不存在");
+            }
+            var idstr=cmd.ChatId.ToString();
+
+            var key = $"{ChatConst.Group}_{idstr}";
+
+            var userConnectionId = await RedisHelper.GetAsync($"{ChatConst.Online}_{friends[0].UserId}");
+
+            var connectionId = await RedisHelper.GetAsync($"{ChatConst.Online}_{friends[1].UserId}");
+
+            await _friendRepository.RemoveRangeAsync(friends);
+
+            if (!string.IsNullOrEmpty(connectionId))
+            {
+                await _chatContext.Groups.RemoveFromGroupAsync(idstr, userConnectionId);
+            }
+
+            if(!string.IsNullOrEmpty(connectionId))
+            {
+                await _chatContext.Groups.RemoveFromGroupAsync(idstr, userConnectionId);
+            }
+
+            await RedisHelper.DelAsync(key);
+
+            var deleteevent = new DeleteFriendAllMessageEvent(cmd.ChatId);
+           
+            await _eventbus.PublishAsync(deleteevent);
+
+            await Context.SaveChangesAsync();
         }
     }
 }

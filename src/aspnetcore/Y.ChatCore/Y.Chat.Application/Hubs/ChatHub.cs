@@ -1,12 +1,15 @@
 ﻿using Masa.BuildingBlocks.Dispatcher.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.ChatApplicationService.Queries;
 using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
+using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
+using Y.Chat.EntityCore.Domain.UserDomain.Repositories;
 
 namespace Y.Chat.EntityCore.Hubs
 {
@@ -15,11 +18,13 @@ namespace Y.Chat.EntityCore.Hubs
     {
         private readonly ILogger _logger;
         private readonly IEventBus _eventBus;
+        private readonly IFriendRepository _friendRepository;
 
-        public ChatHub(ILoggerFactory loggerFactory, IEventBus eventBus)
+        public ChatHub(ILoggerFactory loggerFactory, IEventBus eventBus, IFriendRepository friendRepository)
         {
             _logger = loggerFactory.CreateLogger<ChatHub>();
             _eventBus = eventBus;
+            _friendRepository = friendRepository;
         }
 
         public override async Task OnConnectedAsync()
@@ -31,13 +36,20 @@ namespace Y.Chat.EntityCore.Hubs
 
             var usergroup = new UserGroupQuery((Guid)userId);
 
+            var groupids = new List<Guid>();
+
+            var friends = await _friendRepository.GetUserFriends(userId).ToListAsync();
+
             await _eventBus.PublishAsync(usergroup);
 
-            foreach (var item in usergroup.Result)
+            groupids.AddRange(friends.Select(p => p.ChatId));
+            groupids.AddRange(usergroup.Result.Select(p => p.Id));
+
+            foreach (var item in groupids.Distinct())
             {
-                var key = $"{ChatConst.Group}_{item.Id}";
+                var key = $"{ChatConst.Group}_{item}";
                 // 加入群组
-                await Groups.AddToGroupAsync(Context.ConnectionId, item.Id.ToString("N"));
+                await Groups.AddToGroupAsync(Context.ConnectionId, item.ToString("N"));
 
                 // 如果用户不存在当前群聊在线人数中，则添加。
                 await RedisHelper.LRemAsync(key, -1, userId);
@@ -61,17 +73,24 @@ namespace Y.Chat.EntityCore.Hubs
                 return;
             }
 
-            var usergroup = new UserGroupQuery(userId);
+            var usergroup = new UserGroupQuery((Guid)userId);
+
+            var groupids = new List<Guid>();
+
+            var friends = await _friendRepository.GetUserFriends(userId).ToListAsync();
 
             await _eventBus.PublishAsync(usergroup);
 
+            groupids.AddRange(friends.Select(p => p.ChatId));
+            groupids.AddRange(usergroup.Result.Select(p => p.Id));
+
             var connectionid = GetConnectionId();
 
-            foreach (var item in usergroup.Result)
+            foreach (var item in groupids)
             {
-                var key = $"{ChatConst.Group}_{item.Id}";
+                var key = $"{ChatConst.Group}_{item}";
 
-                await Groups.RemoveFromGroupAsync(connectionid, item.Id.ToString("N"));
+                await Groups.RemoveFromGroupAsync(connectionid, item.ToString("N"));
 
                 await RedisHelper.LRemAsync(key, -1, userId);
             }

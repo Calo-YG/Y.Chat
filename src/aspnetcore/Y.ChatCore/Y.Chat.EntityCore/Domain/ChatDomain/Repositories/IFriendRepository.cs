@@ -1,9 +1,13 @@
-﻿using Y.Chat.EntityCore.Domain.UserDomain.Entities;
+﻿using Masa.BuildingBlocks.Ddd.Domain.Repositories;
+using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
+using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 {
-    public interface IFriendRepository
+    public interface IFriendRepository:IRepository<Friends,Guid>
     {
-        IQueryable<User> GetUserFriends(Guid userId);
+        IQueryable<FriendsModel> GetUserFriends(Guid userId);
+
+        Task<List<Friends>> HasFriend(Guid chatId);
     }
 }

@@ -67,7 +67,7 @@ namespace Y.Chat.Application.UserApplicationService.Handler
 
         public async Task Friends(FriendsQuery query)
         {
-            var list = await _userRepository.GetFriends(query.UserId)
+            var list = await _friendRepository.GetUserFriends(query.UserId)
                 .ToListAsync();
             
             query.Result = list.Map<List<FriendDto>>();

@@ -1,5 +1,6 @@
 ﻿using Calo.Blog.Common.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.UserApplicationService;
 using Y.Chat.Application.UserApplicationService.Commands;
 using Y.Chat.Application.UserApplicationService.Dtos;
@@ -66,6 +67,14 @@ namespace Y.Chat.Host.Services
             var cmd = new UpdateFriendReamrkCommand(input.UserId,
                 input.FriendId,
                 input.Content);
+
+            await _eventBus.PublishAsync(cmd);
+        }
+        [Authorize]
+        [RoutePattern(HttpMethod = "Get")]
+        public async Task DeleteFriend(Guid chatId)
+        {
+            var cmd = new DeleteFriendCommand(chatId);
 
             await _eventBus.PublishAsync(cmd);
         }

@@ -34,7 +34,7 @@
             }
             if (MessageType.Text.ToString() == type)
             {
-                return MessageType.Img;
+                return MessageType.Text;
             }
             if (MessageType.Emojis.ToString() == type)
             {

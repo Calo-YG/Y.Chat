@@ -3,8 +3,6 @@ using Masa.BuildingBlocks.Dispatcher.Events;
 using Masa.Contrib.Dispatcher.Events;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using Minio.DataModel;
-using System;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore;
@@ -12,7 +10,6 @@ using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.FileDomain;
 using Y.Chat.EntityCore.Domain.FileDomain.Entitis;
-using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 using Y.Chat.EntityCore.Hubs;
 
 namespace Y.Chat.Application.ChatApplicationService.Handler

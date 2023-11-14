@@ -2,12 +2,12 @@
   <div class="item">
       <div class="item-float avatar-item">
         <el-badge :is-dot="true" type="success" :hidden="!props.online">
-            <el-avatar :src="props.avatar"></el-avatar>
+            <el-avatar :src="props.avatar" :size="50"></el-avatar>
         </el-badge>
       </div>
       <div class="item-float description-item">
-        <el-text  truncated>{{props.name}}</el-text>
-        <el-text  truncated>{{props.description}}</el-text>
+         <span><el-text truncated>{{props.name}}</el-text></span>
+         <span><el-text truncated>{{props.description}}</el-text></span>
       </div> 
   </div>
 </template>

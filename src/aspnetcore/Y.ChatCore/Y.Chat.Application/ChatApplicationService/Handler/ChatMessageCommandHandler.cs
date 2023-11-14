@@ -22,6 +22,8 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 cmd.Type);
 
             await Context.AddAsync(message); 
+
+            await Context.SaveChangesAsync();   
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div v-if="!!props.data">
-    <ul class="infinite-list" style="overflow: auto">
+    <ul class="infinite-list">
       <li v-for="item in props.data" :key="item" class="infinite-list-item">
         <slot name="default" :item="item"></slot>
     </li>
@@ -19,9 +19,9 @@ const props = defineProps({
 
 <style lang="less" scoped>
 .infinite-list {
-  height: 100px;
-  padding: 0;
-  margin: 0;
+  height: 60px;
+  padding: 0px;
+  margin: 0px;
   list-style: none;
 }
 .infinite-list .infinite-list-item {

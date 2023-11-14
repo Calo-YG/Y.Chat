@@ -37,7 +37,7 @@ onMounted(() => {
           const avatar = p.avatar==="" ? undefined : config.getFile(p.avatar);
           const value = {
             id: p.id,
-            name: p.name+"("+p.comment+"))",
+            name: p.name+"("+p.comment+")",
             description: p.sign,
             avatar: avatar,
             online:p.online

@@ -2,12 +2,10 @@
     <div class="common-layout">
     <el-container>
       <el-aside width="240px">
-        <info></info>
         <chat-tab></chat-tab>
       </el-aside>
       <el-container>
         <el-main>
-         <chat-list></chat-list>
          <chat-main></chat-main>
         </el-main>
       </el-container>

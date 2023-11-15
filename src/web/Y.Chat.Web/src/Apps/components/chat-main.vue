@@ -7,7 +7,7 @@
 
 <script lang='ts' setup>
 import Message from '/src/Apps/components/message.vue'
-import SendMessge from '/src/Apps/components/send-message.vue'
+import SendMessage from '/src/Apps/components/send-message.vue'
 
 </script>
 

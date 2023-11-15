@@ -28,12 +28,12 @@ class Request {
             },
             (error) => {
                 if(error.response.status === 401){
+                    localStorage.clear();
+                    location.href = '/login';
                     ElNotification({
                         message: '登录过期',
                         type: 'warning',
                     })
-                    localStorage.clear();
-                    location.href = '/login';
                 }
                 return error
             },

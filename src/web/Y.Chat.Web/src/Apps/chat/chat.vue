@@ -1,7 +1,7 @@
 <template>
     <div class="common-layout">
     <el-container>
-      <el-aside width="240px">
+      <el-aside width="280px">
         <chat-tab></chat-tab>
       </el-aside>
       <el-container>
@@ -35,6 +35,10 @@ onBeforeUnmount(()=>{
 
 <style lang="less" scoped>
 .common-layout{
-    padding-top:0px;
+    background-color: #efefef;
+    width:100%;
+    border-radius:5px;
+    margin:0px;
+    padding:-6px;
 }
 </style>

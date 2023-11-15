@@ -1,5 +1,5 @@
 <template>
-<a-list item-layout="horizontal" :data-source="data">
+ <a-list item-layout="horizontal" :data-source="data">
  <template #renderItem="{ item }">
   <chat-list-item :chat-id="item.id" :name="item.name" :avatar="item.avatar"></chat-list-item>
  </template>

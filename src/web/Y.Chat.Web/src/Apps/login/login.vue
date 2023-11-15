@@ -20,7 +20,7 @@
               type="password"
               autocomplete="off"
               clearable
-              show-password="true"
+              :show-password="true"
             />
           </el-form-item>
           <el-form-item>
@@ -48,8 +48,12 @@ const router = useRouter();
 
 const ruleFormRef = ref<FormInstance>();
 
-const validatePass = (value: any, callback: any) => {
-  console.info(callback);
+const ruleForm = ref<RuleForm>({
+  username:'',
+  password:''
+})
+
+const validatePassword = (value: any, callback: any) => {
   if (value === "") {
     callback(new Error("请输入密码"));
     return;
@@ -64,12 +68,8 @@ const validateUserName = (value: any, callback: any) => {
   callback(true);
 };
 
-const ruleForm = ref({
-  username: "",
-  password: "",
-});
-const rules = reactive<FormRules<typeof ruleForm>>({
-  username: [{ required: true, validator: validatePass, trigger: "blur" }],
+const rules = reactive<FormRules<RuleForm>>({
+  username: [{ required: true, validator: validatePassword, trigger: "blur" }],
   password: [{ required: true, validator: validateUserName, trigger: "blur" }],
 });
 

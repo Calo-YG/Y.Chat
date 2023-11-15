@@ -9,7 +9,6 @@ using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
-using Y.Chat.EntityCore.Domain.UserDomain.Repositories;
 
 namespace Y.Chat.EntityCore.Hubs
 {

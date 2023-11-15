@@ -8,6 +8,7 @@
           :description="item.description"
           :avatar="item.avatar"
           :online="item.online"
+          :chat-id="item.chatId"
         ></user-group-item>
       </template>
     </list>
@@ -35,12 +36,14 @@ onMounted(() => {
       if (!!res) {
         res.map((p) => {
           const avatar = p.avatar==="" ? undefined : config.getFile(p.avatar);
+          const name = !!p.comment ? p.name+"("+p.comment+")":p.name
           const value = {
             id: p.id,
-            name: p.name+"("+p.comment+")",
+            name: name,
             description: p.sign,
             avatar: avatar,
-            online:p.online
+            online:p.online,
+            chatId:p.chatId
           };
           data.value.push(value);
         });

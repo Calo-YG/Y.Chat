@@ -1,7 +1,7 @@
 <template>
-  <div class="item">
+  <div class="item" @click="addchat()">
       <div class="item-float avatar-item">
-        <el-badge :is-dot="true" type="success" :hidden="!props.online">
+        <el-badge :is-dot="true" type="success" :hidden="!props.online" @click.self="info()">
             <el-avatar :src="props.avatar" :size="50"></el-avatar>
         </el-badge>
       </div>
@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import { defaultavatar } from "/src/utils/static.ts";
+import mitt from '/src/utils/mitt.ts'
 
 const props= defineProps({
     id:{
@@ -34,9 +35,24 @@ const props= defineProps({
     },online:{
         type:Boolean,
         default:false
+    },
+    chatId:{
+        type:String,
+        required:true
     }
 });
 
+const addchat = ()=>{
+  mitt.emit('addchat',{
+    id:props.id,
+    name:props.name,
+    avatar:props.avatar
+  })
+}
+
+const info = ()=>{
+    console.info(props.id)
+}
 
 </script>
 

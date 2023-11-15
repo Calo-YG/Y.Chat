@@ -13,5 +13,7 @@
         public string Comment { get; set; }
 
         public bool Online { get; set; }
+
+        public Guid ChatId { get; set; }    
     }
 }

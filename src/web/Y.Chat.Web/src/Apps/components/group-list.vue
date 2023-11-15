@@ -7,6 +7,7 @@
           :name="item.name"
           :description="item.description"
           :avatar="item.avatar"
+          :chat-id="item.id"
         ></user-group-item>
       </template>
     </list>

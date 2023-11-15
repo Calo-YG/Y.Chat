@@ -25,7 +25,8 @@ const init=()=>{
        data.value=value
     }
     mitt.on('addchat',(item)=>{
-        const has = data.value.some(p=>p.id ===item.chatId)
+        const has = data.value.some(p=>p.id ===item.id)
+        console.info(data)
         if(!has){
             data.value.unshift(item)
             cachelist()

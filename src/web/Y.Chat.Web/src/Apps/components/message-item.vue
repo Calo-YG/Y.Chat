@@ -1,42 +1,17 @@
 <template>
   <div class="item">
-    <el-badge
-        @click.self="info()"
-      >
-        <img class="face" :src="props.avatar" />
-      </el-badge>
+    <img class="face" :src="props.avatar" />
     <div class="des">
-        <div class="nickName"><el-text truncated type="info">{{ props.name }}</el-text></div>
-        <div class="signature"><el-text truncated type="info"></el-text></div>
+      <div class="nickName"><el-text truncated type="info">{{ props.name }}</el-text></div>
+      <!-- 宽度自适应 -->
     </div>
-</div>
+  </div>
 </template>
-
 <script lang="ts" setup>
-import {ref,onMounted} from 'vue'
-import { defaultavatar } from "/src/utils/static.ts";
 
-const props = defineProps({
-    id:{
-        type:String,
-        required:true,
-    },
-    name:{
-        type:String,
-        required:true
-    },
-    avatar:{
-        default:defaultavatar
-    }
-})
-
-onMounted(()=>{
-  console.info(props)
-})
 </script>
 
 <style lang="less" scoped>
-
 .tip {
   height: 20px;
   line-height: 20px;

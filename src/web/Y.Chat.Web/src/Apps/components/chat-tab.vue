@@ -96,7 +96,7 @@ li {
 }
 
 .message-contact-box{
-  width:90%;
+  width:100%;
   height:80vh;
   margin:0 0;
 }

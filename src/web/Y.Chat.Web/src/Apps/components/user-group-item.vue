@@ -48,7 +48,7 @@ const props = defineProps({
 
 const addchat = () => {
   mitt.emit("addchat", {
-    id: props.id,
+    id: props.chatId,
     name: props.name,
     avatar: props.avatar,
   });

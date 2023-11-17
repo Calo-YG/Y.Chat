@@ -2,8 +2,6 @@
 using Calo.Blog.Common.Minio;
 using Calo.Blog.Common.Redis;
 using Masa.BuildingBlocks.Caching;
-using Masa.BuildingBlocks.Data.UoW;
-using Masa.BuildingBlocks.Ddd.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.FileDomain;
@@ -38,6 +36,7 @@ namespace Y.Chat.EntityCore
             context.Services.AddTransient<IGroupRepository, GroupRepository>();
             context.Services.AddTransient<IFriendRepository, FriendRepository>();
             context.Services.AddTransient<INoticeRepository, NoticeRepository>();
+            context.Services.AddTransient<IMessageRepositroy, MessageRepository>();
 
             //context.Services.AddAutoInject(Assembly.GetExecutingAssembly());
         }

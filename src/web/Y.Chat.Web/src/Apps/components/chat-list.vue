@@ -1,44 +1,43 @@
 <template>
- <a-list item-layout="horizontal" :data-source="data">
- <template #renderItem="{ item }">
-  <chat-list-item :chat-id="item.id" :name="item.name" :avatar="item.avatar"></chat-list-item>
- </template>
-</a-list>
+  <div>
+    <list :data="data">
+      <template #default="{ item }">
+        <chat-list-item
+          :id="item.id"
+          :name="item.name"
+          :avatar="item.avatar"
+        ></chat-list-item>
+      </template>
+    </list>
+  </div>
 </template>
 
-<script lang='ts' setup>
-import { ref,onMounted } from 'vue'
-import List from 'ant-design-vue'
-import mitt from '/src/utils/mitt.ts'
-import ChatListItem from '/src/Apps/components/chat-list-item.vue'
-import localCache from '/src/services/localStorage.ts'
+<script lang="ts" setup>
+import { ref, onMounted, onBeforeMount } from "vue";
+import List from "/src/Apps/components/list.vue";
+import mitt from "/src/utils/mitt.ts";
+import ChatListItem from "/src/Apps/components/chat-list-item.vue";
+import localCache from "/src/services/localStorage.ts";
 
-const data = ref([])
+const data = ref([]);
 
-onMounted(()=>{
-    init()
-})
-
-const init=()=>{
-    const value = localCache.getCache('chat-list')
-    if(!!value){
-       data.value=value
+onMounted(() => {
+  const value = localCache.getCache("chat-list");
+  data.value = value;
+});
+onBeforeMount(() => {
+  mitt.on("addchat", (item) => {
+    const has = data.value.some((p) => p.id === item.id);
+    if (!has) {
+      data.value.unshift(item);
+      cachelist();
     }
-    mitt.on('addchat',(item)=>{
-        const has = data.value.some(p=>p.id ===item.id)
-        console.info(data)
-        if(!has){
-            data.value.unshift(item)
-            cachelist()
-        }
-    })
-}
+  });
+});
 
-const cachelist = ()=>{
-    localCache.setCache('chat-list',data.value)
-}
-
+const cachelist = () => {
+  localCache.setCache("chat-list", data.value);
+};
 </script>
 
-<style lang='less' scoped>
-</style>
+<style lang="less" scoped></style>

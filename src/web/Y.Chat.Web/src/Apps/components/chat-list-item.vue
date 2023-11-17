@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" @click="change(props.id)">
     <el-badge
         @click.self="info()"
       >
@@ -15,6 +15,10 @@
 <script lang="ts" setup>
 import {ref,onMounted} from 'vue'
 import { defaultavatar } from "/src/utils/static.ts";
+import {chatChangeState} from '/src/hooks/chatchange.ts'
+
+const store = chatChangeState()
+const {change}=store
 
 const props = defineProps({
     id:{
@@ -33,6 +37,7 @@ const props = defineProps({
 onMounted(()=>{
   console.info(props)
 })
+
 </script>
 
 <style lang="less" scoped>

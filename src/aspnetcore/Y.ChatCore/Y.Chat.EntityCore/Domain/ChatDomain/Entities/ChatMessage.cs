@@ -19,7 +19,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
         {
             Id=IdGeneratorFactory.SequentialGuidGenerator.NewId();
             UserId=userId;
-            UserId=groupId;
+            GroupId=groupId;
             Content=content;
             MessageType = messageType;
             CreationTime = DateTime.Now;

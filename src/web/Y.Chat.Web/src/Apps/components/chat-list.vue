@@ -18,12 +18,19 @@ import List from "/src/Apps/components/list.vue";
 import mitt from "/src/utils/mitt.ts";
 import ChatListItem from "/src/Apps/components/chat-list-item.vue";
 import localCache from "/src/services/localStorage.ts";
+import {chatChangeState} from '/src/hooks/chatchange.ts'
+
+const store = chatChangeState()
+const {change}=store
 
 const data = ref([]);
 
 onMounted(() => {
   const value = localCache.getCache("chat-list");
   data.value = value;
+  if(!!!value && value.length>0){
+    change(data.value[0])
+  }
 });
 onBeforeMount(() => {
   mitt.on("addchat", (item) => {

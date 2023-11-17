@@ -18,6 +18,10 @@
 <script lang="ts" setup>
 import { defaultavatar } from "/src/utils/static.ts";
 import mitt from "/src/utils/mitt.ts";
+import {chatChangeState} from '/src/hooks/chatchange.ts'
+
+const store = chatChangeState()
+const { change }=store
 
 const props = defineProps({
   id: {
@@ -52,6 +56,7 @@ const addchat = () => {
     name: props.name,
     avatar: props.avatar,
   });
+  change(props.chatId)
 };
 
 const info = () => {};

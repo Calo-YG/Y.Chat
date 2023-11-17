@@ -6,11 +6,19 @@
 
 <script lang='ts' setup>
 import chathub  from '/src/Apps/hubs/chathub.ts'
-import { ref ,computed} from 'vue'
+import { ref ,computed,onMounted} from 'vue'
 import localCache from '/src/services/localStorage.ts'
+import { storeToRefs } from 'pinia'
+import {chatChangeState} from '/src/hooks/chatchange.ts'
+
+const store = chatChangeState()
+const {chatId}=storeToRefs(store)
 
 const send =()=>{
-    chathub.send('你好')
+    if(!!chatId){
+        console.info(chatId.value)
+        chathub.send('你好',chatId.value,'Text')
+    }
 }
 
 </script>

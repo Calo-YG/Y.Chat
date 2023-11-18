@@ -20,3 +20,15 @@
 /src/aspnetcore/Y.ChatCore/debug.log
 /src/aspnetcore/Y.ChatCore/Y.Chat.Contracts/obj/Debug/net7.0
 /src/aspnetcore/Y.ChatCore/Y.Chat.Contracts/obj
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.ApiService/bin/Debug/net8.0
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.ApiService/obj
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.AppHost/bin/Debug/net8.0
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.AppHost/obj/Debug/net8.0
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.ServiceDefaults/bin/Debug/net8.0
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.ServiceDefaults/obj/Debug/net8.0
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.ServiceDefaults/obj
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.Web/bin/Debug/net8.0
+/src/aspnetcore/Y.ChatCore/ChatAspire/ChatAspire.Web/obj
+/src/aspnetcore/Y.ChatCore/Y.Chat.Host/bin/Debug/net8.0
+/src/aspnetcore/Y.ChatCore/Y.Chat.Application/bin/Debug/net8.0
+/src/aspnetcore/Y.ChatCore/Y.Chat.EntityCore/bin/Debug/net8.0

@@ -10,6 +10,8 @@ using Y.Module.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.Host.UseSerilog(
     (context, services, configuration) =>
         configuration.ReadFrom
@@ -34,7 +36,7 @@ builder.Services.AddDomainEventBus(options =>
     options.UseRepository<YChatContext>();
 });
 
-// ×¢Èë·şÎñ
+// æ³¨å…¥æœåŠ¡
 builder.Services.AddApplication<ChatHostModule>();
 
 builder.Services.AddMasaMinimalAPIs(options =>
@@ -43,6 +45,8 @@ builder.Services.AddMasaMinimalAPIs(options =>
 });
 
 var app = builder.Build();  
+  
+app.MapDefaultEndpoints();
 
 await app.InitApplicationAsync();
 

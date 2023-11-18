@@ -1,0 +1,633 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.AppHost\\ChatAspire.AppHost.csproj": {}
+  },
+  "projects": {
+    "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ApiService\\ChatAspire.ApiService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ApiService\\ChatAspire.ApiService.csproj",
+        "projectName": "ChatAspire.ApiService",
+        "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ApiService\\ChatAspire.ApiService.csproj",
+        "packagesPath": "C:\\Users\\31645\\.nuget\\packages\\",
+        "outputPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ApiService\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\31645\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj": {
+                "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.AppHost\\ChatAspire.AppHost.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.AppHost\\ChatAspire.AppHost.csproj",
+        "projectName": "ChatAspire.AppHost",
+        "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.AppHost\\ChatAspire.AppHost.csproj",
+        "packagesPath": "C:\\Users\\31645\\.nuget\\packages\\",
+        "outputPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.AppHost\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\31645\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ApiService\\ChatAspire.ApiService.csproj": {
+                "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ApiService\\ChatAspire.ApiService.csproj"
+              },
+              "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.Web\\ChatAspire.Web.csproj": {
+                "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.Web\\ChatAspire.Web.csproj"
+              },
+              "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Host\\Y.Chat.Host.csproj": {
+                "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Host\\Y.Chat.Host.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Aspire.Hosting": {
+              "target": "Package",
+              "version": "[8.0.0-preview.1.23557.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj",
+        "projectName": "ChatAspire.ServiceDefaults",
+        "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj",
+        "packagesPath": "C:\\Users\\31645\\.nuget\\packages\\",
+        "outputPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\31645\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Http.Resilience": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.ServiceDiscovery": {
+              "target": "Package",
+              "version": "[8.0.0-preview.1.23557.2, )"
+            },
+            "OpenTelemetry.Exporter.OpenTelemetryProtocol": {
+              "target": "Package",
+              "version": "[1.7.0-alpha.1, )"
+            },
+            "OpenTelemetry.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[1.7.0-alpha.1, )"
+            },
+            "OpenTelemetry.Instrumentation.AspNetCore": {
+              "target": "Package",
+              "version": "[1.6.0-beta.2, )"
+            },
+            "OpenTelemetry.Instrumentation.GrpcNetClient": {
+              "target": "Package",
+              "version": "[1.6.0-beta.2, )"
+            },
+            "OpenTelemetry.Instrumentation.Http": {
+              "target": "Package",
+              "version": "[1.6.0-beta.2, )"
+            },
+            "OpenTelemetry.Instrumentation.Runtime": {
+              "target": "Package",
+              "version": "[1.5.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.Web\\ChatAspire.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.Web\\ChatAspire.Web.csproj",
+        "projectName": "ChatAspire.Web",
+        "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.Web\\ChatAspire.Web.csproj",
+        "packagesPath": "C:\\Users\\31645\\.nuget\\packages\\",
+        "outputPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\31645\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj": {
+                "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Application\\Y.Chat.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Application\\Y.Chat.Application.csproj",
+        "projectName": "Y.Chat.Application",
+        "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Application\\Y.Chat.Application.csproj",
+        "packagesPath": "C:\\Users\\31645\\.nuget\\packages\\",
+        "outputPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\31645\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.EntityCore\\Y.Chat.EntityCore.csproj": {
+                "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.EntityCore\\Y.Chat.EntityCore.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Masa.BuildingBlocks.Data.MappingExtensions": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Data.Mapping.Mapster": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Dispatcher.Events": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Dispatcher.Events.FluentValidation": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.EntityCore\\Y.Chat.EntityCore.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.EntityCore\\Y.Chat.EntityCore.csproj",
+        "projectName": "Y.Chat.EntityCore",
+        "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.EntityCore\\Y.Chat.EntityCore.csproj",
+        "packagesPath": "C:\\Users\\31645\\.nuget\\packages\\",
+        "outputPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.EntityCore\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\31645\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Masa.BuildingBlocks.Ddd.Domain": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Caching.Distributed.StackExchangeRedis": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Caching.MultilevelCache": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Data.Contracts": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Data.EFCore.SqlServer": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Data.IdGenerator.SequentialGuid": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Data.UoW.EFCore": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Ddd.Domain": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Contrib.Ddd.Domain.Repository.EFCore": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Utils.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Utils.Extensions.Enums": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masa.Utils.Extensions.Expressions": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Masuit.Tools.Core": {
+              "target": "Package",
+              "version": "[2.6.7.2, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Protocols.MessagePack": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.AspNetCore.SignalR.StackExchangeRedis": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Y.EventBus": {
+              "target": "Package",
+              "version": "[4.0.6, )"
+            },
+            "Y.Module": {
+              "target": "Package",
+              "version": "[2.0.0, )"
+            },
+            "Y.Tools": {
+              "target": "Package",
+              "version": "[1.0.14, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Host\\Y.Chat.Host.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Host\\Y.Chat.Host.csproj",
+        "projectName": "Y.Chat.Host",
+        "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Host\\Y.Chat.Host.csproj",
+        "packagesPath": "C:\\Users\\31645\\.nuget\\packages\\",
+        "outputPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Host\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\31645\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj": {
+                "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\ChatAspire\\ChatAspire.ServiceDefaults\\ChatAspire.ServiceDefaults.csproj"
+              },
+              "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Application\\Y.Chat.Application.csproj": {
+                "projectPath": "D:\\MyProject\\Y.Chat\\src\\aspnetcore\\Y.ChatCore\\Y.Chat.Application\\Y.Chat.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Masa.Contrib.Service.MinimalAPIs": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.17.0, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Swashbuckle.AspNetCore.Swagger": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

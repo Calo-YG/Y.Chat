@@ -9,13 +9,9 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const pinia = createPinia()
 
-const store = createPinia()
-
 const app = createApp(App)
 
 app.use(VueCookies)
-
-app.use(store)
 
 app.use(ElementPlus)
 

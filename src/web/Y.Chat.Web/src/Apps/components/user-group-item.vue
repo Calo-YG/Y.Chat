@@ -16,13 +16,11 @@
 </template>
 
 <script lang="ts" setup>
-import { defaultavatar } from "/src/utils/static.ts";
-import mitt from "/src/utils/mitt.ts";
+import { defaultavatar } from "/src/utils/static.ts"
 import {chatChangeState} from '/src/hooks/chatchange.ts'
 
 const store = chatChangeState()
-const { change }=store
-
+const { change,addToList }=store
 const props = defineProps({
   id: {
     type: String,
@@ -48,18 +46,17 @@ const props = defineProps({
     type: String,
     required: true,
   },
-});
+})
 
 const addchat = () => {
-  mitt.emit("addchat", {
+  const listitem ={
     id: props.chatId,
     name: props.name,
     avatar: props.avatar,
-  });
+  }
   change(props.chatId)
-};
-
-const info = () => {};
+  addToList(listitem)
+}
 </script>
 
 <style scoped lang="less">

@@ -42,5 +42,10 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
             FriendId = friendId;
             ChatType = ChatType.Default;
         }
+
+        public void SetAvatar(string avatar)
+        {
+            Avatart = avatar;
+        }
     }
 }

@@ -8,6 +8,6 @@
 
         string GenerateToken(string username, Guid userId);
 
-        void SetAvatar(Guid userId,string avatar);
+        Task SetAvatar(Guid userId,string avatar);
     }
 }

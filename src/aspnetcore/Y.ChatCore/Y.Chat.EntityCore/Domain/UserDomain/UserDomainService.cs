@@ -3,6 +3,7 @@ using Masa.BuildingBlocks.Ddd.Domain.Services;
 using Masuit.Tools;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
+using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 using Y.Chat.EntityCore.Domain.UserDomain.Events;
 using Y.Chat.EntityCore.Domain.UserDomain.Shared;
@@ -19,15 +20,19 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
         private readonly ITokenProvider _tokenProvider;
 
         private readonly ILocalEventBus _localEventBus;
+
+        private readonly IChatListRepositroy _chatListRepository;
         public UserDomainService(YChatContext context
             ,IDistributedCache cache
             ,ITokenProvider tokenProvider
-            , ILocalEventBus localEventBus) 
+            ,ILocalEventBus localEventBus
+            ,IChatListRepositroy chatListRepositroy) 
         {
             _context = context;
             _cache = cache;
             _tokenProvider= tokenProvider;
             _localEventBus = localEventBus;
+            _chatListRepository=chatListRepositroy;
         }  
 
         public async Task SendEmailCode(string email)
@@ -93,13 +98,17 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
             return token;
         }
 
-        public void SetAvatar(Guid userId, string avatar)
+        public async Task SetAvatar(Guid userId, string avatar)
         {
             var user = _context.Users.FirstOrDefault(p=>p.Id == userId);
 
             user.SetAvatar(avatar);
          
-            _context.Users.Update(user); 
+            _context.Users.Update(user);
+
+            var @event = new UpdateAvatarEvent(userId, avatar);
+
+            await EventBus.EnqueueAsync(@event);
         }
     }
 }

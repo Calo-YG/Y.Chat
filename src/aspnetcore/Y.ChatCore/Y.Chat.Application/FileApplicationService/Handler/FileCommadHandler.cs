@@ -1,4 +1,5 @@
-﻿using Masa.Contrib.Dispatcher.Events;
+﻿using Masa.BuildingBlocks.Dispatcher.Events;
+using Masa.Contrib.Dispatcher.Events;
 using Masuit.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Y.Chat.Application.FileApplicationService.Commands;
@@ -7,6 +8,7 @@ using Y.Chat.EntityCore.Domain.FileDomain;
 using Y.Chat.EntityCore.Domain.FileDomain.Entitis;
 using Y.Chat.EntityCore.Domain.FileDomain.Shared;
 using Y.Chat.EntityCore.Domain.UserDomain;
+using Y.Chat.EntityCore.Domain.UserDomain.Events;
 
 namespace Y.Chat.Application.FileApplicationService.Handler
 {
@@ -15,9 +17,11 @@ namespace Y.Chat.Application.FileApplicationService.Handler
         private readonly IFileDomainService _fileDomainService;
         private readonly YChatContext _context;
         private readonly IUserDomainService _userDomainService;
+        private readonly IEventBus _eventBus;
         public FileCommadHandler(IFileDomainService fileDomainService
             ,YChatContext context
-            ,IUserDomainService userDomainService) 
+            ,IUserDomainService userDomainService
+            ,IEventBus eventBus) 
         {
            _context = context;
            _userDomainService = userDomainService;
@@ -43,7 +47,7 @@ namespace Y.Chat.Application.FileApplicationService.Handler
 
             await _context.FileSystems.AddAsync(file);
 
-             _userDomainService.SetAvatar(command.UserId, minioname);   
+            await _userDomainService.SetAvatar(command.UserId, minioname);   
             command.FilePath= file.MinioName;
         }
 

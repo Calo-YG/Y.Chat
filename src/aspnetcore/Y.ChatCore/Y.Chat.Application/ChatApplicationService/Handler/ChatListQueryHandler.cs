@@ -26,7 +26,6 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                              MessageType=m.MessageType,
                              LastMessageId=m.Id,
                              LastMessageTime=m.CreationTime,
-                             Avatart=c.Avatart,
                              Name=c.Name,
                              Content=m.Content,
                              UnReadCount=c.UnReadCount

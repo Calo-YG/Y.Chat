@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.UserApplicationService.Commands;
 using Y.Chat.EntityCore;
+using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.UserDomain;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
+using Y.Chat.EntityCore.Domain.UserDomain.Events;
 
 namespace Y.Chat.Application.UserApplicationService.Handler
 {
@@ -17,15 +19,18 @@ namespace Y.Chat.Application.UserApplicationService.Handler
         private readonly IRepository<User, Guid> _userRepository;
         private readonly IUserDomainService _userDomainService;
         private readonly IEventBus _eventBus;
+        private readonly IChatListRepositroy _chatListRepository;
         public UserCommandHandler(IRepository<User,Guid> userRepositroy
             ,YChatContext context
             ,IUserDomainService userDomainService
-            , IEventBus eventBus)
+            , IEventBus eventBus
+            , IChatListRepositroy chatListRepositroy)
         {
             _userRepository = userRepositroy;
             _chatContext = context; 
             _userDomainService = userDomainService;
             _eventBus = eventBus;
+            _chatListRepository=chatListRepositroy;
         }
 
         [EventHandler]
@@ -98,6 +103,18 @@ namespace Y.Chat.Application.UserApplicationService.Handler
             entity.SetComment(cmd.Content);
 
             _chatContext.Update(entity);
+        }
+        [EventHandler]
+        public async Task UpdateChatListAvatar(UpdateAvatarEvent @event)
+        {
+            var chatlist = await _chatListRepository.GetListAsync(p => p.FriendId == @event.userId);
+
+            foreach (var chat in chatlist)
+            {
+                chat.SetAvatar(@event.avatar);
+            }
+
+            await _chatListRepository.UpdateRangeAsync(chatlist);
         }
     }
 }

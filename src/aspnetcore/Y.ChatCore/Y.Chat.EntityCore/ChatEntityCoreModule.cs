@@ -30,8 +30,8 @@ namespace Y.Chat.EntityCore
             context.Services.AddSequentialGuidGenerator();
             context.Services.AddEventBus();
 
-            context.Services.AddTransient<IUserDomainService, UserDomainService>();
-            context.Services.AddTransient<IFileDomainService, FileDomainService>();
+            context.Services.AddScoped<IUserDomainService, UserDomainService>();
+            context.Services.AddScoped<IFileDomainService, FileDomainService>();
             context.Services.AddTransient<IUserRepository,UserRepository>();
             context.Services.AddTransient<IGroupRepository, GroupRepository>();
             context.Services.AddTransient<IFriendRepository, FriendRepository>();

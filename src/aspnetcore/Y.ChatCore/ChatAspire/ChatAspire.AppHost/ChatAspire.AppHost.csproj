@@ -10,8 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Y.Chat.Host\Y.Chat.Host.csproj" />
-    <ProjectReference Include="..\ChatAspire.ApiService\ChatAspire.ApiService.csproj" />
-    <ProjectReference Include="..\ChatAspire.Web\ChatAspire.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

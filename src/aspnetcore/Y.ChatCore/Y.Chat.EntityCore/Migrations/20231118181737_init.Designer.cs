@@ -12,8 +12,8 @@ using Y.Chat.EntityCore;
 namespace Y.Chat.EntityCore.Migrations
 {
     [DbContext(typeof(YChatContext))]
-    [Migration("20231018033543_Add_Comment_Friends")]
-    partial class Add_Comment_Friends
+    [Migration("20231118181737_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,52 @@ namespace Y.Chat.EntityCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatGroup", b =>
+            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatList", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Avatart")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ChatType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("FriendId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("LastMessageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UnReadCount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("ChatLists");
+                });
+
+            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.Conversation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,11 +78,8 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.Property<string>("Avatar")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<Guid>("Bachelors")
-                        .HasColumnType("uniqueidentifier");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
@@ -65,51 +107,26 @@ namespace Y.Chat.EntityCore.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.ToTable("ChatGroups");
-                });
 
-            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatMessage", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ChatType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Creator")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("MessageType")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Modifier")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId", "GroupId");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("Id");
-
-                    b.ToTable("ChatMessages");
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6e71ca99-6d81-8c18-f6ca-3a0ef5d3e188"),
+                            Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
+                            CreationTime = new DateTime(2023, 11, 18, 18, 17, 36, 904, DateTimeKind.Utc).AddTicks(4906),
+                            Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Description = "世界频道欢迎来访",
+                            GroupNumber = "3164522207",
+                            ModificationTime = new DateTime(2023, 11, 18, 18, 17, 36, 904, DateTimeKind.Utc).AddTicks(4908),
+                            Modifier = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Name = "世界频道"
+                        });
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.GroupUser", b =>
@@ -126,8 +143,14 @@ namespace Y.Chat.EntityCore.Migrations
                     b.Property<Guid>("Creator")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Grouper")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ModificationTime")
                         .HasColumnType("datetime2");
@@ -135,11 +158,76 @@ namespace Y.Chat.EntityCore.Migrations
                     b.Property<Guid>("Modifier")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("NickName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId", "GroupId");
 
-                    b.HasIndex("GroupId");
-
                     b.ToTable("GroupUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("e47236af-a5a5-6d2e-3e71-3a0ef5d3e188"),
+                            GroupId = new Guid("6e71ca99-6d81-8c18-f6ca-3a0ef5d3e188"),
+                            CreationTime = new DateTime(2023, 11, 19, 2, 17, 36, 904, DateTimeKind.Local).AddTicks(4935),
+                            Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Grouper = false,
+                            Id = new Guid("ba988693-193f-ba6a-fecd-3a0ef5d3e188"),
+                            IsAdmin = false,
+                            ModificationTime = new DateTime(2023, 11, 18, 18, 17, 36, 904, DateTimeKind.Utc).AddTicks(4923),
+                            Modifier = new Guid("00000000-0000-0000-0000-000000000000")
+                        },
+                        new
+                        {
+                            UserId = new Guid("87b4c3ab-5eaf-703e-e2b6-3a0ef5d3e188"),
+                            GroupId = new Guid("6e71ca99-6d81-8c18-f6ca-3a0ef5d3e188"),
+                            CreationTime = new DateTime(2023, 11, 19, 2, 17, 36, 904, DateTimeKind.Local).AddTicks(4962),
+                            Creator = new Guid("00000000-0000-0000-0000-000000000000"),
+                            Grouper = false,
+                            Id = new Guid("56ee8498-43a8-707d-a924-3a0ef5d3e188"),
+                            IsAdmin = false,
+                            ModificationTime = new DateTime(2023, 11, 18, 18, 17, 36, 904, DateTimeKind.Utc).AddTicks(4959),
+                            Modifier = new Guid("00000000-0000-0000-0000-000000000000")
+                        });
+                });
+
+            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Creator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("MessageType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Modifier")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.Notice", b =>
@@ -176,12 +264,54 @@ namespace Y.Chat.EntityCore.Migrations
                     b.Property<int>("NoticeType")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Read")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("RecivedUserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Notices");
+                });
+
+            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.SystemMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Creator")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Modifier")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("NotfiyType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("RecivedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SystemMessages");
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.FileDomain.Entitis.FileSystem", b =>
@@ -269,6 +399,9 @@ namespace Y.Chat.EntityCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -294,8 +427,6 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Friends");
                 });
 
@@ -316,8 +447,10 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.Property<string>("Avatar")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasDefaultValue("https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4");
 
                     b.Property<string>("Email")
                         .HasMaxLength(30)
@@ -341,64 +474,37 @@ namespace Y.Chat.EntityCore.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
 
-            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatMessage", b =>
-                {
-                    b.HasOne("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatGroup", "ChatGroup")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Y.Chat.EntityCore.Domain.UserDomain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ChatGroup");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Y.Chat.EntityCore.Domain.ChatDomain.Entities.GroupUser", b =>
-                {
-                    b.HasOne("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatGroup", "ChatGroup")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Y.Chat.EntityCore.Domain.UserDomain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ChatGroup");
-
-                    b.Navigation("User");
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e47236af-a5a5-6d2e-3e71-3a0ef5d3e188"),
+                            Account = "3164522206",
+                            Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
+                            Email = "3164522206@qq.com",
+                            LoginType = 0,
+                            Name = "admin",
+                            Password = "zDPJCnWP9Y4Vzpe0s5pNRGz1crROpP9HrjkwlF9Q7x4="
+                        },
+                        new
+                        {
+                            Id = new Guid("87b4c3ab-5eaf-703e-e2b6-3a0ef5d3e188"),
+                            Account = "3164522207",
+                            Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
+                            Email = "3164522206@qq.com",
+                            LoginType = 0,
+                            Name = "wyg",
+                            Password = "zDPJCnWP9Y4Vzpe0s5pNRGz1crROpP9HrjkwlF9Q7x4="
+                        });
                 });
 
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.FileDomain.Entitis.FileSystem", b =>
                 {
-                    b.HasOne("Y.Chat.EntityCore.Domain.ChatDomain.Entities.ChatGroup", "ChatGroup")
+                    b.HasOne("Y.Chat.EntityCore.Domain.ChatDomain.Entities.Conversation", "ChatGroup")
                         .WithMany()
                         .HasForeignKey("GroupId");
 
                     b.Navigation("ChatGroup");
-                });
-
-            modelBuilder.Entity("Y.Chat.EntityCore.Domain.UserDomain.Entities.Friends", b =>
-                {
-                    b.HasOne("Y.Chat.EntityCore.Domain.UserDomain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

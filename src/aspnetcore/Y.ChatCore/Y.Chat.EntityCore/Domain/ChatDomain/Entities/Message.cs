@@ -4,7 +4,7 @@ using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 {
-    public class ChatMessage: AuditAggregateRoot<Guid,Guid>
+    public class Message: AuditAggregateRoot<Guid,Guid>
     {
         public string Content {  get; set; }
 
@@ -14,8 +14,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public Guid GroupId { get; set; }
 
-        public ChatMessage() { }    
-        public ChatMessage(Guid userId,Guid groupId,string content,MessageType messageType) 
+        public Message() { }    
+        public Message(Guid userId,Guid groupId,string content,MessageType messageType) 
         {
             Id=IdGeneratorFactory.SequentialGuidGenerator.NewId();
             UserId=userId;

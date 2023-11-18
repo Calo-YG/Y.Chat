@@ -37,6 +37,7 @@ namespace Y.Chat.EntityCore
             context.Services.AddTransient<IFriendRepository, FriendRepository>();
             context.Services.AddTransient<INoticeRepository, NoticeRepository>();
             context.Services.AddTransient<IMessageRepositroy, MessageRepository>();
+            context.Services.AddTransient<IChatListRepositroy, ChatListRepository>();
 
             //context.Services.AddAutoInject(Assembly.GetExecutingAssembly());
         }

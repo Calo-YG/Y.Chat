@@ -23,7 +23,6 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         private readonly IHubContext<ChatHub> _hubContext;
         private readonly IEventBus _eventbus;
 
-
         public ChatGroupCommandHandler(YChatContext context
             , IFileDomainService fileDomainService
             , IGroupRepository groupRepository
@@ -41,22 +40,37 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         [EventHandler(Order =1)]
         public async Task CreateGroup(CreateGroupCommand command)
         {
-            var count = await _context.ChatGroups.CountAsync(p => p.Bachelors == command.UserId);
+            var count = await _context.ChatGroups.CountAsync(p => p.UserId == command.UserId);
 
             if (count >= 10)
             {
                 throw new UserFriendlyException("用户最多创建10个群聊");
             }
 
-            var chat = new ChatGroup(command.Name, command.UserId, command.Decription);
+            var chat = new Conversation(command.Name, command.Decription);
+
+            chat.SetUser(command.UserId);
 
             chat.SetGroupNumber();
 
-            var joincmd = new JoinGroupCommand(chat.Id, command.UserId);
+            var groupUser = new GroupUser(chat.Id, command.UserId);
 
-            await _context.AddAsync(chat);
+            await _context.GroupUsers.AddAsync(groupUser);
 
-            await JoinGroup(joincmd);
+            var key = $"{ChatConst.Online}_{command.UserId}";
+
+            var exists = await RedisHelper.ExistsAsync(key);
+
+            if (exists)
+            {
+                var connectionid = await RedisHelper.GetAsync(key);
+
+                var groupkey = $"{ChatConst.Group}_{chat.Id}";
+
+                await _hubContext.Groups.AddToGroupAsync(connectionid, chat.Id.ToString("N"));
+
+                await RedisHelper.LPushAsync(groupkey, command.UserId);
+            }
             
             await _context.SaveChangesAsync();
         }
@@ -100,9 +114,20 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
 
             _context.ChatGroups.Update(group);
         }
+        /// <summary>
+        /// 加入群聊
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        /// <exception cref="UserFriendlyException"></exception>
         [EventHandler]
         public async Task JoinGroup(JoinGroupCommand command)
         {
+            var group = await _context.ChatGroups.FirstOrDefaultAsync(p=>p.Id == command.GroupId);
+            if (group is null) 
+            {
+                throw new UserFriendlyException("群聊不存在");
+            }
             var join =await _groupRepository.InGroup(command.GroupId, command.UserId);
             if (join)
             {

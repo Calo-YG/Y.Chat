@@ -9,11 +9,11 @@ namespace Y.Chat.EntityCore
     {
         public DbSet<User> Users { get; set; }
 
-        public DbSet<ChatGroup> ChatGroups { get; set; }
+        public DbSet<Conversation> ChatGroups { get; set; }
 
-        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<Message> ChatMessages { get; set; }
 
-        ///public DbSet<FriendMessage> FriendMessages { get; set; }    
+        public DbSet<ChatList> ChatLists {  get; set; }  
 
         public DbSet<GroupUser> GroupUsers { get; set; }
 

@@ -4,31 +4,37 @@ using Masuit.Tools.Systems;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 {
-    public class ChatGroup: AuditEntity<Guid,Guid>
+    public class Conversation: AuditEntity<Guid,Guid>
     {
-        public string Name { get;private set; }
+        public string Name { get; set; }
 
-        public string? Description { get;private set; } 
+        public string? Description { get; set; } 
 
-        public string Avatar { get;private set; }
-        /// <summary>
-        /// 群主
-        /// </summary>
-        public Guid? Bachelors {  get; private set; }
+        public string Avatar { get; set; }
         /// <summary>
         /// 群号
         /// </summary>
-        public string GroupNumber { get; private set; }   
+        public string GroupNumber { get;  set; }   
 
-        public ChatGroup() { }  
-        public ChatGroup(string name,Guid? bachelors, string? description, string avatar="")
+        public Guid? UserId { get;  set; }
+
+        public Conversation() 
         {
             Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();
-            Bachelors = bachelors;
+        }  
+        public Conversation(string name, string? description, string avatar="")
+        {
+            Id = IdGeneratorFactory.SequentialGuidGenerator.NewId();
             Name = name;    
             Description = description;
             Avatar = avatar;
             CreationTime = DateTime.Now;
+            SetGroupNumber();
+        }
+
+        public void SetUser(Guid? userId)
+        {
+            UserId = userId;
         }
 
         public void SetGroupNumber()

@@ -6,7 +6,7 @@ using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 {
-    public class GroupRepository : Repository<YChatContext, ChatGroup, Guid>, IGroupRepository
+    public class GroupRepository : Repository<YChatContext, Conversation, Guid>, IGroupRepository
     {
         public GroupRepository(YChatContext context, IUnitOfWork unitOfWork)
             : base(context, unitOfWork) { }
@@ -22,7 +22,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
             return Context.GroupUsers.AnyAsync(p => p.UserId == userId && p.GroupId == groupId);
         }
 
-        public IQueryable<ChatGroup> UserGroups(Guid userId)
+        public IQueryable<Conversation> UserGroups(Guid userId)
         {
             return from u in Context.GroupUsers
                 where u.UserId == userId

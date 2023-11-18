@@ -10,9 +10,9 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
     public class ChatMessageCommandHandler
     {
         private readonly YChatContext Context;
-        private readonly IRepository<ChatMessage> _messageRepository;
+        private readonly IRepository<Message> _messageRepository;
         public ChatMessageCommandHandler(YChatContext context,
-            IRepository<ChatMessage> messageRepositroy)
+            IRepository<Message> messageRepositroy)
         { 
              Context = context;
              _messageRepository = messageRepositroy;
@@ -21,7 +21,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         [EventHandler]
         public async Task CreateMessage(CreateMessageCommand cmd)
         {
-            var message = new ChatMessage(cmd.UserId,
+            var message = new Message(cmd.UserId,
                 cmd.GroupId,
                 cmd.Content,
                 cmd.Type);

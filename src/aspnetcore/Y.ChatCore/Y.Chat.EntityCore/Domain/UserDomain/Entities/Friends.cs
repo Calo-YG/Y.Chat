@@ -14,7 +14,6 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
         /// 好友备注
         /// </summary>
         public string Comment { get;private set; }  
-
         private Friends() { }   
         public Friends(Guid userId,Guid friendId,string comment,Guid chatId) 
         { 

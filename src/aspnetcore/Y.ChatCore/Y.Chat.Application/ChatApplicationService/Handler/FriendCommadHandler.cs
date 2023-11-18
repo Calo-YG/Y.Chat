@@ -1,11 +1,11 @@
-﻿using Masa.BuildingBlocks.Data;
-using Masa.BuildingBlocks.Dispatcher.Events;
+﻿using Masa.BuildingBlocks.Dispatcher.Events;
 using Masa.Contrib.Dispatcher.Events;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore;
+using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 using Y.Chat.EntityCore.Hubs;
@@ -19,21 +19,31 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         private readonly IHubContext<ChatHub> _chatContext;
         private readonly IEventBus _eventbus;
         private readonly IFriendRepository _friendRepository;
+        private readonly IChatListRepositroy _chatListRepositroy;
         public  FriendCommadHandler(YChatContext context
             , IHubContext<ChatHub> hubContext
             , IEventBus eventBus
-            , IFriendRepository friendRepository)
+            , IFriendRepository friendRepository
+            , IChatListRepositroy chatListRepositroy)
         {
             Context = context;
             _chatContext = hubContext;
             _eventbus = eventBus;
             _friendRepository = friendRepository;
+            _chatListRepositroy = chatListRepositroy;
         }
         [EventHandler]
         public async Task CreateFriend(CreateFriendCommand cmd)
         {
-            var frienduer = await Context.Users.FirstOrDefaultAsync(p => p.Id == cmd.FriendId);
-            if (frienduer is null)
+            var ids=new List<Guid>() { cmd.FriendId,cmd.UserId };
+
+            var users = await Context.Users.Where(p=>ids.Contains(p.Id)).ToListAsync(); 
+
+            var frienduer = users.FirstOrDefault(p => p.Id == cmd.FriendId);
+
+            var user =users.FirstOrDefault(p=>p.Id == cmd.UserId);  
+
+            if (users.Count < 2)
             {
                 throw new UserFriendlyException("用户不存在");
             }
@@ -47,7 +57,9 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
 
             var comment = cmd.Comment ?? frienduer.Name;
 
-            var chatId = IdGeneratorFactory.SequentialGuidGenerator.NewId();
+            var conversation = new Conversation($"friend{frienduer.Name}", "", "");
+
+            var chatId = conversation.Id;
 
             var chatkey = $"{ChatConst.Group}_{chatId}";
 
@@ -60,12 +72,20 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 "",
                 chatId);
 
+            var userchatlist = new ChatList(user.Id,chatId,user.Name,user.Avatar,EntityCore.Domain.ChatDomain.Shared.ChatType.Default);
+
+            var friendchatlist = new ChatList(frienduer.Id, chatId, frienduer.Name, user.Avatar, EntityCore.Domain.ChatDomain.Shared.ChatType.Default);
+
+            List<ChatList> chatLists = new List<ChatList>() { userchatlist,friendchatlist};
+
             string? connectionid = null;
             var exists = await RedisHelper.ExistsAsync($"{ChatConst.Online}_{cmd.UserId}");
 
             var currentconnectionId = await RedisHelper.GetAsync($"{ChatConst.Online}_{cmd.FriendId}");
 
             await _chatContext.Groups.AddToGroupAsync(currentconnectionId,chatId.ToString());
+
+            await _chatListRepositroy.AddRangeAsync(chatLists);
 
             await RedisHelper.LPushAsync(chatkey, cmd.FriendId);
 

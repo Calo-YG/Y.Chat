@@ -43,7 +43,7 @@ namespace Y.Chat.Application.FileApplicationService.Handler
 
             await _context.FileSystems.AddAsync(file);
 
-            await _userDomainService.SetAvatar(command.UserId, minioname);   
+             _userDomainService.SetAvatar(command.UserId, minioname);   
             command.FilePath= file.MinioName;
         }
 

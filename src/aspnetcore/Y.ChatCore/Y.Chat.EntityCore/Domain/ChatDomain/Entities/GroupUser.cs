@@ -1,5 +1,4 @@
 ﻿using Masa.BuildingBlocks.Data;
-using Masa.BuildingBlocks.Ddd.Domain.Entities;
 using Masa.BuildingBlocks.Ddd.Domain.Entities.Auditing;using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities

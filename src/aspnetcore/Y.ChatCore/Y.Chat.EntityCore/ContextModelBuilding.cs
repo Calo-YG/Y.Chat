@@ -20,7 +20,7 @@ namespace Y.Chat.EntityCore
                 options.Property(p => p.Email).HasMaxLength(30);
                 options.Property(p => p.Account).HasMaxLength(30);
                 options.Property(p => p.Password).HasMaxLength(200);
-                options.Property(p => p.Avatar).HasMaxLength(200);
+                options.Property(p => p.Avatar).HasDefaultValue("https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4").HasMaxLength(500);
                 options.Property(p=>p.Autograph).HasMaxLength(50);
             });
 
@@ -35,12 +35,12 @@ namespace Y.Chat.EntityCore
 
             #region chat
 
-            builder.Entity<ChatGroup>(options =>
+            builder.Entity<Conversation>(options =>
             {
                 options.TryConfigureConcurrencyStamp();
                 options.HasKey(p => p.Id);
 
-                options.Property(p => p.Avatar).IsRequired().HasMaxLength(200);
+                options.Property(p => p.Avatar).IsRequired().HasMaxLength(500);
                 options.Property(p => p.Description).HasMaxLength(200);
                 options.Property(p => p.Name).IsRequired().HasMaxLength(20);
                 options.Property(p=>p.GroupNumber).IsRequired().HasMaxLength(30);   
@@ -54,7 +54,7 @@ namespace Y.Chat.EntityCore
                 options.HasKey(x => new { x.UserId, x.GroupId });
             });
 
-            builder.Entity<ChatMessage>(options =>
+            builder.Entity<Message>(options =>
             {
                 options.TryConfigureConcurrencyStamp();
                 options.HasIndex(p => p.Id);
@@ -62,11 +62,11 @@ namespace Y.Chat.EntityCore
                 //options.HasKey(x => new { x.UserId ,x.GroupId});
             });
 
-            //builder.Entity<FriendMessage>(options =>
-            //{
-            //    options.TryConfigureConcurrencyStamp();
-            //    options.HasIndex(p => p.Id);
-            //});
+            builder.Entity<ChatList>(options =>
+            {
+                options.TryConfigureConcurrencyStamp();
+                options.HasIndex(p => p.Id);
+            });
 
             builder.Entity<Notice>(options =>
             {
@@ -92,6 +92,38 @@ namespace Y.Chat.EntityCore
 
                 options.HasOne(p => p.ChatGroup).WithMany().HasForeignKey(p => p.GroupId);
             });
+            #endregion
+
+            #region 初始化数据
+            var user = new User()
+            {
+                Name = "admin",
+                Password= "zDPJCnWP9Y4Vzpe0s5pNRGz1crROpP9HrjkwlF9Q7x4=",
+                Email= "3164522206@qq.com",
+                Account = "3164522206",
+                Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4"
+            };
+            var current = new User()
+            {
+                Name = "wyg",
+                Password = "zDPJCnWP9Y4Vzpe0s5pNRGz1crROpP9HrjkwlF9Q7x4=",
+                Email = "3164522206@qq.com",
+                Account = "3164522207",
+                Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4"
+            };
+
+            var conversation = new Conversation()
+            {
+                Name= "世界频道",
+                Description= "世界频道欢迎来访",
+                Avatar= "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
+                GroupNumber= "3164522207"
+            };
+            var groupuser = new GroupUser(conversation.Id,user.Id);
+            var currentuser = new GroupUser(conversation.Id,current.Id);
+            builder.Entity<User>().HasData(user, current);
+            builder.Entity<Conversation>().HasData(conversation);
+            builder.Entity<GroupUser>().HasData(groupuser, currentuser);
             #endregion
         }
     }

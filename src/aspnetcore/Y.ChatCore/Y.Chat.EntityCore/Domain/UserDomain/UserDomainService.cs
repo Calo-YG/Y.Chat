@@ -93,7 +93,7 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
             return token;
         }
 
-        public async Task SetAvatar(Guid userId, string avatar)
+        public void SetAvatar(Guid userId, string avatar)
         {
             var user = _context.Users.FirstOrDefault(p=>p.Id == userId);
 

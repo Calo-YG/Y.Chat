@@ -17,7 +17,7 @@ namespace Y.Chat.EntityCore.Domain.FileDomain.Entitis
 
         public Guid? GroupId { get; private set; }
 
-        public ChatGroup ChatGroup { get; private set; }
+        public Conversation ChatGroup { get; private set; }
 
         public FileType FileType { get; private set; }
 

@@ -7,7 +7,7 @@ using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 
 namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 {
-    public class MessageRepository : Repository<YChatContext, ChatMessage, Guid>, IMessageRepositroy
+    public class MessageRepository : Repository<YChatContext, Message, Guid>, IMessageRepositroy
     {
         public MessageRepository(YChatContext context, IUnitOfWork unitOfWork) : base(context, unitOfWork)
         {

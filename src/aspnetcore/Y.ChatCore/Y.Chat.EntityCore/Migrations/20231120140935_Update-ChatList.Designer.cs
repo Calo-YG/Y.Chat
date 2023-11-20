@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Y.Chat.EntityCore;
 
@@ -11,9 +12,11 @@ using Y.Chat.EntityCore;
 namespace Y.Chat.EntityCore.Migrations
 {
     [DbContext(typeof(YChatContext))]
-    partial class YChatContextModelSnapshot : ModelSnapshot
+    [Migration("20231120140935_Update-ChatList")]
+    partial class UpdateChatList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +35,9 @@ namespace Y.Chat.EntityCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("ChatType")
                         .HasColumnType("int");
 
@@ -46,9 +52,6 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<Guid>("LastMessageId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -114,13 +117,13 @@ namespace Y.Chat.EntityCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9a46221e-ee1a-e580-f079-3a0effb21773"),
+                            Id = new Guid("02cdecd2-8e7c-0d2b-ab65-3a0eff3d84d3"),
                             Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
-                            CreationTime = new DateTime(2023, 11, 20, 16, 16, 54, 643, DateTimeKind.Utc).AddTicks(5604),
+                            CreationTime = new DateTime(2023, 11, 20, 14, 9, 34, 931, DateTimeKind.Utc).AddTicks(826),
                             Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Description = "世界频道欢迎来访",
                             GroupNumber = "3164522207",
-                            ModificationTime = new DateTime(2023, 11, 20, 16, 16, 54, 643, DateTimeKind.Utc).AddTicks(5605),
+                            ModificationTime = new DateTime(2023, 11, 20, 14, 9, 34, 931, DateTimeKind.Utc).AddTicks(828),
                             Modifier = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "世界频道"
                         });
@@ -165,26 +168,26 @@ namespace Y.Chat.EntityCore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("dba9a606-c418-6396-8c8e-3a0effb21773"),
-                            GroupId = new Guid("9a46221e-ee1a-e580-f079-3a0effb21773"),
-                            CreationTime = new DateTime(2023, 11, 21, 0, 16, 54, 643, DateTimeKind.Local).AddTicks(5627),
+                            UserId = new Guid("bb6250ae-e0d7-365f-49af-3a0eff3d84d3"),
+                            GroupId = new Guid("02cdecd2-8e7c-0d2b-ab65-3a0eff3d84d3"),
+                            CreationTime = new DateTime(2023, 11, 20, 22, 9, 34, 931, DateTimeKind.Local).AddTicks(853),
                             Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Grouper = false,
-                            Id = new Guid("07f54bbb-da84-6831-f3fe-3a0effb21773"),
+                            Id = new Guid("f2c5ac06-2f58-864f-e756-3a0eff3d84d3"),
                             IsAdmin = false,
-                            ModificationTime = new DateTime(2023, 11, 20, 16, 16, 54, 643, DateTimeKind.Utc).AddTicks(5619),
+                            ModificationTime = new DateTime(2023, 11, 20, 14, 9, 34, 931, DateTimeKind.Utc).AddTicks(842),
                             Modifier = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            UserId = new Guid("cabed7f6-055a-6e31-5f86-3a0effb21773"),
-                            GroupId = new Guid("9a46221e-ee1a-e580-f079-3a0effb21773"),
-                            CreationTime = new DateTime(2023, 11, 21, 0, 16, 54, 643, DateTimeKind.Local).AddTicks(5652),
+                            UserId = new Guid("082df594-124d-084e-1965-3a0eff3d84d3"),
+                            GroupId = new Guid("02cdecd2-8e7c-0d2b-ab65-3a0eff3d84d3"),
+                            CreationTime = new DateTime(2023, 11, 20, 22, 9, 34, 931, DateTimeKind.Local).AddTicks(896),
                             Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Grouper = false,
-                            Id = new Guid("0bb1d58b-f431-386b-1f0f-3a0effb21773"),
+                            Id = new Guid("f7c91f4c-8d9f-4fd1-d334-3a0eff3d84d3"),
                             IsAdmin = false,
-                            ModificationTime = new DateTime(2023, 11, 20, 16, 16, 54, 643, DateTimeKind.Utc).AddTicks(5651),
+                            ModificationTime = new DateTime(2023, 11, 20, 14, 9, 34, 931, DateTimeKind.Utc).AddTicks(881),
                             Modifier = new Guid("00000000-0000-0000-0000-000000000000")
                         });
                 });
@@ -475,7 +478,7 @@ namespace Y.Chat.EntityCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dba9a606-c418-6396-8c8e-3a0effb21773"),
+                            Id = new Guid("bb6250ae-e0d7-365f-49af-3a0eff3d84d3"),
                             Account = "3164522206",
                             Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
                             Email = "3164522206@qq.com",
@@ -485,7 +488,7 @@ namespace Y.Chat.EntityCore.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cabed7f6-055a-6e31-5f86-3a0effb21773"),
+                            Id = new Guid("082df594-124d-084e-1965-3a0eff3d84d3"),
                             Account = "3164522207",
                             Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
                             Email = "3164522206@qq.com",

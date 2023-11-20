@@ -19,8 +19,11 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             var result = from c in Context.ChatLists
                          where c.UserId == query.UserId
                          join m in Context.ChatMessages on c.LastMessageId equals m.Id
+                         join u in Context.Users on m.UserId equals u.Id
+                         
                          select new ChatListDto()
                          {
+                             Id=c.Id,
                              UserId=c.UserId,
                              ConversationId=m.GroupId,
                              MessageType=m.MessageType,
@@ -28,7 +31,10 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                              LastMessageTime=m.CreationTime,
                              Name=c.Name,
                              Content=m.Content,
-                             UnReadCount=c.UnReadCount
+                             UnReadCount=c.UnReadCount,
+                             Avatar=c.Avatart,
+                             LastSendUserId=m.UserId,
+                             LastSendUserName=u.Name
                          };
 
             var data =await result.ToListAsync();

@@ -9,8 +9,7 @@ export const chatChangeState=defineStore('ChatIdState',()=>{
       chatId.value=chatid
    }
 
-   const loadList=()=>{
-      const list:Array<any>=[]
+   const loadList=(list:Array<any>)=>{
       if(!!list){
          chatList.value=list
          chatId.value=list[0].id

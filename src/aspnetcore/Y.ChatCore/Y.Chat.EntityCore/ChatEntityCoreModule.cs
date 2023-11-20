@@ -3,6 +3,7 @@ using Calo.Blog.Common.Minio;
 using Calo.Blog.Common.Redis;
 using Masa.BuildingBlocks.Caching;
 using Microsoft.Extensions.DependencyInjection;
+using Y.Chat.EntityCore.Domain.ChatDomain;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.FileDomain;
 using Y.Chat.EntityCore.Domain.UserDomain;
@@ -32,6 +33,8 @@ namespace Y.Chat.EntityCore
 
             context.Services.AddScoped<IUserDomainService, UserDomainService>();
             context.Services.AddScoped<IFileDomainService, FileDomainService>();
+            context.Services.AddScoped<IChatDomainService, ChatDomainService>();
+
             context.Services.AddTransient<IUserRepository,UserRepository>();
             context.Services.AddTransient<IGroupRepository, GroupRepository>();
             context.Services.AddTransient<IFriendRepository, FriendRepository>();

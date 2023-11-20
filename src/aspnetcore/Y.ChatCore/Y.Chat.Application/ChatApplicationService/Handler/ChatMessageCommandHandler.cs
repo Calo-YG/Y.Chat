@@ -3,7 +3,9 @@ using Masa.Contrib.Dispatcher.Events;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.EntityCore;
+using Y.Chat.EntityCore.Domain.ChatDomain;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
+using EntityState = Masa.BuildingBlocks.Data.UoW.EntityState;
 
 namespace Y.Chat.Application.ChatApplicationService.Handler
 {
@@ -11,11 +13,14 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
     {
         private readonly YChatContext Context;
         private readonly IRepository<Message> _messageRepository;
+        private readonly IChatDomainService _chatDomainService;
         public ChatMessageCommandHandler(YChatContext context,
-            IRepository<Message> messageRepositroy)
+            IRepository<Message> messageRepositroy,
+            IChatDomainService chatDomainService)
         { 
              Context = context;
              _messageRepository = messageRepositroy;
+             _chatDomainService = chatDomainService;
         }
 
         [EventHandler]
@@ -26,9 +31,11 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 cmd.Content,
                 cmd.Type);
 
-            await Context.AddAsync(message); 
+            await Context.AddAsync(message);
 
-            await Context.SaveChangesAsync();   
+            await _chatDomainService.UpdateChatListMessage(cmd.GroupId, message.Id);
+
+            cmd.UnitOfWork.EntityState = EntityState.Changed;
         }
         [EventHandler]
         public  async Task DeleteFriendAndGroupMessageHandler(DeleteFriendAllMessageEvent evnet)

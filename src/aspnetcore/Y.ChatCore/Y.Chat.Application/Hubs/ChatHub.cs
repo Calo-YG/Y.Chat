@@ -111,6 +111,7 @@ namespace Y.Chat.EntityCore.Hubs
         /// <returns></returns>
         public async Task SendMessage(string content,Guid groupid,string type)
         {
+            _logger.LogInformation($"ChatId---{groupid}");
             try
             {
                 if (string.IsNullOrEmpty(content))

@@ -17,7 +17,7 @@ const {chatId}=storeToRefs(store)
 const send =()=>{
     if(!!chatId){
         console.info(chatId.value)
-        chathub.send('你好',chatId.value,'Text')
+        chathub.send('I lOVE YOU',chatId.value,'Text')
     }
 }
 

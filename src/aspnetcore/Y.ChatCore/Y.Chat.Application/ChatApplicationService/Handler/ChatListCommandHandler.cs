@@ -1,7 +1,9 @@
 ﻿using Masa.Contrib.Dispatcher.Events;
+using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
+using Y.Chat.EntityCore.Domain.ChatDomain.Events;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 
@@ -30,7 +32,8 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 cmd.ConversationId,
                 cmd.name,
                 cmd.avatar,
-                cmd.ChatType);
+                cmd.ChatType,
+                cmd.ConversationId);
 
             if (cmd.ChatType == ChatType.Default&&cmd.FriendId is not null)
             {
@@ -49,7 +52,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         [EventHandler]
         public async Task Delete(DeleteItemCommand cmd) 
         {
-            await _chatListRepository.RemoveAsync(cmd.Id);
+            var chatlist = Context.ChatLists.FirstOrDefaultAsync(p => p.UserId == cmd.Id && p.ConversationId == cmd.ConversationId);
 
             //删除历史消息
             var ids = Context.ChatMessages
@@ -60,6 +63,18 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             await _messageRepository.RemoveRangeAsync(ids);
             
             await Context.SaveChangesAsync();   
+        }
+        [EventHandler]
+        public async Task UpdateChatListMessage(UpdateChatListMessageEvent @event)
+        {
+            var chatlist = await Context.ChatLists.Where(p => p.ConversationId == @event.ConversationId).ToListAsync();
+
+            foreach (var item in chatlist)
+            {
+                item.LastMessageId = @event.LastMessageId;
+            }
+
+            await _chatListRepository.UpdateRangeAsync(chatlist);
         }
     }
 }

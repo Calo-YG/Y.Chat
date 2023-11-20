@@ -1,4 +1,5 @@
 ﻿using Calo.Blog.Common.Authorization;
+using Masa.BuildingBlocks.Ddd.Domain.Events;
 using Masa.BuildingBlocks.Ddd.Domain.Services;
 using Masuit.Tools;
 using Microsoft.Extensions.Caching.Distributed;
@@ -26,7 +27,8 @@ namespace Y.Chat.EntityCore.Domain.UserDomain
             ,IDistributedCache cache
             ,ITokenProvider tokenProvider
             ,ILocalEventBus localEventBus
-            ,IChatListRepositroy chatListRepositroy) 
+            ,IChatListRepositroy chatListRepositroy
+            ,IDomainEventBus eventBus):base(eventBus)
         {
             _context = context;
             _cache = cache;

@@ -12,7 +12,7 @@ namespace Y.Chat.Application.ChatApplicationService.Dtos
 
         public Guid? LastMessageId { get;  set; }
 
-        public string Avatart { get;  set; }
+        public string Avatar { get;  set; }
 
         public string Name { get;  set; }
 
@@ -21,5 +21,11 @@ namespace Y.Chat.Application.ChatApplicationService.Dtos
         public MessageType MessageType { get;  set; }
 
         public DateTime LastMessageTime { get; set; }
+
+        public Guid LastSendUserId { get; set; }
+
+        public string LastSendUserName { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

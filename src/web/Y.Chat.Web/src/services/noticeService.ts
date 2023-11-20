@@ -1,7 +1,7 @@
 import Request from './htttpRequest'
 
 const baseUrl="v1/Notices";
-const userNotices='UserNotices';
+const userNotices='/UserNotices';
 
 class NoticeService{
 

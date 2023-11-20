@@ -13,6 +13,7 @@
     "@microsoft/signalr": "^7.0.12",
     "@microsoft/signalr-protocol-msgpack": "^7.0.12",
     "axios": "^1.5.1",
+    "dayjs": "^1.11.10",
     "element-plus": "^2.3.12",
     "mitt": "^3.0.1",
     "pinia": "^2.1.7",

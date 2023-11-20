@@ -1,25 +1,28 @@
 <template>
-  <div class="item" @click="change(props.id)">
+  <div class="item" @click="change(props.conversationId)">
     <el-badge
         @click.self="info()"
       >
-        <img class="face" :src="props.avatar" />
+        <img class="face" :src="avatar" />
       </el-badge>
     <div class="des">
-        <div class="nickName"><el-text truncated type="info">{{ props.name }}</el-text></div>
-        <div class="signature"><el-text truncated type="info"></el-text></div>
+        <div class="nickName"><el-text truncated type="info">{{ props.name }} {{time}}</el-text></div>
+        <div class="signature"><el-text truncated type="info">{{sendname}}:{{props.content}}</el-text></div>
     </div>
 </div>
 </template>
 
 <script lang="ts" setup>
-import {ref,onMounted} from 'vue'
+import {ref,onMounted,computed} from 'vue'
 import { defaultavatar } from "/src/utils/static.ts";
 import {chatChangeState} from '/src/hooks/chatchange.ts'
+import config from "/src/config.ts";
+import localCache from '/src/services/localStorage.ts'
+import * as dayjs from 'dayjs'
 
 const store = chatChangeState()
 const {change}=store
-
+const userId = localCache.getCache('user').userId
 const props = defineProps({
     id:{
         type:String,
@@ -31,7 +34,44 @@ const props = defineProps({
     },
     avatar:{
         default:defaultavatar
+    },
+    lastSendUserName:{
+      type:String,
+      required:false
+    },
+    content:{
+      type:String,
+      required:false
+    },
+    messageType:{
+      type:Number,
+      required:false
+    },
+    conversationId:{
+      type:String,
+      required:false
+    },
+    lastMessageTime:{
+      type:String,
+      required:false
+    },
+    lastSendUserId:{
+      type:String,
+      required:false
     }
+})
+
+const avatar = computed(()=>{
+  let regex = new RegExp("^(http|https)://([\\w.]+/?)\\S*$")
+  return props.avatar.match(regex) ? props.avatar :config.getFile(props.avatar)
+})
+
+const sendname = computed(()=>{
+  return props.lastSendUserId===userId?"我":props.lastSendUserName
+})
+
+const time = computed(()=>{
+  return dayjs(props.lastMessageTime).format('hh:mm')
 })
 
 onMounted(()=>{

@@ -72,20 +72,29 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 "",
                 chatId);
 
-            var userchatlist = new ChatList(user.Id,chatId,user.Name,user.Avatar,EntityCore.Domain.ChatDomain.Shared.ChatType.Default);
+            var message = new Message(cmd.FriendId,
+                       chatId,
+                       "我通过了你的好友申请",
+                       EntityCore.Domain.ChatDomain.Shared.MessageType.Text);
 
-            var friendchatlist = new ChatList(frienduer.Id, chatId, frienduer.Name, user.Avatar, EntityCore.Domain.ChatDomain.Shared.ChatType.Default);
+            await Context.AddAsync(message);
+
+            var userchatlist = new ChatList(user.Id,chatId, frienduer.Name,frienduer.Avatar,EntityCore.Domain.ChatDomain.Shared.ChatType.Default,message.Id);
+
+            var friendchatlist = new ChatList(frienduer.Id, chatId, user.Name, user.Avatar, EntityCore.Domain.ChatDomain.Shared.ChatType.Default, message.Id);
 
             List<ChatList> chatLists = new List<ChatList>() { userchatlist,friendchatlist};
+
+            await Context.Friends.AddRangeAsync(friend, userfriend);
+
+            await _chatListRepositroy.AddRangeAsync(chatLists);
 
             string? connectionid = null;
             var exists = await RedisHelper.ExistsAsync($"{ChatConst.Online}_{cmd.UserId}");
 
             var currentconnectionId = await RedisHelper.GetAsync($"{ChatConst.Online}_{cmd.FriendId}");
 
-            await _chatContext.Groups.AddToGroupAsync(currentconnectionId,chatId.ToString());
-
-            await _chatListRepositroy.AddRangeAsync(chatLists);
+            await _chatContext.Groups.AddToGroupAsync(currentconnectionId, chatId.ToString());
 
             await RedisHelper.LPushAsync(chatkey, cmd.FriendId);
 
@@ -98,13 +107,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                 await RedisHelper.LPushAsync(chatkey, cmd.FriendId);
             }
 
-            var message = new CreateMessageCommand(cmd.FriendId, chatId, "我通过你的好友申请", Y.Chat.EntityCore.Domain.ChatDomain.Shared.MessageType.Text);
-
             await _chatContext.Clients.Groups(chatId.ToString()).SendAsync(ChatConst.Recive,chatId,message.Content);
-
-            await Context.Friends.AddRangeAsync(friend, userfriend);
-
-            await _eventbus.PublishAsync(message);
         }
 
         [EventHandler]

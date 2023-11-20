@@ -12,7 +12,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public int UnReadCount { get;private set; }    
 
-        public Guid? LastMessageId { get; private set; }
+        public Guid LastMessageId { get;  set; }
 
         public bool IsDeleted { get;  set; } = false;
 
@@ -28,13 +28,14 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public ChatList() { }
 
-        public ChatList(Guid userId, Guid conversationId,string name, string avatart,ChatType chatType)
+        public ChatList(Guid userId, Guid conversationId,string name, string avatart,ChatType chatType,Guid lastMessageId)
         {
             UserId = userId;
             ConversationId = conversationId;
             Avatart = avatart;
             ChatType = chatType;
             Name = name;
+            LastMessageId = lastMessageId;
         }
 
         public void SetFriend(Guid friendId)

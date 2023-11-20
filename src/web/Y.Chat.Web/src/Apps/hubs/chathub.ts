@@ -50,9 +50,9 @@ class ChatHub {
     }
   }
 
-  public send(messsage:string):void{
+  public send(messsage:string,groupid:string,type:string):void{
     this.initHunConnection();
-    this.connection!.send("SendMessage",messsage,'5b1de9da-27a9-6b1c-ba94-3a0edb6314cd','Text')
+    this.connection!.send("SendMessage",messsage,groupid,type)
   }
 
   public close(){

@@ -33,8 +33,9 @@ onMounted(() => {
   Request.get(url)
     .then((res) => {
       if (!!res) {
+        let regex = new RegExp("^(http|https)://([\\w.]+/?)\\S*$");
         res.map((p) => {
-          const avatar = p.avatar==="" ? undefined : config.getFile(p.avatar);
+          const avatar = p.avatar.match(regex) ? p.avatar : config.getFile(p.avatar);
           const value = {
             id: p.id,
             name: p.name,

@@ -1,6 +1,5 @@
 import {  ref} from "vue"
 import { defineStore } from 'pinia'
-import localCache from "./../services/localStorage.ts";
 
 export const chatChangeState=defineStore('ChatIdState',()=>{
    const chatList=ref<Array<any>>([])
@@ -11,7 +10,7 @@ export const chatChangeState=defineStore('ChatIdState',()=>{
    }
 
    const loadList=()=>{
-      const list=localCache.getCache('chat-list')
+      const list:Array<any>=[]
       if(!!list){
          chatList.value=list
          chatId.value=list[0].id
@@ -23,7 +22,6 @@ export const chatChangeState=defineStore('ChatIdState',()=>{
          var has = chatList.value.some(p=>p.id==item.id)
          if(!has){
             chatList.value.unshift(item)
-            localCache.setCache('chat-list',chatList.value)
          }
       }
    }

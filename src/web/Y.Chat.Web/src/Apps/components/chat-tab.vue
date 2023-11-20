@@ -40,9 +40,10 @@ const key = ref('')
 
 
 onMounted(() => {
+  let regex = new RegExp("^(http|https)://([\\w.]+/?)\\S*$");
   const user = localCache.getCache("user");
   userid.value = user.userId;
-  avatar.value = !!user.avatar ? config.getFile(user.avatar) : defaultavatar;
+  avatar.value = user.avatar.match(regex) ? user.avatar : config.getFile(user.avatar);
 });
 
 const showcontact=computed(()=>{

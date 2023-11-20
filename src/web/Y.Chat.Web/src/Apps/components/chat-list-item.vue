@@ -35,7 +35,6 @@ const props = defineProps({
 })
 
 onMounted(()=>{
-  console.info(props)
 })
 
 </script>

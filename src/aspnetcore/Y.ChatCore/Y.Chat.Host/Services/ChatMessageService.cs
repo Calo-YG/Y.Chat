@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Y.Chat.Application.Base;
 using Y.Chat.Application.ChatApplicationService;
 using Y.Chat.Application.ChatApplicationService.Dtos;
 using Y.Chat.Application.ChatApplicationService.Queries;
+using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 
 namespace Y.Chat.Host.Services
 {
@@ -15,15 +17,15 @@ namespace Y.Chat.Host.Services
 
         [Authorize]
         [RoutePattern(HttpMethod = "Get")]
-        public async Task<PageDto<MessageDto>> QueryMessage(MessageInput input)
+        public async Task<PageDto<MessageDto>> QueryMessage(Guid chatId,string? content,Guid? userId,MessageType? messageType,DateTime? creationTime,int page,int pageSize)
         {
-            var query = new SerachMessageQeury(input.ChatId,
-                input.UserId, 
-                input.Content, 
-                input.MessageType, 
-                input.CreationTime, 
-                input.Page, 
-                input.Page);
+            var query = new SerachMessageQeury(chatId,
+                userId,
+                content,
+                messageType,
+                creationTime,
+                page,
+                pageSize);
 
             await _eventBus.PublishAsync(query);
 

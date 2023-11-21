@@ -35,7 +35,8 @@ namespace Y.Chat.Host
             context.Services
                 .AddMvc()
                 .AddRazorPagesOptions(options => { })
-                .AddRazorRuntimeCompilation();
+                .AddRazorRuntimeCompilation()
+                .AddNewtonsoftJson();
 
             context.Services.AddHttpContextAccessor();
 

@@ -35,6 +35,13 @@ class Request {
                         type: 'warning',
                     })
                 }
+                if(error.response.status===500){
+                    ElNotification({
+                        title: '请求出错',
+                        message: error,
+                        type: 'error',
+                      })
+                }
                 return error
             },
         )

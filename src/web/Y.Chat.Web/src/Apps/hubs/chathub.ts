@@ -23,7 +23,7 @@ class ChatHub {
         .configureLogging(signalR.LogLevel.Information)
         .build();
       this.connection.keepAliveIntervalInMilliseconds = 5;
-      this.connection.on("ReciveMessage",(groupid,msg)=>{
+      this.connection.on("ReciveMessage",(groupid,sendUserId,msg)=>{
         console.info(msg);
       })
     }

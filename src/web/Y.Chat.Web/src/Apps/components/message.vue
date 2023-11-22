@@ -4,37 +4,35 @@
       {{ chatItem }}
     </div>
     <!-- 序列滚动 -->
-    <div>
-      <InfiniteList :data="messages" :width="'100%'" :height="620" :itemSize="getItemSize" v-slot="{ item ,index}"  debug="debug" >
-        {{item}}
-        <div class="message-item message-item-left" v-if="isCurrentuser">
-          <div>
-            <el-avatar :src="checkurl(item.avatar)" />
-          </div>
-          <div class="message-content">
-            <div class="nickName" v-show="chatType === 1">
-              <span>{{ item.name }}</span>
+    <DynamicScroller :items="messages" :min-item-size="40" class="chat-content">
+      <template v-slot="{ item, index, active }">
+        <DynamicScrollerItem
+          :item="item"
+          :active="active"
+          :size-dependencies="[item.message]"
+          :data-index="index"
+        >
+          <div class="message-item-right" v-if="isCurrentuser(item.userId)">
+            <div class="message-item">
+              <p class="time">{{item.name}}  {{formatTime(item.created)}}</p>
+              <div class="message-content"> 
+                <span>{{ item.content }}</span>
+              </div>
             </div>
-            <div class="signature">
-              <span>{{ item.content }}</span>
-            </div>
+            <img :src="checkurl(item.avatar)"/>
           </div>
-        </div>
-        <div class="message-item message-item-right" v-else>
-          <div>
-            <el-avatar :src="checkurl(item.avatar)" />
-          </div>
-          <div class="message-content">
-            <div class="nickName" v-show="chatType === 1">
-              <span>Me</span>
-            </div>
-            <div class="signature">
-              <span>{{ item.content }}</span>
+          <div class="message-item-left" v-else>
+            <img :src="checkurl(item.avatar)"/>
+            <div class="message-item">
+              <p class="time">{{item.name}}  {{formatTime(item.created)}}</p>
+              <div class="message-content"> 
+                <span>{{ item.content }}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </InfiniteList>
-    </div>
+        </DynamicScrollerItem>
+      </template>
+    </DynamicScroller>
   </div>
 </template>
 
@@ -47,7 +45,6 @@ import { ElScrollbar } from "element-plus";
 import { chatHook } from "/src/hooks/chathooks.ts";
 import localCache from "/src/services/localStorage.ts";
 import * as dayjs from "dayjs";
-import InfiniteList from "vue3-infinite-list";
 
 const innerRef = ref<HTMLDivElement>();
 const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>();
@@ -57,7 +54,7 @@ const store = chatChangeState();
 const { chatItem, chatId, chatType } = storeToRefs(store);
 const messages = ref<Array<any>>([]);
 const page = ref(0);
-const pageSize = ref(50);
+const pageSize = ref(15);
 const scrollValue = ref(0);
 const total = ref(0);
 
@@ -81,19 +78,6 @@ const isCurrentuser = (id: String) => {
 const formatTime = (time: string) => {
   return dayjs(time).format("hh:mm");
 };
-
-const getItemSize = (i: number): number => {
-      switch (i % 4) {
-        case 1:
-          return 80;
-        case 2:
-          return 50;
-        case 3:
-          return 100;
-        default:
-          return 200;
-      }
-  };
 
 // 监听滚动条变化
 watch(page, (newValue, oldValue) => {
@@ -132,48 +116,111 @@ const func = (res: Array<any>) => {
 </script>
 
 <style lang="less" scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
 .chat-container {
   width: 100%;
   height: 80%;
+  overflow-y: none;
+  overflow-x: hidden;
 }
 .top-bar {
   height: 40px;
   line-height: 80px;
 }
-.face {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  position: absolute;
-  left: 10px;
-  margin-top: 8px;
-  object-fit: cover;
-}
 
-.message-item {
+.chat-content {
   width: 100%;
-  height: 60px;
-  box-sizing: border-box;
-  border-bottom: 1px solid #eee;
-  background-color: #efefef;
-  display: flex;
-}
-.message-item-left {
-  width: 100%;
-  height: 60px;
-  box-sizing: border-box;
-  border-bottom: 1px solid #eee;
-  background-color: #efefef;
-  display: flex;
-  float: left;
-}
-.message-item-right {
-  width: 100%;
-  height: 60px;
-  box-sizing: border-box;
-  border-bottom: 1px solid #eee;
-  background-color: #efefef;
-  display: flex;
-  float: right;
+  padding: 20px;
+  height:620px;
+  overflow-y: none;
+  overflow-x: hidden;
+  .message-item-left {
+    display: flex;
+    margin-bottom: 20px;
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .message-item {
+      margin-left: 10px;
+      .time {
+        font-size: 12px;
+        color: rgba(51, 51, 51, 0.8);
+        margin: 0;
+        height: 20px;
+        line-height: 20px;
+        margin-top: -5px;
+      }
+      .message-content {
+        padding: 10px;
+        font-size: 14px;
+        background:linear-gradient(135deg,#17ead9,#6078ea);
+        position: relative;
+        margin-top: 8px;
+        border-radius:5px;
+      }
+      //小三角形
+      // .message-content::before {
+      //   position: absolute;
+      //   left: -8px;
+      //   top: 8px;
+      //   content: "";
+      //   border-right: 10px solid #fff;
+      //   border-top: 8px solid transparent;
+      //   border-bottom: 8px solid transparent;
+      // }
+    }
+  }
+
+  .message-item-right {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .message-item {
+      width: 90%;
+      margin-left: 10px;
+      text-align: right;
+      .time {
+        font-size: 12px;
+        color: rgba(51, 51, 51, 0.8);
+        margin: 0;
+        height: 20px;
+        line-height: 20px;
+        margin-top: -5px;
+        margin-right: 10px;
+      }
+      .message-content {
+        max-width: 70%;
+        padding: 10px;
+        font-size: 14px;
+        float: right;
+        margin-right: 10px;
+        position: relative;
+        margin-top: 8px;
+        background:linear-gradient(135deg,#17ead9,#6078ea);
+        text-align: left;
+        border-radius:5px;
+      }
+      //小三角形
+      // .message-content::after {
+      //   position: absolute;
+      //   right: -8px;
+      //   top: 8px;
+      //   content: "";
+      //   border-left: 10px solid #a3c3f6;
+      //   border-top: 8px solid transparent;
+      //   border-bottom: 8px solid transparent;
+      // }
+    }
+  }
 }
 </style>

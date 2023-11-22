@@ -147,7 +147,7 @@ namespace Y.Chat.EntityCore.Hubs
 
                 await _eventBus.PublishAsync(messagecmd);
 
-                await Clients.Groups(groupid.ToString("N")).SendAsync(ChatConst.Recive, groupid, content);
+                await Clients.Groups(groupid.ToString("N")).SendAsync(ChatConst.Recive, groupid,userId, content);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <message></message>
-    <send-message></send-message>
+    <message class="message-box"></message>
+    <send-message class="send-message-container"></send-message>
   </div>
 </template>
 
@@ -14,5 +14,18 @@ import { ref,computed } from'vue'
 
 
 <style lang='less' scoped>
-
+*{
+    margin:0px;
+    padding:0px;
+}
+.message-box{
+    height: 700px;
+    width: 100%;
+    overflow-y: none;
+    overflow-x: hidden;
+}
+.send-message-container{
+    width:100%;
+    height:120px;
+}
 </style>

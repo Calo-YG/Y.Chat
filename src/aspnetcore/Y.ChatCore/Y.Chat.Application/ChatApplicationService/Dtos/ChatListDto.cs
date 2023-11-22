@@ -27,5 +27,7 @@ namespace Y.Chat.Application.ChatApplicationService.Dtos
         public string LastSendUserName { get; set; }
 
         public Guid Id { get; set; }
+
+        public ChatType ChatType { get; set; }
     }
 }

@@ -23,10 +23,10 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                          
                          select new ChatListDto()
                          {
-                             Id=c.Id,
-                             UserId=c.UserId,
+                             Id = c.Id,
+                             UserId = c.UserId,
                              ConversationId=m.GroupId,
-                             MessageType=m.MessageType,
+                             MessageType = m.MessageType,
                              LastMessageId=m.Id,
                              LastMessageTime=m.CreationTime,
                              Name=c.Name,
@@ -34,7 +34,8 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                              UnReadCount=c.UnReadCount,
                              Avatar=c.Avatart,
                              LastSendUserId=m.UserId,
-                             LastSendUserName=u.Name
+                             LastSendUserName=u.Name,
+                             ChatType=c.ChatType
                          };
 
             var data =await result.ToListAsync();

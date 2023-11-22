@@ -1,6 +1,6 @@
 import Request from './htttpRequest'
 
-const baseurl = '/ChatMessage'
+const baseurl = '/v1/ChatMessages'
 const messages = '/QueryMessage'
 
 class MessageServices{

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Y.Chat.Application.Base;
 using Y.Chat.Application.ChatApplicationService;
 using Y.Chat.Application.ChatApplicationService.Dtos;

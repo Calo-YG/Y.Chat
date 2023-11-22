@@ -861,6 +861,11 @@ vue-demi@*, vue-demi@>=0.14.5:
   resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.14.6.tgz"
   integrity sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==
 
+vue-demi@latest:
+  version "0.14.6"
+  resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.14.6.tgz#dc706582851dc1cdc17a0054f4fec2eb6df74c92"
+  integrity sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==
+
 vue-router@^4.2.4:
   version "4.2.4"
   resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.2.4.tgz"
@@ -891,6 +896,13 @@ vue3-cookies@^1.0.6:
   integrity sha512-a1UvVD0qIgxyOqjlSOwnLnqAnz8ASltugEv8yX+96i/WGZAN9fEDci7xO4HIWZE1uToUnRq9JnFhvfDCSo45OA==
   dependencies:
     vue "^3.0.0"
+
+vue3-infinite-list@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.npmmirror.com/vue3-infinite-list/-/vue3-infinite-list-0.2.5.tgz#cbbd1e3cdc019066c3e9b8677edde34c02904c4f"
+  integrity sha512-3G8ePqOtJJ/TW/0vdbcy9wFdN7vXxsTjXjp0u22FjOVMCQFJrs45Vjaws2ffoPU3kXn+waT1qOP+w3fuwKcqaw==
+  dependencies:
+    vue-demi latest
 
 vue@^3.0.0, vue@^3.3.4:
   version "3.3.4"

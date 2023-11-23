@@ -1,72 +1,49 @@
 <template>
-  <el-upload
-    class="avatar-uploader"
-    :action="uploadApi"
-    :show-file-list="false"
-    :on-success="uploadSuccess"
-    :before-upload="beforeAvatarUpload"
-    :data="data"
-    v-model:file-list="fileList"
-  >
+  <el-upload class="avatar-uploader" :action="uploadApi" :show-file-list="false" :on-success="uploadSuccess"
+    :before-upload="beforeAvatarUpload" :data="data" v-model:file-list="fileList" :headers="headers">
     <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+    <el-icon v-else class="avatar-uploader-icon">
+      <Plus />
+    </el-icon>
   </el-upload>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch,onMounted  } from "vue";
+import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
-import { useCookies } from "vue3-cookies";
-import type { UploadFile } from "element-plus";
-import config from '/src/config.ts'
 
-const { cookies } = useCookies();
-const fileList: UploadUserFile[] = ref([]);
+import type { UploadProps, UploadUserFile } from "element-plus";
+import config from '../../config.ts'
+import localStorage from "../../services/localStorage";
 
-let uploadApi = ref("");
+const fileList = ref<Array<UploadUserFile>>([]);
 
-let imageUrl = ref("");
+let uploadApi = config.API + "/api/v1/Files/UploadAvatar";
+
+const imageUrl = ref("");
 
 
-
-onMounted(() => {
-    uploadApi=config.API+"/api/v1/Files/UploadAvatar"
-});
-
-const data =computed(()=>{
-  return {
-    userId: getAutication("userId"),
-  }
-})
-const headers =computed(()=>{
-  return {
-    Authorization: getAutication("token")
-  }
-})
-
-const uploadSuccess=(response: any, uploadFile: UploadFile, uploadFiles: UploadFiles)=>{
-    console.info(uploadFiles)
-    if(!!response){
-      imageUrl=config.API+"/api/v1/Files/File?filename="+response
-      console.info(imageUrl)
-    }
+const data = {
+  userId: localStorage.getCache('user')['userId'],
+}
+const headers = {
+  Authorization: localStorage.getCache('user')["token"]
 }
 
-const getAutication = (param: string) => {
-  const obj = cookies.get("authentication");
-  if (!!obj && !!obj[param]) {
-    return obj[param];
+const uploadSuccess = (response: any) => {
+  if (!!response) {
+    imageUrl.value = config.API + "/api/v1/Files/File?filename=" + response
+    console.info(imageUrl)
   }
-  return null;
-};
+}
 
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   if (rawFile.type !== "image/jpeg") {
     ElMessage.error("Avatar picture must be JPG format!");
     return false;
   } else if (rawFile.size / 1024 / 1024 > 10) {
-    ElMessage.error("Avatar picture size can not exceed 2MB!");
+    ElMessage.error("头像文件大小限制为10M");
     return false;
   }
   return true;

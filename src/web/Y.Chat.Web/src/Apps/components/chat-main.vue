@@ -6,9 +6,8 @@
 </template>
 
 <script lang='ts' setup>
-import Message from '/src/Apps/components/message.vue'
-import SendMessage from '/src/Apps/components/send-message.vue'
-import { ref,computed } from'vue'
+import Message from '../components/message.vue'
+import SendMessage from '../components/send-message.vue'
 
 </script>
 

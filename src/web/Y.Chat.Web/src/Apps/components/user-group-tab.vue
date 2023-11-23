@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-import GroupList from "/src/Apps/components/group-list.vue";
-import UserList from "/src/Apps/components/user-list.vue";
+import GroupList from "../components/group-list.vue";
+import UserList from "../components/user-list.vue";
 </script>
 
 <style lang="less" scoped>

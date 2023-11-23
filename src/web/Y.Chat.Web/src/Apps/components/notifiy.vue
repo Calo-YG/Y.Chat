@@ -1,23 +1,23 @@
 <template>
-   <el-popover :visible="visible" placement="right" class="notice"  trigger="click">
+   <el-popover :visible="visiable" placement="right" class="notice"  trigger="click">
     <template #reference>
         <span @click="visiable=true">{{props.title}}</span>
     </template>
     <list :data="data" v-loading="load">
        <template #default="{ item }">
-          
+          {{ item }}
        </template>
     </list>
    </el-popover>
 </template>
 
 <script lang="ts" setup>
-import localCache from '/src/services/localStorage.ts'
-import { ref,computed,onMounted } from "vue"
-import noticeService from '/src/services/noticeService.ts'
-import list from '/src/Apps/components/list.vue'
-import NotifiyUser from '/src/Apps/components/notifiy-user.vue'
-import NotifiyGroup from '/src/Apps/components/notifiy-group.vue'
+import localCache from '../../services/localStorage.ts'
+import { ref,onMounted } from "vue"
+import noticeService from '../../services/noticeService.ts'
+import list from '../components/list.vue'
+// import NotifiyUser from '/src/Apps/components/notifiy-user.vue'
+// import NotifiyGroup from '/src/Apps/components/notifiy-group.vue'
 
 const props = defineProps({
     title:{
@@ -29,21 +29,17 @@ const props = defineProps({
         required:true
     }
 })
-const userid =computed(()=>{
-    const user= localCache.getCache('user');
-    return user.userId
-})
-const data = ref([])
+
+const data = ref<Array<any>>([])
 const load = ref(false)
 const visiable = ref(false)
 
 onMounted(()=>{
-    noticeService.userNotices(userid,props.type)
-    .then((res)=>{
+    const userId = localCache.getCache('user')['userId']
+    noticeService.userNotices(userId,props.type)
+    .then((res:Array<any>)=>{
         res.map(p=>{
-            const value ={
-
-            }
+            const value:any =p;
             data.value.push(value)
         })
         load.value=true

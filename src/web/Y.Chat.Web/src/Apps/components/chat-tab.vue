@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100vh;">
+  <div style="height:100vh;overflow: none;">
     <div class="box container">
       <div class="avatar">
         <el-badge is-dot type="success">
@@ -24,14 +24,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, onMounted, onBeforeMount } from "vue"
-import ChatList from "/src/Apps/components/chat-list.vue"
-import localCache from "/src/services/localStorage.ts"
-import { defaultavatar } from "/src/utils/static.ts"
-import List from '/src/Apps/components/list.vue'
-import config from "/src/config.ts"
-import ChatSerach from '/src/Apps/components/chat-serach.vue'
-import UserGroupTab from '/src/Apps/components/user-group-tab.vue'
+import { computed, ref, onMounted } from "vue"
+import ChatList from "../components/chat-list.vue"
+import localCache from "../../services/localStorage.ts"
+import config from "../../config.ts"
+import ChatSerach from '../components/chat-serach.vue'
+import UserGroupTab from '../components/user-group-tab.vue'
 
 const userid = ref("")
 const avatar = ref("")
@@ -67,12 +65,14 @@ const changemenu=(key:string)=>{
 }
 
 .container {
-  height: 100vh;
+  height: 98vh;
   width: 60px;
   background-color: #eaeef1;
   margin:0px;
   padding:0px;
   border-radius:5px 0px 0px 5px;
+  overflow-x: none;
+  overflow-y: none;
 }
 
 ul {
@@ -94,6 +94,12 @@ li {
   width:210px;
   height:100vh;
   padding-left:10px;
+  overflow: none;
+}
+
+.search-box{
+  width:100%;
+  height:18vh;
 }
 
 .message-contact-box{

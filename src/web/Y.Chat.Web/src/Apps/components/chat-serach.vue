@@ -11,7 +11,6 @@
 
 <script lang="ts" setup>
 import { Search } from "@element-plus/icons-vue";
-import { computed } from "vue";
 
 const props = defineProps({
   key: String,

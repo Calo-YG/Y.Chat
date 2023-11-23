@@ -8,7 +8,6 @@ using Y.Chat.Application.UserApplicationService.Queries;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.UserDomain;
-using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 using Y.Chat.EntityCore.Domain.UserDomain.Repositories;
 
 namespace Y.Chat.Application.UserApplicationService.Handler
@@ -80,6 +79,18 @@ namespace Y.Chat.Application.UserApplicationService.Handler
 
                 item.Online = exists;
             }
+        }
+        [EventHandler]
+        public async Task GetUserInfo(UserInfoQuery query)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(p=>p.Id==query.UserId);
+
+            if(user is null)
+            {
+                 throw new UserFriendlyException(errorCode: "500", "用户不存在");
+            }
+
+            query.Result = user.Map<UserInfoDto>();
         }
     }
 }

@@ -15,23 +15,23 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
-import Request from "/src/services/htttpRequest.ts";
-import localCache from "/src/services/localStorage.ts";
-import config from "/src/config.ts";
-import UserGroupItem from "/src/Apps/components/user-group-item.vue";
-import list from "/src/Apps/components/list.vue";
+import { ref, onMounted } from "vue";
+import Request from "../../services/htttpRequest.ts";
+import localCache from "../../services/localStorage.ts";
+import config from "../../config.ts";
+import UserGroupItem from "../components/user-group-item.vue";
+import list from "../components/list.vue";
 
 const props = defineProps<{
   url: String;
 }>();
-const data=ref([])
+const data=ref<Array<any>>([])
 
 onMounted(() => {
   var user = localCache.getCache("user");
   const url = props.url + "?userId=" + user.userId;
   Request.get(url)
-    .then((res) => {
+    .then((res:Array<any>) => {
       if (!!res) {
         let regex = new RegExp("^(http|https)://([\\w.]+/?)\\S*$");
         res.map((p) => {

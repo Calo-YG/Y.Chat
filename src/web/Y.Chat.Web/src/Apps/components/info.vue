@@ -17,10 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-import authorization from "../../utils/authorization.ts";
 import config from "../../config.ts";
-import { ref, computed, watch, onMounted } from "vue";
-import localCache from "/src/services/localStorage.ts";
+import { ref, onMounted } from "vue";
+import localCache from "../../services/localStorage.ts";
 
 const url =ref("")
 const username = ref("")

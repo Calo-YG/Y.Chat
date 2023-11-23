@@ -4,7 +4,6 @@
         :is-dot="true"
         type="success"
         :hidden="!props.online"
-        @click.self="info()"
       >
         <img class="face" :src="props.avatar" />
       </el-badge>
@@ -16,8 +15,8 @@
 </template>
 
 <script lang="ts" setup>
-import { defaultavatar } from "/src/utils/static.ts"
-import {chatChangeState} from '/src/hooks/chatchange.ts'
+import { defaultavatar } from "../../utils/static.ts"
+import {chatChangeState} from '../../hooks/chatchange.ts' 
 
 const store = chatChangeState()
 const { change,addToList }=store

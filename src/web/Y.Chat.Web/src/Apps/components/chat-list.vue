@@ -19,13 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onBeforeMount } from "vue";
-import List from "/src/Apps/components/list.vue";
-import ChatListItem from "/src/Apps/components/chat-list-item.vue";
-import { chatChangeState } from "/src/hooks/chatchange.ts";
+import { onMounted } from "vue";
+import List from "../components/list.vue";  
+import ChatListItem from "../components/chat-list-item.vue";
+import { chatChangeState } from "../../hooks/chatchange.ts";
 import { storeToRefs } from 'pinia'
-import chatlistService from '/src/services/chatlistServices.ts'
-import localCache from '/src/services/localStorage.ts'
+import chatlistService from '../../services/chatlistServices.ts'
+import localCache from '../../services/localStorage.ts'
 
 const store = chatChangeState();
 const { loadList }=store

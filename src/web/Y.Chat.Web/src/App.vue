@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { ElConfigProvider } from 'element-plus'
-import login from './Apps/login/login.vue';
-import { provide, inject } from 'vue'
-import {ChatHub} from './Apps/hubs/chathub.ts'
-import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
+
 
 
 
@@ -13,7 +10,7 @@ import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
 
 <template>
   <ElConfigProvider>
-    <div class="common-layout">
+  <div class="common-layout">
     <el-container>
       <router-view></router-view>
     </el-container>
@@ -23,5 +20,9 @@ import { reactive, ref ,onMounted,onBeforeUnmount} from "vue";
 
 
 <style scoped lang="less"> 
-
+.common-layout{
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+}
 </style>

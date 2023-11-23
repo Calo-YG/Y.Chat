@@ -14,13 +14,10 @@
 </template>
 
 <script lang="ts" setup>
-import info from '/src/Apps/components/info.vue'
-import chatTab from '/src/Apps/components/chat-tab.vue'
-import { reactive, ref ,onMounted,onBeforeUnmount} from "vue"
-import { provide, inject } from 'vue'
-import chathub from '/src/Apps/hubs/chathub.ts'
-import ChatList from '/src/Apps/components/chat-list.vue'
-import ChatMain from '/src/Apps/components/chat-main.vue'
+import chatTab from '../components/chat-tab.vue'
+import { onMounted,onBeforeUnmount} from "vue"
+import chathub from '../hubs/chathub.ts'
+import ChatMain from '../components/chat-main.vue'
 
 
 
@@ -40,5 +37,7 @@ onBeforeUnmount(()=>{
     border-radius:5px;
     margin:0px;
     padding:-6px;
+    overflow-x: none;
+    overflow-y: none;
 }
 </style>

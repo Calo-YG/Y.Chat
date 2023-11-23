@@ -1,7 +1,7 @@
 <template>
   <div class="chat-container">
     <div class="top-bar">
-      {{ chatItem }}
+      {{ chatItem.name }}
     </div>
     <!-- 序列滚动 -->
     <DynamicScroller :items="messages" :min-item-size="40" class="chat-content">
@@ -37,25 +37,21 @@
 </template>
 
 <script lang="ts" setup>
-import { chatChangeState } from "/src/hooks/chatchange.ts";
+import { chatChangeState } from "../../hooks/chatchange.ts";
 import { storeToRefs } from "pinia";
-import { computed, onMounted, ref, watch } from "vue";
-import messageService from "/src/services/messageServices.ts";
-import { ElScrollbar } from "element-plus";
-import { chatHook } from "/src/hooks/chathooks.ts";
-import localCache from "/src/services/localStorage.ts";
+import {  onMounted, ref, watch } from "vue";
+import messageService from "../../services/messageServices";
+import { chatHook } from "../../hooks/chathooks.ts";
+import localCache from "../../services/localStorage.ts";
 import * as dayjs from "dayjs";
 
-const innerRef = ref<HTMLDivElement>();
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>();
 
 const store = chatChangeState();
 
-const { chatItem, chatId, chatType } = storeToRefs(store);
+const { chatItem, chatId } = storeToRefs(store);
 const messages = ref<Array<any>>([]);
 const page = ref(0);
 const pageSize = ref(15);
-const scrollValue = ref(0);
 const total = ref(0);
 
 const { checkurl } = chatHook();
@@ -102,10 +98,6 @@ const loadMessages = (callback: Function | undefined = undefined) => {
       }
     }
   });
-};
-
-const scroll = ({ scrollTop }) => {
-  scrollValue.value = scrollTop;
 };
 
 const func = (res: Array<any>) => {
@@ -158,21 +150,21 @@ const func = (res: Array<any>) => {
       .message-content {
         padding: 10px;
         font-size: 14px;
-        background:linear-gradient(135deg,#17ead9,#6078ea);
+        background:#f4f4f4;
         position: relative;
         margin-top: 8px;
         border-radius:5px;
       }
       //小三角形
-      // .message-content::before {
-      //   position: absolute;
-      //   left: -8px;
-      //   top: 8px;
-      //   content: "";
-      //   border-right: 10px solid #fff;
-      //   border-top: 8px solid transparent;
-      //   border-bottom: 8px solid transparent;
-      // }
+      .message-content::before {
+        position: absolute;
+        left: -8px;
+        top: 8px;
+        content: "";
+        border-right: 10px solid #f4f4f4;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+      }
     }
   }
 
@@ -206,20 +198,20 @@ const func = (res: Array<any>) => {
         margin-right: 10px;
         position: relative;
         margin-top: 8px;
-        background:linear-gradient(135deg,#17ead9,#6078ea);
+        background:#94ec6c;
         text-align: left;
         border-radius:5px;
       }
       //小三角形
-      // .message-content::after {
-      //   position: absolute;
-      //   right: -8px;
-      //   top: 8px;
-      //   content: "";
-      //   border-left: 10px solid #a3c3f6;
-      //   border-top: 8px solid transparent;
-      //   border-bottom: 8px solid transparent;
-      // }
+      .message-content::after {
+        position: absolute;
+        right: -8px;
+        top: 8px;
+        content: "";
+        border-left: 10px solid #94ec6c;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+      }
     }
   }
 }

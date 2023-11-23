@@ -54,7 +54,8 @@ export const chatChangeState = defineStore('ChatIdState', () => {
       loadList,
       chatList,
       addToList,
-      chatType
+      chatType,
+      chatItem
    }
 })
 

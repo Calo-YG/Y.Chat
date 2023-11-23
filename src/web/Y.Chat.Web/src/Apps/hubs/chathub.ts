@@ -2,6 +2,7 @@ import * as signalR from "@microsoft/signalr";
 import config from "../../config";
 import * as msgpack from "@microsoft/signalr-protocol-msgpack";
 import localStorage from './../../services/localStorage.ts'
+import { ElNotification } from 'element-plus'
 class ChatHub {
   private connection: signalR.HubConnection | undefined;
 
@@ -25,6 +26,14 @@ class ChatHub {
       this.connection.keepAliveIntervalInMilliseconds = 5;
       this.connection.on("ReciveMessage",(groupid,sendUserId,msg)=>{
         console.info(msg);
+      })
+      this.connection.on("MessageLimit",msg=>{
+        ElNotification({
+          title: "消息提示",
+          message: msg,
+          type: "warning",
+          position: "bottom-right",
+        });
       })
     }
   }
@@ -52,7 +61,15 @@ class ChatHub {
 
   public send(messsage:string,groupid:string,type:string):void{
     this.initHunConnection();
-    this.connection!.send("SendMessage",messsage,groupid,type)
+    this.connection!.send("SendMessage",messsage,groupid,type).catch(error=>{
+      console.warn(error.message)
+      ElNotification({
+        title: "消息提示",
+        message: error.message,
+        type: "error",
+        position: "bottom-right",
+      });
+    })
   }
 
   public close(){

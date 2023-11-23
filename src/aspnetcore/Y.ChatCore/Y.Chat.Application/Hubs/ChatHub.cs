@@ -120,7 +120,7 @@ namespace Y.Chat.EntityCore.Hubs
                 }
                 var userId = GetUserId();
 
-                string key = $"user:{userId}:count";
+                string key = $"user:{userId}_{groupid}:count";
 
                 var exists = await RedisHelper.ExistsAsync(key);
                 if (exists)
@@ -129,6 +129,7 @@ namespace Y.Chat.EntityCore.Hubs
 
                     if (count >= 25)
                     {
+                        await Clients.Caller.SendAsync("MessageLimit", "消息发送过于频繁");
                         return;
                     }
                 }

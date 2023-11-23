@@ -19,7 +19,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
         {
             var query = from n in Context.Notices
                         join u in Context.Users on n.InviteUserId equals u.Id
-                        where n.RecivedUserId==userId && n.NoticeType==type
+                        where n.RecivedUserId==userId && n.NoticeType==type && n.Agred==false
                         select new NoticeModel
                         {
                             Id=n.Id,

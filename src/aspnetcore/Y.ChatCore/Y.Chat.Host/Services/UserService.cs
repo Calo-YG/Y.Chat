@@ -70,6 +70,7 @@ namespace Y.Chat.Host.Services
 
             await _eventBus.PublishAsync(cmd);
         }
+
         [Authorize]
         [RoutePattern(HttpMethod = "Get")]
         public async Task DeleteFriend(Guid chatId)
@@ -77,6 +78,17 @@ namespace Y.Chat.Host.Services
             var cmd = new DeleteFriendCommand(chatId);
 
             await _eventBus.PublishAsync(cmd);
+        }
+
+        [Authorize]
+        [RoutePattern(HttpMethod = "Get")]
+        public async Task<UserInfoDto> GetUserInfo (Guid userId)
+        {
+            var query = new UserInfoQuery(userId);
+
+            await _eventBus.PublishAsync(query);
+
+            return query.Result;
         }
     }
 }

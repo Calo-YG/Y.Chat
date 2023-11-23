@@ -15,6 +15,7 @@
     <PackageReference Include="Masa.Contrib.Data.UoW.EFCore" Version="1.0.0" />
     <PackageReference Include="Masa.Contrib.Ddd.Domain" Version="1.0.0" />
     <PackageReference Include="Masa.Contrib.Ddd.Domain.Repository.EFCore" Version="1.0.0" />
+    <PackageReference Include="Masa.Contrib.Exceptions" Version="1.0.0" />
     <PackageReference Include="Masa.Utils.Extensions.DependencyInjection" Version="1.0.0" />
     <PackageReference Include="Masa.Utils.Extensions.Enums" Version="1.0.0" />
     <PackageReference Include="Masa.Utils.Extensions.Expressions" Version="1.0.0" />

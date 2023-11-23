@@ -1,8 +1,6 @@
 <template>
-  <div class="item" @click="change(props.conversationId)">
-    <el-badge
-        @click.self="info()"
-      >
+  <div class="item" @click="change(props.conversationId as string)">
+    <el-badge>
         <img class="face" :src="avatar" />
       </el-badge>
     <div class="des">
@@ -13,11 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-import {ref,onMounted,computed} from 'vue'
-import { defaultavatar } from "/src/utils/static.ts";
-import {chatChangeState} from '/src/hooks/chatchange.ts'
-import config from "/src/config.ts";
-import localCache from '/src/services/localStorage.ts'
+import {onMounted,computed} from 'vue'
+import { defaultavatar } from "../../utils/static.ts";
+import {chatChangeState} from '../../hooks/chatchange.ts'
+import config from "../../config.ts";
+import localCache from '../../services/localStorage.ts' 
 import * as dayjs from 'dayjs'
 
 const store = chatChangeState()

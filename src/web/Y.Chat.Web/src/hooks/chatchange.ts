@@ -1,5 +1,7 @@
 import { ref } from "vue"
 import { defineStore } from 'pinia'
+import localStorage from "../services/localStorage"
+import chatlistServices from "../services/chatlistServices"
 
 // 定义一个名为 ChatIdState 的 store
 export const chatChangeState = defineStore('ChatIdState', () => {
@@ -11,6 +13,8 @@ export const chatChangeState = defineStore('ChatIdState', () => {
    const chatItem = ref<any>({})
 
    const chatType = ref(0)
+
+   const currentUserId = localStorage.getCache('user')['userId']
 
    /**
     * @description: 根据传入的聊天 id，更新 chatId 和 chatItem
@@ -47,6 +51,58 @@ export const chatChangeState = defineStore('ChatIdState', () => {
          }
       }
    }
+   /**
+    * @description: 更新最后一条消息
+    * @param {string} groupId 聊天记录
+    * @param {string} messages 消息内容
+    * @param {string} type 消息类型
+    * @param {string} sendUserId 发送者id
+    */
+   const updateLastMessae=(groupId:string,messages:string,type:string,sendUserId:string)=>{
+      const item = chatList.value.find(p => p.id === groupId) 
+      if(!!item){
+         item.content=messages
+         item.type=type
+         item.lastMessageTime=Date.now()
+         item.lastMessageSendUserId=sendUserId
+      }
+   }
+   /**
+    * 组装消息item
+    * @param groupUsers 
+    * @param sendUserId 
+    * @param message 
+    * @param groupId 
+    * @param type 
+    * @param messageId
+    * @returns 
+    */
+   const composeMessage=async (groupUsers:Array<any>,sendUserId:string,message:string,groupId:string,type:string,messageId:string)=>{
+       if(sendUserId===currentUserId){
+          return;
+       } 
+       const user=groupUsers.find(p=>p.userId==sendUserId)
+       if(!user){
+          return;
+       }
+       let hasConversation = chatList.value.find(p=>p.id===groupId)
+       if(!hasConversation)
+       {
+         hasConversation = await chatlistServices.find(groupId,sendUserId)
+         chatList.value.unshift(hasConversation)
+       }
+       const messages={
+            id:messageId,
+            content:message,
+            messageType:type,
+            userId:sendUserId,
+            name:name,
+            created:Date.now(),
+            chatId:groupId,
+            avatar:user.avatar,
+          }
+       return messages
+   }
 
    return {
       chatId,
@@ -55,7 +111,9 @@ export const chatChangeState = defineStore('ChatIdState', () => {
       chatList,
       addToList,
       chatType,
-      chatItem
+      chatItem,
+      updateLastMessae,
+      composeMessage
    }
 })
 

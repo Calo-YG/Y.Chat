@@ -6,7 +6,9 @@
       </el-aside>
       <el-container>
         <el-main>
-         <chat-main></chat-main>
+          <suspense @resolve="resolve" >
+            <chat-main></chat-main>
+          </suspense>
         </el-main>
       </el-container>
     </el-container>
@@ -15,10 +17,24 @@
 
 <script lang="ts" setup>
 import chatTab from '../components/chat-tab.vue'
-import { onMounted,onBeforeUnmount} from "vue"
+import {ref, onMounted,onBeforeUnmount,defineAsyncComponent,Suspense} from "vue"
 import chathub from '../hubs/chathub.ts'
-import ChatMain from '../components/chat-main.vue'
 
+const loading = ref(false)
+
+const ChatMain = defineAsyncComponent({
+  // 加载函数
+  loader: () => import('../components/chat-main.vue'),
+  // 展示加载组件前的延迟时间，默认为 200ms
+  delay: 200,
+  // 如果提供了一个 timeout 时间限制，并超时了
+  // 也会显示这里配置的报错组件，默认值是：Infinity
+  timeout: 3000
+})
+
+const resolve =()=>{
+  loading.value=true
+}
 
 
 onMounted(()=>{

@@ -2,11 +2,14 @@ import Request from './htttpRequest'
 
 const baseUrl="v1/Groups";
 const usergroup =baseUrl+"/UserGroup";
-const sendCode = baseUrl+"/SendCode";
+const groupUser = baseUrl+"/GroupUser";
 
 class GroupServices{
    userGroup(userid:string){
     return Request.get(usergroup+"?userId="+userid);
+   }
+   groupUser(groupId:string){
+    return Request.get(groupUser+"?groupId="+groupId);
    }
 }
 

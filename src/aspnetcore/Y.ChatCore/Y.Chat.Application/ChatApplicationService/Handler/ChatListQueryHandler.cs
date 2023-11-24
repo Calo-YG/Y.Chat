@@ -42,5 +42,35 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
 
             query.Result = data;    
         }
+
+        [EventHandler]
+        public async Task FindChatList(ChatListFindQuery query)
+        {
+            var find = from c in Context.ChatLists
+                         where c.UserId == query.UserId
+                         join m in Context.ChatMessages on c.LastMessageId equals m.Id where m.GroupId==query.ChatId
+                         join u in Context.Users on m.UserId equals u.Id
+
+                       select new ChatListDto()
+                       {
+                           Id = c.Id,
+                           UserId = c.UserId,
+                           ConversationId = m.GroupId,
+                           MessageType = m.MessageType,
+                           LastMessageId = m.Id,
+                           LastMessageTime = m.CreationTime,
+                           Name = c.Name,
+                           Content = m.Content,
+                           UnReadCount = c.UnReadCount,
+                           Avatar = c.Avatart,
+                           LastSendUserId = m.UserId,
+                           LastSendUserName = u.Name,
+                           ChatType = c.ChatType
+                       };
+
+            var result =await find.FirstOrDefaultAsync();
+
+            query.Result=result;
+        }
     }
 }

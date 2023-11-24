@@ -22,13 +22,15 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         private readonly IUserSession _currentuser;
         private readonly IHubContext<ChatHub> _hubContext;
         private readonly IEventBus _eventbus;
+        private readonly IMessageRepositroy _messageRepository;
 
         public ChatGroupCommandHandler(YChatContext context
             , IFileDomainService fileDomainService
             , IGroupRepository groupRepository
             , IUserSession currentuser
             , IHubContext<ChatHub> hubContext
-            , IEventBus eventBus)
+            , IEventBus eventBus
+            , IMessageRepositroy messageRepository)
         {
             _context = context;
             _fileDomainService = fileDomainService;
@@ -36,6 +38,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             _currentuser = currentuser;
             _hubContext = hubContext;
             _eventbus = eventBus;
+            _messageRepository = messageRepository;
         }
         [EventHandler(Order =1)]
         public async Task CreateGroup(CreateGroupCommand command)
@@ -140,6 +143,19 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             var key = $"{ChatConst.Online}_{command.UserId}";
 
             var exists = await RedisHelper.ExistsAsync(key);
+            
+            var lastMessageId = await _messageRepository.GroupLastMessgeId(command.GroupId);
+
+            var chatList = new ChatList(command.UserId,
+                command.GroupId,
+                group.Name,
+                group.Avatar,
+                EntityCore.Domain.ChatDomain.Shared.ChatType.Group,
+                lastMessageId);
+
+            await _context.AddAsync(chatList);
+
+            await _context.SaveChangesAsync();
 
             if (exists)
             {

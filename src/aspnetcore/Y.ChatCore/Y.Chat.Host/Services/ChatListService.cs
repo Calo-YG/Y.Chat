@@ -29,5 +29,16 @@ namespace Y.Chat.Host.Services
 
             return query.Result;
         }
+
+        [Authorize]
+        [RoutePattern(HttpMethod = "Get")]
+        public async Task<ChatListDto?> Find(Guid chatId,Guid userId)
+        {
+            var query = new ChatListFindQuery(chatId, userId);
+
+            await _eventBus.PublishAsync(query);
+
+            return query.Result;
+        }
     }
 }

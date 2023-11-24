@@ -46,5 +46,13 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 
             return (data,count);
         }
+
+        public  Task<Guid> GroupLastMessgeId(Guid groupId)
+        {
+            return Context.ChatMessages.Where(p=>p.GroupId==groupId)
+                .OrderBy(p=>p.CreationTime)
+                .Select(p=>p.Id)
+                .FirstAsync();
+        }
     }
 }

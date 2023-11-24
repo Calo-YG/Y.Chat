@@ -36,7 +36,10 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             await _chatDomainService.UpdateChatListMessage(cmd.GroupId, message.Id);
 
             cmd.UnitOfWork.EntityState = EntityState.Changed;
+
+            cmd.MessageId = message.Id;
         }
+
         [EventHandler]
         public  async Task DeleteFriendAndGroupMessageHandler(DeleteFriendAllMessageEvent evnet)
         {

@@ -3,6 +3,11 @@ import config from "../../config";
 import * as msgpack from "@microsoft/signalr-protocol-msgpack";
 import localStorage from './../../services/localStorage.ts'
 import { ElNotification } from 'element-plus'
+import {chatChangeState} from './../../hooks/chatchange.ts'
+import mitt from "./../../utils/mitt.ts";
+
+const store = chatChangeState();
+const { updateLastMessae }=store;
 class ChatHub {
   private connection: signalR.HubConnection | undefined;
 
@@ -12,7 +17,9 @@ class ChatHub {
 
   private initHunConnection() {
     if (!this.connection) {
+
       const url = config.API + "/chat";
+
       this.connection = new signalR.HubConnectionBuilder()
         .withAutomaticReconnect()
         .withUrl(url, {
@@ -20,13 +27,29 @@ class ChatHub {
           skipNegotiation: true,
           transport: signalR.HttpTransportType.WebSockets,
         })
+
         .withHubProtocol(new msgpack.MessagePackHubProtocol())
+
         .configureLogging(signalR.LogLevel.Information)
+
         .build();
+
       this.connection.keepAliveIntervalInMilliseconds = 5;
-      this.connection.on("ReciveMessage",(groupid,sendUserId,msg)=>{
-        console.info(msg);
+
+      this.connection.on("ReciveMessage",(groupid,sendUserId,msg,type,messageId)=>{
+        const data={
+          groupid,
+          sendUserId,
+          msg,
+          type,
+          messageId
+        }
+        // 接收消息并且更新当前消息列表的消息
+        updateLastMessae(groupid,msg,type,sendUserId)
+        // 触发接收消息事件
+        mitt.emit("ReciveMessage",data)
       })
+
       this.connection.on("MessageLimit",msg=>{
         ElNotification({
           title: "消息提示",

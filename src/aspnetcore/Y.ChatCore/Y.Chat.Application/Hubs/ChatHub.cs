@@ -129,6 +129,7 @@ namespace Y.Chat.EntityCore.Hubs
 
                     if (count >= 25)
                     {
+                        //向发送者发送回调消息
                         await Clients.Caller.SendAsync("MessageLimit", "消息发送过于频繁");
                         return;
                     }
@@ -148,7 +149,7 @@ namespace Y.Chat.EntityCore.Hubs
 
                 await _eventBus.PublishAsync(messagecmd);
 
-                await Clients.Groups(groupid.ToString("N")).SendAsync(ChatConst.Recive, groupid,userId, content);
+                await Clients.Groups(groupid.ToString("N")).SendAsync(ChatConst.Recive, groupid,userId, content,type,messagecmd.MessageId);
             }
             catch (Exception ex)
             {

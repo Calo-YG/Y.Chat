@@ -8,6 +8,11 @@ class ChatlistService{
         const url = baseUrl+query+userId
         return Request.get(url)
     }
+    
+    find(chatId:string,userId:string){
+        const url = baseUrl+'/Find?chatId='+chatId+'&userId='+userId
+        return Request.get(url)
+    }
 }
 
 export default new ChatlistService()

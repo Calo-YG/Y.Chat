@@ -13,7 +13,7 @@ export const chatChangeState = defineStore('ChatIdState', () => {
    const chatItem = ref<any>({})
 
    const chatType = ref(0)
-
+   // 创建一个 ref 对象，用于存储当前用户 id
    const currentUserId = localStorage.getCache('user')['userId']
 
    /**
@@ -22,7 +22,7 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     */
    const change = (chatid: string) => {
       chatId.value = chatid
-      chatItem.value = chatList.value.find(p => p.id === chatId)
+      chatItem.value = chatList.value.find(p => p.conversationId === chatId)
       chatType.value = chatItem.value?.chatType ?? 0
    }
 
@@ -33,7 +33,7 @@ export const chatChangeState = defineStore('ChatIdState', () => {
    const loadList = (list: Array<any>) => {
       if (!!list) {
          chatList.value = list
-         chatId.value = list[0].id
+         chatId.value = list[0].conversationId
          chatItem.value = list[0]
          chatType.value = chatItem.value?.chatType ?? 0
       }
@@ -59,12 +59,15 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     * @param {string} sendUserId 发送者id
     */
    const updateLastMessae=(groupId:string,messages:string,type:string,sendUserId:string)=>{
-      const item = chatList.value.find(p => p.id === groupId) 
-      if(!!item){
-         item.content=messages
-         item.type=type
-         item.lastMessageTime=Date.now()
-         item.lastMessageSendUserId=sendUserId
+      console.info(chatList.value)
+      const index = chatList.value.findIndex(p => p.conversationId === groupId) 
+      console.info(index)
+      if(index!=-1){
+         chatList.value[index].content=messages
+         chatList.value[index].type=type
+         chatList.value[index].lastMessageTime=Date.now()
+         chatList.value[index].lastMessageSendUserId=sendUserId
+         console.info(chatList.value[index])
       }
    }
    /**
@@ -78,9 +81,6 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     * @returns 
     */
    const composeMessage=async (groupUsers:Array<any>,sendUserId:string,message:string,groupId:string,type:string,messageId:string)=>{
-       if(sendUserId===currentUserId){
-          return;
-       } 
        const user=groupUsers.find(p=>p.userId==sendUserId)
        if(!user){
           return;

@@ -27,7 +27,6 @@ const { chatItem } = storeToRefs(store);
 }
 .top-bar {
   height: 30px;
-  line-height: 30px;
   width: 100%;
 }
 .message-box{

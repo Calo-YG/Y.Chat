@@ -17,7 +17,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
         {
             var query = (from m in Context.ChatMessages
 
-                         join u in Context.Users on m.UserId equals u.Id
+                         join u in Context.Users on m.UserId equals u.Id 
 
                          select new MessageModel()
                          {
@@ -39,10 +39,13 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 
             page = page == 0 ? 0 : page - 1;
 
-            var data = await query.Skip(page*pageSise)
+            var data = await query
+                .OrderByDescending(p=>p.Created)
+                .Skip(page*pageSise)
                 .Take(pageSise)
-                .OrderBy(p=>p.Created)
                 .ToListAsync();
+
+            data = data.OrderBy(p => p.Created).ToList();
 
             return (data,count);
         }

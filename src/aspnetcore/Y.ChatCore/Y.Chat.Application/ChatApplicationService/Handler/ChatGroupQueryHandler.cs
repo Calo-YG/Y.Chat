@@ -7,6 +7,9 @@ using Y.Chat.Application.ChatApplicationService.Queries;
 using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
+using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
+using Y.Chat.EntityCore.Domain.UserDomain.Entities;
+using ChatType = Y.Chat.EntityCore.Domain.ChatDomain.Shared.ChatType;
 
 namespace Y.Chat.Application.ChatApplicationService.Handler
 {
@@ -14,12 +17,15 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
     {
         private readonly YChatContext _context;
         private readonly IGroupRepository _groupRepository;
+        private readonly IChatListRepositroy _chatListRepository;
 
         public ChatGroupQueryHandler(YChatContext context,
-            IGroupRepository groupRepository)
+            IGroupRepository groupRepository,
+            IChatListRepositroy chatListRepository)
         {
             _context = context;
             _groupRepository = groupRepository;
+            _chatListRepository = chatListRepository;   
         }
         /// <summary>
         /// 搜索群聊
@@ -44,7 +50,19 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         [EventHandler]
         public async Task GroupUser(GroupUserQuery query)
         {
-            var users = await _groupRepository.GroupUsers(query.GroupId).ToListAsync();
+            List<User>? users;
+
+            if (query.Type == ChatType.Default)
+            {
+                users = await _chatListRepository.GetUsersByChatId(query.GroupId).ToListAsync();
+
+                query.Result = users.Map<List<GroupUserDto>>();
+
+                return;
+            }
+            
+            users = await _groupRepository.GroupUsers(query.GroupId).ToListAsync();
+
             var data = users.Map<List<GroupUserDto>>();
 
             var key = $"{ChatConst.Group}_{query.GroupId}";

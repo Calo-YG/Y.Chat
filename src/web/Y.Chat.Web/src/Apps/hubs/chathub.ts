@@ -38,7 +38,7 @@ class ChatHub {
 
       this.connection.on("ReciveMessage",(groupid,sendUserId,msg,type,messageId)=>{
         const data={
-          groupid,
+          groupId:groupid,
           sendUserId,
           msg,
           type,

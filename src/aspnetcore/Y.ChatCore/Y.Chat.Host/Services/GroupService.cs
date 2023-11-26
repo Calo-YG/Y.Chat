@@ -5,6 +5,7 @@ using Y.Chat.Application.ChatApplicationService.Commands;
 using Y.Chat.Application.ChatApplicationService.Dtos;
 using Y.Chat.Application.ChatApplicationService.Queries;
 using Y.Chat.Application.FileApplicationService.Dtos;
+using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
 
 namespace Y.Chat.Host.Services
 {
@@ -103,9 +104,9 @@ namespace Y.Chat.Host.Services
         /// <returns></returns>
         [Authorize]
         [RoutePattern(HttpMethod = "Get")]
-        public async Task<List<GroupUserDto>> GroupUser(Guid groupId)
+        public async Task<List<GroupUserDto>> GroupUser(Guid groupId,ChatType type)
         {
-            var query = new GroupUserQuery(groupId);    
+            var query = new GroupUserQuery(groupId,type);    
             await _eventBus.PublishAsync(query);
             return query.Result;
         }

@@ -83,7 +83,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
 
             var friendchatlist = new ChatList(frienduer.Id, chatId, user.Name, user.Avatar, EntityCore.Domain.ChatDomain.Shared.ChatType.Default, message.Id);
 
-            List<ChatList> chatLists = new List<ChatList>() { userchatlist,friendchatlist};
+            List<ChatList> chatLists = new List<ChatList>(2) { userchatlist,friendchatlist};
 
             await Context.Friends.AddRangeAsync(friend, userfriend);
 

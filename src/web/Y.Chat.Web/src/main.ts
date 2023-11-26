@@ -7,6 +7,7 @@ import VueCookies from 'vue3-cookies'
 import router from './Apps/routers'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueVirtualScroller from 'vue-virtual-scroller'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 const pinia = createPinia()
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="out-container">
     <div class="top-bar">
       {{ chatItem?.name }}
     </div>
@@ -26,8 +26,10 @@ const { chatItem } = storeToRefs(store);
     padding:0px;
 }
 .top-bar {
-  height: 30px;
+  height: 40px;
   width: 100%;
+  margin-top: 10px;
+  line-height: 40px;
 }
 .message-box{
     height: 620px;
@@ -38,5 +40,8 @@ const { chatItem } = storeToRefs(store);
 .send-message-container{
     width:100%;
     height:140px;
+}
+.out-container{
+    overflow-y: hidden;
 }
 </style>

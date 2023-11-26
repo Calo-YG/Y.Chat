@@ -2,10 +2,13 @@
   <div class="chat-container">
     <!-- 虚拟滚动 -->
     <div class="message-container">
-      <DynamicScroller ref="scroller" :items="messages" :min-item-size="40" class="message-scroll" key-field="id" type-field="messageType"
-        :emit-update="true" @scroll-end="scrollToEnd" @update="updateMessageList">
-        <template v-slot="{ item, index, active }">
-          <DynamicScrollerItem :item="item" :active="active" :size-dependencies="[item.content]" :data-index="index">
+      <DynamicScroller ref="scroller" :items="messages" :min-item-size="60" class="message-scroll" key-field="id" type-field="messageType"
+        :emit-update="true" @scroll-end="scrollToEnd" @update="updateMessageList" @scroll-start="scrollStart">
+        <template #before v-if="load">
+          加载中
+        </template>
+        <template #default="{ item, index, active }">
+          <DynamicScrollerItem :item="item" :active="active" :size-dependencies="[item.content]" :data-index="index" :data-active="active">
             <div class="message-item-right" v-if="isCurrentuser(item.userId)">
               <div class="message-item">
                 <p class="time">{{ item.name }} {{ formatTime(item.created) }}</p>
@@ -34,28 +37,38 @@
 <script lang="ts" setup>
 import { chatChangeState } from "../../hooks/chatchange.ts";
 import { storeToRefs } from "pinia";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch,computed } from "vue";
 import messageService from "../../services/messageServices";
 import { chatHook } from "../../hooks/chathooks.ts";
 import localCache from "../../services/localStorage.ts";
 import * as dayjs from "dayjs";
 import mitt from "./../../utils/mitt.ts";
 import groupServices from '../../services/groupServices.ts'
+import {DynamicScroller} from 'vue-virtual-scroller'
 
 const store = chatChangeState();
 
-const { chatId } = storeToRefs(store);
+const { chatId,chatType } = storeToRefs(store);
 const { composeMessage } = store
 const messages = ref<Array<any>>([]);
 const page = ref(0);
 const pageSize = ref(15);
 const total = ref(0);
 const groupUsers = ref<Array<any>>([])
+const startIndex=ref(18)
 
 const { checkurl } = chatHook();
 
 const currentUser = localCache.getCache("user");
-const scroller = ref()
+const scroller = ref<InstanceType<typeof DynamicScroller>|null>(null)
+const load = ref(false);
+
+const scrollObj=ref({
+  start:0,
+  end:0,
+  visibleStart:0,
+  visibleEnd:0,
+})
 
 onMounted(() => {
   messages.value = [];
@@ -63,6 +76,7 @@ onMounted(() => {
   loadGroupUsers();
   reciveMessage();
   reciveSelfMessage();
+  listenScroll()
 });
 
 watch(chatId, (newValue) => {
@@ -70,6 +84,10 @@ watch(chatId, (newValue) => {
     messages.value = [];
     loadMessages();
   }
+});
+
+const totalPage = computed(() => {
+  return Math.ceil(total.value / pageSize.value);
 });
 
 const isCurrentuser = (id: String) => {
@@ -81,12 +99,13 @@ const formatTime = (time: string) => {
 };
 
 // 监听滚动条变化
-watch(page, (newValue, oldValue) => {
-  // 监听page的变化，当newValue存在或者newValue大于oldValue时执行loadMessages(func)
-  if (!!newValue || newValue > oldValue) {
-    loadMessages(func);
-  }
-});
+// watch(page, (newValue, oldValue) => {
+//   // 监听page的变化，当newValue存在或者newValue大于oldValue时执行loadMessages(func)
+//   console.info("监听page的变化")
+//   if (!!newValue && newValue > oldValue) {
+//     loadMessages(func);
+//   }
+// });
 //加载数据
 const loadMessages = (callback: Function | undefined = undefined) => {
   if (!chatId.value) {
@@ -95,13 +114,17 @@ const loadMessages = (callback: Function | undefined = undefined) => {
   // 加载消息
   messageService.query(chatId.value, page.value, pageSize.value).then((res) => {
     if (!!res) {
-      total.value = res.total;
+      total.value = res.totalCount;
       if (!!callback) {
         // 如果存在回调函数，则调用回调函数并传入返回结果
         callback(res.result);
+        load.value = false;
+        //scroller.value?.scrollToItem(startIndex.value)
       } else {
-        // 否则将返回结果插入到 messages 数组的开头
-        func(res.result);
+        // 否则将返回结果插入到 messages 数组的开头 
+        res.result.map((p:any) => {
+          messages.value.push(p);
+        });     
         toEnd();
       }
     }
@@ -112,7 +135,8 @@ const loadGroupUsers = () => {
   if (!chatId.value) {
     return
   }
-  groupServices.groupUser(chatId.value).then(res => {
+  const type = chatType.value ===0 ? "Default":"Group"
+  groupServices.groupUser(chatId.value,type).then(res => {
     if (!!res) {
       groupUsers.value = res
     }
@@ -120,9 +144,9 @@ const loadGroupUsers = () => {
 }
 
 const func = (res: Array<any>) => {
-  res.map((p) => {
-    messages.value.push(p);
-  });
+  for(let i=res.length-1;i>=0;i--){
+    messages.value.unshift(res[i])
+  }
 };
 
 /**
@@ -144,19 +168,18 @@ const reciveMessage = () => {
       return
     }
     // 组装消息
-    const message = await composeMessage(groupUsers.value,
+    const message = composeMessage(groupUsers.value,
       data.sendUserId,
       data.msg,
       data.groupId,
       data.type,
       data.messageId)
     // 如果消息不存在，则返回
-    if (!!!message) {
+    if (!message) {
       return;
     }
     // 将消息添加到消息数组末尾
     messages.value.push(message)
-    //toEnd()
   })
 }
 
@@ -179,7 +202,7 @@ const reciveSelfMessage = () => {
     }
     // 将当前消息添加到消息列表中
     messages.value.push(selfLastmessages)
-    //toEnd()
+    toEnd()
   })
 }
 
@@ -187,14 +210,34 @@ const scrollToEnd = () => {
   console.info("scrollToEnd")
 }
 
+const scrollStart=()=>{
+  console.info("scroll-start")
+}
+
 const updateMessageList=(startIndex:number, endIndex:number, visibleStartIndex:number, visibleEndIndex:number)=>{
-    console.info("updateMessageList",startIndex, endIndex, visibleStartIndex, visibleEndIndex)
+    scrollObj.value.start=startIndex
+    scrollObj.value.end=endIndex
+    scrollObj.value.visibleStart=visibleStartIndex
+    scrollObj.value.visibleEnd=visibleEndIndex
 }
 
 const toEnd=()=>{
   if(!!scroller.value['scrollToBottom']){
     scroller.value['scrollToBottom']()
-    console.info("toEnd")
+  }
+}
+
+const listenScroll=()=>{
+  const element = document.querySelector(".message-scroll")
+  if(!!element){
+    element.addEventListener("scroll",()=>{
+      const scrollTop = element.scrollTop
+      if(scrollTop===0&&page.value<totalPage.value&&!load.value&&scrollObj.value.end===messages.value.length){
+        page.value++
+        load.value=true
+        loadMessages(func)
+      }
+    })
   }
 }
 
@@ -221,14 +264,12 @@ const toEnd=()=>{
 .message-container {
   width: 100%;
   height: 620px;
-  overflow: none;
   padding: 0px;
 }
 
 .message-item-left {
     display: flex;
     margin-bottom: 5px;
-
     img {
       width: 40px;
       height: 40px;
@@ -248,12 +289,13 @@ const toEnd=()=>{
       }
 
       .message-content {
-        padding: 10px;
+        padding: 5px;
         font-size: 14px;
         background: #fff;
         position: relative;
-        margin-top: 8px;
+        margin-top: 5px;
         border-radius: 5px;
+        color: #151d29;
       }
 
       //小三角形
@@ -297,10 +339,10 @@ const toEnd=()=>{
 
       .message-content {
         max-width: 70%;
-        padding: 10px;
+        padding: 5px;
         font-size: 14px;
         float: right;
-        margin-right: 10px;
+        margin-right: 5px;
         position: relative;
         margin-top: 8px;
         background: #94ec6c;
@@ -323,7 +365,7 @@ const toEnd=()=>{
 
 /* 自定义滚动条样式 */
 .message-scroll {
-  flex: auto 1 1;
+  // flex: auto 1 1;
   height: 620px;
   /* 设置容器高度 */
   overflow-y: auto;

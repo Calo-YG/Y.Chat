@@ -12,6 +12,7 @@
           :lastSendUserName="item.lastSendUserName"
           :lastMessageTime="item.lastMessageTime"
           :lastSendUserId="item.lastSendUserId"
+          :chatType="item.chatType"
         ></chat-list-item>
       </template>
     </list>

@@ -37,7 +37,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 
             var count = await query.CountAsync();
 
-            page = page == 0 ? 0 : page - 1;
+            page = page > 0 ? page : 0;
 
             var data = await query
                 .OrderByDescending(p=>p.Created)

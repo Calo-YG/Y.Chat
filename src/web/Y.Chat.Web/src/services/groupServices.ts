@@ -8,8 +8,9 @@ class GroupServices{
    userGroup(userid:string){
     return Request.get(usergroup+"?userId="+userid);
    }
-   groupUser(groupId:string){
-    return Request.get(groupUser+"?groupId="+groupId);
+   groupUser(groupId:string,type:string){
+    const url = groupUser+"?groupId="+groupId+"&type="+type;
+    return Request.get(url);
    }
 }
 

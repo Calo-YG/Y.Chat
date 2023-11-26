@@ -21,9 +21,12 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     * @param {string} chatid 聊天 id
     */
    const change = (chatid: string) => {
-      chatId.value = chatid
-      chatItem.value = chatList.value.find(p => p.conversationId === chatId)
-      chatType.value = chatItem.value?.chatType ?? 0
+      const index = chatList.value.findIndex(p => p.conversationId === chatId)
+      if(index!=-1 && !!chatId){
+         chatId.value = chatid
+         chatItem.value = chatList.value[index]
+         chatType.value = chatItem.value?.chatType ?? 0
+      }
    }
 
    /**
@@ -45,7 +48,7 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     */
    const addToList = (item: any) => {
       if (!!chatList) {
-         var has = chatList.value.some(p => p.id == item.id)
+         var has = chatList.value.some(p => p.id === item.id)
          if (!has) {
             chatList.value.unshift(item)
          }
@@ -59,15 +62,12 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     * @param {string} sendUserId 发送者id
     */
    const updateLastMessae=(groupId:string,messages:string,type:string,sendUserId:string)=>{
-      console.info(chatList.value)
       const index = chatList.value.findIndex(p => p.conversationId === groupId) 
-      console.info(index)
       if(index!=-1){
          chatList.value[index].content=messages
          chatList.value[index].type=type
          chatList.value[index].lastMessageTime=Date.now()
          chatList.value[index].lastMessageSendUserId=sendUserId
-         console.info(chatList.value[index])
       }
    }
    /**
@@ -80,16 +80,21 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     * @param messageId
     * @returns 
     */
-   const composeMessage=async (groupUsers:Array<any>,sendUserId:string,message:string,groupId:string,type:string,messageId:string)=>{
-       const user=groupUsers.find(p=>p.userId==sendUserId)
-       if(!user){
+   const composeMessage= (groupUsers:Array<any>,sendUserId:string,message:string,groupId:string,type:string,messageId:string)=>{
+      console.info("groupuser-1",groupUsers,sendUserId)
+       const userIndex=groupUsers.findIndex(p=>p.id===sendUserId)
+       console.info('userindex',userIndex)
+       if(userIndex===-1){
           return;
        }
-       let hasConversation = chatList.value.find(p=>p.id===groupId)
-       if(!hasConversation)
+       const user = groupUsers[userIndex]
+       const index = chatList.value.findIndex(p=>p.conversationId===groupId)
+       console.info("index",index)
+       if(index ===-1)
        {
-         hasConversation = await chatlistServices.find(groupId,sendUserId)
-         chatList.value.unshift(hasConversation)
+         chatlistServices.find(groupId,sendUserId).then(res=>{
+            chatList.value.unshift(res)
+         })
        }
        const messages={
             id:messageId,
@@ -101,6 +106,7 @@ export const chatChangeState = defineStore('ChatIdState', () => {
             chatId:groupId,
             avatar:user.avatar,
           }
+      console.info("groupuser-3",messages)
        return messages
    }
 

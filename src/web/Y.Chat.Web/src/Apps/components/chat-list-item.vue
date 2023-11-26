@@ -4,8 +4,8 @@
         <img class="face" :src="avatar" />
       </el-badge>
     <div class="des">
-        <div class="nickName"><el-text truncated type="info">{{ props.name }} {{time}}</el-text></div>
-        <div class="signature"><el-text truncated type="info">{{sendname}}:{{props.content}}</el-text></div>
+        <div class="signature"><span>{{ props.name }} {{time}}</span></div>
+        <div class="signature"><span>{{sendname}}:{{props.content}}</span></div>
     </div>
 </div>
 </template>
@@ -56,6 +56,10 @@ const props = defineProps({
     lastSendUserId:{
       type:String,
       required:false
+    },
+    chatType:{
+      type:Number,
+      required:false
     }
 })
 
@@ -91,25 +95,26 @@ onMounted(()=>{
 }
 .item {
   width: 100%;
-  height: 60px;
+  height: 40px;
   box-sizing: border-box;
   border-bottom: 1px solid #eee;
   background-color: #efefef;
   display: flex;
+  font-size: 18px;
 }
 .face {
-  width: 44px;
-  height: 44px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   position: absolute;
-  left: 10px;
-  margin-top: 8px;
+  left: 1px;
+  margin-top: 5px;
   object-fit: cover;
 }
 .des {
   height: 60px;
   display: inline-block;
-  margin-left: 65px;
+  margin-left: 35px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -117,15 +122,8 @@ onMounted(()=>{
 }
 .nickName {
   /*height: 30px;*/
+  font-size: 18px;
   margin-top: 10px;
-}
-.nickName span {
-  height: 25px;
-  line-height: 25px;
-  font-size: 16px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 .signature {
   /*height: 30px;*/

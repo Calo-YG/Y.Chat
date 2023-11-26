@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100vh;overflow: none;">
+  <div class="left-bar">
     <div class="box container">
       <div class="avatar">
         <el-badge is-dot type="success">
@@ -8,8 +8,8 @@
       </div>
       <div>
         <ul>
-          <li @click="changemenu('message')"><el-icon><ChatDotRound color="#6ca8af" size="60"/></el-icon></li>
-          <li @click="changemenu('contact')"><el-icon><UserFilled color="#6ca8af" size="60"/></el-icon></li>
+          <li @click="changemenu('message')"><el-icon><ChatDotRound color="#6ca8af" size="80"/></el-icon></li>
+          <li @click="changemenu('contact')"><el-icon><UserFilled color="#6ca8af" size="80"/></el-icon></li>
         </ul>
       </div>
     </div>
@@ -33,7 +33,7 @@ import UserGroupTab from '../components/user-group-tab.vue'
 
 const userid = ref("")
 const avatar = ref("")
-const menu = ref('contact')
+const menu = ref('message')
 const key = ref('')
 
 
@@ -72,7 +72,7 @@ const changemenu=(key:string)=>{
   padding:0px;
   border-radius:5px 0px 0px 5px;
   overflow-x: none;
-  overflow-y: none;
+  overflow-y: hidden;
 }
 
 ul {
@@ -106,5 +106,9 @@ li {
   width:100%;
   height:80vh;
   margin:0 0;
+}
+.left-bar{
+  height:100vh;
+  overflow-x: hidden;
 }
 </style>

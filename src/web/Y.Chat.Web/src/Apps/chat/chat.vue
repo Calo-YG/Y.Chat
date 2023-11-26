@@ -5,7 +5,7 @@
         <chat-tab></chat-tab>
       </el-aside>
       <el-container>
-        <el-main>
+        <el-main style="overflow-y: hidden;padding: 0px;">
           <suspense @resolve="resolve" >
             <chat-main></chat-main>
           </suspense>
@@ -53,7 +53,7 @@ onBeforeUnmount(()=>{
     border-radius:5px;
     margin:0px;
     padding:-6px;
-    overflow-x: none;
-    overflow-y: none;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 </style>

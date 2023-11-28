@@ -52,7 +52,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 
         public  Task<Guid> GroupLastMessgeId(Guid groupId)
         {
-            return Context.ChatMessages.Where(p=>p.GroupId==groupId)
+            return Context.ChatMessages.Where(p=>p.GroupId==groupId && !p.Withdraw)
                 .OrderBy(p=>p.CreationTime)
                 .Select(p=>p.Id)
                 .FirstAsync();

@@ -45,6 +45,8 @@ import * as dayjs from "dayjs";
 import mitt from "./../../utils/mitt.ts";
 import groupServices from '../../services/groupServices.ts'
 import {DynamicScroller} from 'vue-virtual-scroller'
+import chathub from '../hubs/chathub.ts'
+import { ElNotification } from 'element-plus'
 
 const store = chatChangeState();
 
@@ -55,7 +57,7 @@ const page = ref(0);
 const pageSize = ref(15);
 const total = ref(0);
 const groupUsers = ref<Array<any>>([])
-const startIndex=ref(18)
+//const startIndex=ref(18)
 
 const { checkurl } = chatHook();
 
@@ -83,17 +85,26 @@ watch(chatId, (newValue) => {
   if (!!newValue) {
     messages.value = [];
     loadMessages();
+    loadGroupUsers();
   }
 });
-
+/**
+ * 计算总页数
+ */
 const totalPage = computed(() => {
   return Math.ceil(total.value / pageSize.value);
 });
-
+/**
+ * 判断是否是当前用户
+ * @param id
+ */
 const isCurrentuser = (id: String) => {
   return id === localCache.getCache("user").userId;
 };
-
+/**
+ * 格式化时间
+ * @param time
+ */
 const formatTime = (time: string) => {
   return dayjs(time).format("hh:mm");
 };
@@ -130,7 +141,9 @@ const loadMessages = (callback: Function | undefined = undefined) => {
     }
   });
 };
-
+/**
+ * 加载群组成员
+ */
 const loadGroupUsers = () => {
   if (!chatId.value) {
     return
@@ -142,7 +155,10 @@ const loadGroupUsers = () => {
     }
   })
 }
-
+/**
+ * 向数组的末尾添加数据
+ * @param res 要添加的数据
+ */
 const func = (res: Array<any>) => {
   for(let i=res.length-1;i>=0;i--){
     messages.value.unshift(res[i])
@@ -183,7 +199,6 @@ const reciveMessage = () => {
   })
 }
 
-
 /**
  * 接收自己的消息
  */
@@ -220,19 +235,24 @@ const updateMessageList=(startIndex:number, endIndex:number, visibleStartIndex:n
     scrollObj.value.visibleStart=visibleStartIndex
     scrollObj.value.visibleEnd=visibleEndIndex
 }
-
+/**
+ * 滚动到底部
+ */
 const toEnd=()=>{
   if(!!scroller.value['scrollToBottom']){
     scroller.value['scrollToBottom']()
   }
 }
-
+/**
+ * 监听滚动条
+ */
 const listenScroll=()=>{
   const element = document.querySelector(".message-scroll")
   if(!!element){
     element.addEventListener("scroll",()=>{
       const scrollTop = element.scrollTop
-      if(scrollTop===0&&page.value<totalPage.value&&!load.value&&scrollObj.value.end===messages.value.length){
+      const scrollerTop = scrollObj.value.start+scrollObj.value.end ===messages.value.length
+      if(scrollTop===0 && page.value<totalPage.value &&!load.value&&scrollerTop){
         page.value++
         load.value=true
         loadMessages(func)
@@ -241,156 +261,29 @@ const listenScroll=()=>{
   }
 }
 
+const withDrawMessage=(chatId:string,messageId:string)=>{
+  if(!chatId ||!messageId){
+    return
+  }
+  try {
+    chathub.withDrawMessage(messageId,chatId)
+    const index = messages.value.findIndex(p=>p.id===messageId)
+    if(index>-1){
+      messages.value.splice(index,1)
+    }
+  } catch (e:any) {
+    console.warn(e.message)
+      ElNotification({
+        title: "消息提示",
+        message: e.message,
+        type: "error",
+        position: "bottom-right",
+      });
+  }
+}
+
 </script>
 
-<style scoped>
-/* @import 'vue-virtual-scroller/dist/vue-virtual-scroller.css' */
-</style>
-
 <style lang="less" scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
-
-.chat-container {
-  width: 100%;
-  height: 80%;
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
-
-.message-container {
-  width: 100%;
-  height: 620px;
-  padding: 0px;
-}
-
-.message-item-left {
-    display: flex;
-    margin-bottom: 5px;
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-
-    .message-item {
-      margin-left: 10px;
-
-      .time {
-        font-size: 12px;
-        color: rgba(51, 51, 51, 0.8);
-        margin: 0;
-        height: 20px;
-        line-height: 20px;
-        margin-top: -5px;
-      }
-
-      .message-content {
-        padding: 5px;
-        font-size: 14px;
-        background: #fff;
-        position: relative;
-        margin-top: 5px;
-        border-radius: 5px;
-        color: #151d29;
-      }
-
-      //小三角形
-      .message-content::before {
-        position: absolute;
-        left: -8px;
-        top: 8px;
-        content: "";
-        border-right: 10px solid #fff;
-        border-top: 8px solid transparent;
-        border-bottom: 8px solid transparent;
-      }
-    }
-  }
-
-  .message-item-right {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 5px;
-
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-
-    .message-item {
-      width: 90%;
-      margin-left: 10px;
-      text-align: right;
-
-      .time {
-        font-size: 12px;
-        color: rgba(51, 51, 51, 0.8);
-        margin: 0;
-        height: 20px;
-        line-height: 20px;
-        margin-top: -5px;
-        margin-right: 10px;
-      }
-
-      .message-content {
-        max-width: 70%;
-        padding: 5px;
-        font-size: 14px;
-        float: right;
-        margin-right: 5px;
-        position: relative;
-        margin-top: 8px;
-        background: #94ec6c;
-        text-align: left;
-        border-radius: 5px;
-      }
-
-      //小三角形
-      .message-content::after {
-        position: absolute;
-        right: -8px;
-        top: 8px;
-        content: "";
-        border-left: 10px solid #94ec6c;
-        border-top: 8px solid transparent;
-        border-bottom: 8px solid transparent;
-      }
-    }
-  }
-
-/* 自定义滚动条样式 */
-.message-scroll {
-  // flex: auto 1 1;
-  height: 620px;
-  /* 设置容器高度 */
-  overflow-y: auto;
-  /* 开启垂直滚动条 */
-}
-
-/* Webkit 浏览器的滚动条样式 */
-.message-scroll::-webkit-scrollbar {
-  width: 5px;
-  /* 设置滚动条宽度 */
-}
-
-/* 滚动条轨道 */
-.message-scroll::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-  /* 滚动条背景色 */
-  border-radius: 5px;
-  /* 滚动条轨道边框圆角 */
-}
-
-/* 滚动条滑块 */
-.message-scroll::-webkit-scrollbar-thumb {
-  background-color: #9aa7b1;
-  /* 滚动条滑块颜色 */
-  border-radius: 5px;
-  /* 滚动条滑块边框圆角 */
-}
+@import '../../style/messages.css'
 </style>

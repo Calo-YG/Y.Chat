@@ -95,6 +95,19 @@ class ChatHub {
     })
   }
 
+  public withDrawMessage(messageId:string,groupid:string){
+    this.initHunConnection();
+    this.connection!.send("WithDrawMessage",messageId,groupid)
+    .then(()=>{
+      ElNotification({
+        title: "消息提示",
+        message: "已撤回消息",
+        type: "success",
+        position: "bottom-right",
+      });
+    })
+  }
+
   public close(){
     this.connection!.onclose((error:Error|undefined)=>{
       console.info(error?.message??"断开连接")

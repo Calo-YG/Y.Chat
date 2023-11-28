@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.chat-container {
+  width: 100%;
+  height: 80%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+.message-container {
+  width: 100%;
+  height: 620px;
+  padding: 0px;
+}
+.message-item-left {
+  display: flex;
+  margin-bottom: 5px;
+}
+.message-item-left img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.message-item-left .message-item {
+  margin-left: 10px;
+}
+.message-item-left .message-item .time {
+  font-size: 12px;
+  color: rgba(51, 51, 51, 0.8);
+  margin: 0;
+  height: 20px;
+  line-height: 20px;
+  margin-top: -5px;
+}
+.message-item-left .message-item .message-content {
+  padding: 5px;
+  font-size: 14px;
+  background: #fff;
+  position: relative;
+  margin-top: 5px;
+  border-radius: 5px;
+  color: #151d29;
+}
+.message-item-left .message-item .message-content::before {
+  position: absolute;
+  left: -8px;
+  top: 8px;
+  content: "";
+  border-right: 10px solid #fff;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.message-item-right {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+.message-item-right img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.message-item-right .message-item {
+  width: 90%;
+  margin-left: 10px;
+  text-align: right;
+}
+.message-item-right .message-item .time {
+  font-size: 12px;
+  color: rgba(51, 51, 51, 0.8);
+  margin: 0;
+  height: 20px;
+  line-height: 20px;
+  margin-top: -5px;
+  margin-right: 10px;
+}
+.message-item-right .message-item .message-content {
+  max-width: 70%;
+  padding: 5px;
+  font-size: 14px;
+  float: right;
+  margin-right: 5px;
+  position: relative;
+  margin-top: 8px;
+  background: #94ec6c;
+  text-align: left;
+  border-radius: 5px;
+}
+.message-item-right .message-item .message-content::after {
+  position: absolute;
+  right: -8px;
+  top: 8px;
+  content: "";
+  border-left: 10px solid #94ec6c;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+/* 自定义滚动条样式 */
+.message-scroll {
+  height: 620px;
+  /* 设置容器高度 */
+  overflow-y: auto;
+  /* 开启垂直滚动条 */
+}
+/* Webkit 浏览器的滚动条样式 */
+.message-scroll::-webkit-scrollbar {
+  width: 5px;
+  /* 设置滚动条宽度 */
+}
+/* 滚动条轨道 */
+.message-scroll::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* 滚动条背景色 */
+  border-radius: 5px;
+  /* 滚动条轨道边框圆角 */
+}
+/* 滚动条滑块 */
+.message-scroll::-webkit-scrollbar-thumb {
+  background-color: #9aa7b1;
+  /* 滚动条滑块颜色 */
+  border-radius: 5px;
+  /* 滚动条滑块边框圆角 */
+}

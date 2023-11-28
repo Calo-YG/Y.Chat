@@ -18,7 +18,6 @@ import config from '../../config.ts'
 import localStorage from "../../services/localStorage";
 
 const fileList = ref<Array<UploadUserFile>>([]);
-
 let uploadApi = config.API + "/api/v1/Files/UploadAvatar";
 
 const imageUrl = ref("");

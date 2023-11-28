@@ -157,7 +157,30 @@ namespace Y.Chat.EntityCore.Hubs
                 _logger.LogError(ex.Message);
                 throw;
             }
+        }
 
+        /// <summary>
+        /// 撤回消息
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <param name="messageId"></param>
+        /// <returns></returns>
+        public async Task WithDrawMessage(Guid groupId,Guid messageId)
+        {
+            var userId = GetUserId();
+            try
+            {
+                var cmd = new WithdrawMessageCommand(messageId, userId, groupId);
+
+                await _eventBus.PublishAsync(cmd);
+
+                await Clients.Groups(groupId.ToString("N")).SendAsync(ChatConst.WithDraw);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
         }
 
         private Guid GetUserId()

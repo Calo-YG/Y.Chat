@@ -9,5 +9,7 @@
         public const string Group = "Group";
 
         public const string Recive = "ReciveMessage";
+
+        public const string WithDraw = "WithDrawMessage";
     }
 }

@@ -81,15 +81,12 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     * @returns 
     */
    const composeMessage= (groupUsers:Array<any>,sendUserId:string,message:string,groupId:string,type:string,messageId:string)=>{
-      console.info("groupuser-1",groupUsers,sendUserId)
        const userIndex=groupUsers.findIndex(p=>p.id===sendUserId)
-       console.info('userindex',userIndex)
        if(userIndex===-1){
           return;
        }
        const user = groupUsers[userIndex]
        const index = chatList.value.findIndex(p=>p.conversationId===groupId)
-       console.info("index",index)
        if(index ===-1)
        {
          chatlistServices.find(groupId,sendUserId).then(res=>{
@@ -106,8 +103,7 @@ export const chatChangeState = defineStore('ChatIdState', () => {
             chatId:groupId,
             avatar:user.avatar,
           }
-      console.info("groupuser-3",messages)
-       return messages
+      return messages
    }
 
    return {

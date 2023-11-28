@@ -61,6 +61,7 @@ namespace Y.Chat.Host.Services
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
+        [RoutePattern(HttpMethod = "Get")]
         public async Task<IResult> GetFile(string filename)
         {
             var query = new GetFileQuery(filename);
@@ -75,6 +76,7 @@ namespace Y.Chat.Host.Services
         /// <param name="file"></param>
         /// <returns></returns>
         [Authorize]
+        [RoutePattern(HttpMethod = "Post")]
         public async Task UploadGroupFile([FromBody]IFormFile file)
         {
             if (file is null)
@@ -92,6 +94,39 @@ namespace Y.Chat.Host.Services
                 file.FileName);
 
             await _eventBus.PublishAsync(upload);
+        }
+
+        /// <summary>
+        /// 上传聊天文件
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        /// <exception cref="UserFriendlyException"></exception>
+        [Authorize]
+        [RoutePattern(HttpMethod = "Post")]
+        public async Task<string> UploadChatFile([FromBody] IFormFile file)
+        {
+            if (file is null)
+            {
+                throw new UserFriendlyException("请选择文件");
+            }
+
+            Guid chatId; 
+
+            var chatid = httpContextAccessor.HttpContext.Request.Form["chatId"].ToString();
+
+            var parse = Guid.TryParse(chatid, out chatId);
+
+            if (!parse)
+            {
+                throw new UserFriendlyException("Guid 转换失败");
+            }
+
+            var cmd = new UploadChatFileCommand(chatId, file);
+
+            await _eventBus.PublishAsync(cmd);
+
+            return cmd.Path;
         }
     }
 }

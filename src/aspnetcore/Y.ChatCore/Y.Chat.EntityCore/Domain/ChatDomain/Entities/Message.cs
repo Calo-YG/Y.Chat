@@ -14,6 +14,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
 
         public Guid GroupId { get; set; }
 
+        public bool Withdraw { get;private set; }
+
         public Message() { }    
         public Message(Guid userId,Guid groupId,string content,MessageType messageType) 
         {
@@ -25,5 +27,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Entities
             CreationTime = DateTime.Now;
             Creator = userId;
         }
+
+        public void WithdrawMessage() => Withdraw = true;
     }
 }

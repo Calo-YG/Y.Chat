@@ -13,7 +13,7 @@
               <div class="message-item">
                 <p class="time">{{ item.name }} {{ formatTime(item.created) }}</p>
                 <div class="message-content">
-                  <span>{{ item.content }}</span>
+                  <span>{{ item.withDraw?"撤回了一条消息":item.content }}</span>
                 </div>
               </div>
               <img :src="checkurl(item.avatar)" />
@@ -23,7 +23,7 @@
               <div class="message-item">
                 <p class="time">{{ item.name }} {{ formatTime(item.created) }}</p>
                 <div class="message-content">
-                  <span>{{ item.content }}</span>
+                  <span>{{ item.withDraw?"撤回了一条消息":item.content }}</span>
                 </div>
               </div>
             </div>
@@ -43,21 +43,16 @@ import { chatHook } from "../../hooks/chathooks.ts";
 import localCache from "../../services/localStorage.ts";
 import * as dayjs from "dayjs";
 import mitt from "./../../utils/mitt.ts";
-import groupServices from '../../services/groupServices.ts'
 import {DynamicScroller} from 'vue-virtual-scroller'
-import chathub from '../hubs/chathub.ts'
-import { ElNotification } from 'element-plus'
 
 const store = chatChangeState();
 
-const { chatId,chatType } = storeToRefs(store);
-const { composeMessage } = store
+const { chatId } = storeToRefs(store);
+const { composeMessage , loadgGroupUser} = store
 const messages = ref<Array<any>>([]);
 const page = ref(0);
 const pageSize = ref(15);
 const total = ref(0);
-const groupUsers = ref<Array<any>>([])
-//const startIndex=ref(18)
 
 const { checkurl } = chatHook();
 
@@ -75,9 +70,10 @@ const scrollObj=ref({
 onMounted(() => {
   messages.value = [];
   loadMessages();
-  loadGroupUsers();
+  loadgGroupUser();
   reciveMessage();
   reciveSelfMessage();
+  withDrawMessage()
   listenScroll()
 });
 
@@ -142,20 +138,6 @@ const loadMessages = (callback: Function | undefined = undefined) => {
   });
 };
 /**
- * 加载群组成员
- */
-const loadGroupUsers = () => {
-  if (!chatId.value) {
-    return
-  }
-  const type = chatType.value ===0 ? "Default":"Group"
-  groupServices.groupUser(chatId.value,type).then(res => {
-    if (!!res) {
-      groupUsers.value = res
-    }
-  })
-}
-/**
  * 向数组的末尾添加数据
  * @param res 要添加的数据
  */
@@ -184,7 +166,7 @@ const reciveMessage = () => {
       return
     }
     // 组装消息
-    const message = composeMessage(groupUsers.value,
+    const message = composeMessage(
       data.sendUserId,
       data.msg,
       data.groupId,
@@ -260,26 +242,23 @@ const listenScroll=()=>{
     })
   }
 }
-
-const withDrawMessage=(chatId:string,messageId:string)=>{
-  if(!chatId ||!messageId){
-    return
-  }
-  try {
-    chathub.withDrawMessage(messageId,chatId)
-    const index = messages.value.findIndex(p=>p.id===messageId)
-    if(index>-1){
-      messages.value.splice(index,1)
-    }
-  } catch (e:any) {
-    console.warn(e.message)
-      ElNotification({
-        title: "消息提示",
-        message: e.message,
-        type: "error",
-        position: "bottom-right",
-      });
-  }
+/**
+ * 撤回消息
+ * @param chatId 聊天ID
+ * @param messageId 消息ID
+ */
+const withDrawMessage=()=>{
+  mitt.on("WithDrawMessage",(data:any)=>{
+     const {messageId} = data
+     const index = messages.value.findIndex((item:any) => item.id === messageId);
+     if(index===-1){
+      return;
+     }
+     messages.value[index].withDraw=true
+     if(index<messages.value.length-1){
+      return;
+     }
+  })
 }
 
 </script>

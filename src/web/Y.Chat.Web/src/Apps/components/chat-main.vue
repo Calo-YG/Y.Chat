@@ -15,8 +15,8 @@ import { chatChangeState } from "../../hooks/chatchange.ts";
 import { storeToRefs } from "pinia";
 
 const store = chatChangeState();
-
 const { chatItem } = storeToRefs(store);
+
 </script>
 
 

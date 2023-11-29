@@ -29,5 +29,7 @@ namespace Y.Chat.Application.ChatApplicationService.Dtos
         public Guid Id { get; set; }
 
         public ChatType ChatType { get; set; }
+
+        public bool WithDraw { get; set; }
     }
 }

@@ -50,12 +50,10 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             await Context.SaveChangesAsync();
         }
 
-        [EventHandler(Order =1)]
+        [EventHandler]
         public async Task WithDrawMessageId(WithdrawMessageCommand cmd)
         {
             var message =await Context.ChatMessages.FirstOrDefaultAsync(p => p.Id == cmd.MessageId);
-
-            var lastMessageId = await _messageRepository.GroupLastMessgeId(cmd.ChatId);
 
             if(message == null)
             {
@@ -68,24 +66,10 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             }
 
             message.WithdrawMessage();
+
             Context.Update(message);
 
             cmd.UnitOfWork.EntityState = EntityState.Changed;
-
-            cmd.IsLast = cmd.MessageId == lastMessageId;
-        }
-
-        [EventHandler(Order = 2)]
-        public async Task UpdateWithDrawMessage(WithdrawMessageCommand cmd)
-        {
-            if (!cmd.IsLast)
-            {
-                return;
-            }
-
-            var lastMessageId = await _messageRepository.GroupLastMessgeId(cmd.ChatId);
-
-            await _chatDomainService.UpdateChatListMessage(cmd.ChatId, lastMessageId);
         }
     }
 }

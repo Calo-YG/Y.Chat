@@ -30,7 +30,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
                             RequestUserName=u.Name,
                             Content=n.Content,
                             Agree=n.Agred,
-                            Read=n.Read
+                            Read=n.Read,
+                            CreationTime=n.CreationTime
                         };
 
             return  query.ToListAsync();

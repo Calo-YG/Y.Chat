@@ -5,7 +5,7 @@
       </el-badge>
     <div class="des">
         <div class="signature"><span>{{ props.name }} {{time}}</span></div>
-        <div class="signature"><span>{{sendname}}:{{props.content}}</span></div>
+        <div class="signature"><span>{{sendname}}:{{ content}}</span></div>
     </div>
 </div>
 </template>
@@ -60,7 +60,14 @@ const props = defineProps({
     chatType:{
       type:Number,
       required:false
+    },
+    withDraw:{
+      type:Boolean,
+      required:false
     }
+})
+
+onMounted(()=>{
 })
 
 const avatar = computed(()=>{
@@ -76,9 +83,9 @@ const time = computed(()=>{
   return dayjs(props.lastMessageTime).format('hh:mm')
 })
 
-onMounted(()=>{
+const content = computed(()=>{
+  return props.withDraw?"撤回了一条消息":props.content
 })
-
 </script>
 
 <style lang="less" scoped>

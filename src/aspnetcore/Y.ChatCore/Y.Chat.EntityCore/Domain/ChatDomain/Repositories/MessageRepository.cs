@@ -28,7 +28,8 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
                              Name = u.Name,
                              Content = m.Content,
                              MessageType = m.MessageType,
-                             Created = m.CreationTime
+                             Created = m.CreationTime,
+                             WithDraw=m.Withdraw
                          })
                          .WhereIf(userId.HasValue,p=>p.UserId==userId)
                          .WhereIf(!string.IsNullOrEmpty(content),p=>p.Content.Contains(content)&&p.MessageType==MessageType.Text)
@@ -52,7 +53,7 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
 
         public  Task<Guid> GroupLastMessgeId(Guid groupId)
         {
-            return Context.ChatMessages.Where(p=>p.GroupId==groupId && !p.Withdraw)
+            return Context.ChatMessages.Where(p=>p.GroupId==groupId)
                 .OrderBy(p=>p.CreationTime)
                 .Select(p=>p.Id)
                 .FirstAsync();

@@ -1,8 +1,7 @@
 import config from '../config.ts'
 import localStorage from "../services/localStorage.ts";
 import { ElMessage } from "element-plus";
-import type { UploadProps, UploadUserFile } from "element-plus";
-import {chatHook} from './chathooks.ts'
+import type { UploadProps } from "element-plus";
 
 interface IUploadState{
   uploadAvatarApi:String
@@ -12,8 +11,6 @@ interface IUploadState{
   uploadGroupFileApi:String,
   uploadChatFileApi:String,
 }
-
-const {checkurl}=chatHook()
 
 const imageLimitation=["","",""]
 const imageLimitSize=10

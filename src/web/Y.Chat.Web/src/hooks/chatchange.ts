@@ -2,6 +2,7 @@ import { ref } from "vue"
 import { defineStore } from 'pinia'
 import localStorage from "../services/localStorage"
 import chatlistServices from "../services/chatlistServices"
+import groupServices from "../services/groupServices"
 
 // 定义一个名为 ChatIdState 的 store
 export const chatChangeState = defineStore('ChatIdState', () => {
@@ -15,6 +16,8 @@ export const chatChangeState = defineStore('ChatIdState', () => {
    const chatType = ref(0)
    // 创建一个 ref 对象，用于存储当前用户 id
    const currentUserId = localStorage.getCache('user')['userId']
+
+   const groupUsers = ref<Array<any>>([])
 
    /**
     * @description: 根据传入的聊天 id，更新 chatId 和 chatItem
@@ -42,6 +45,18 @@ export const chatChangeState = defineStore('ChatIdState', () => {
       }
    }
 
+   const loadgGroupUser=()=>{
+      if (!chatId.value) {
+         return
+       }
+       const type = chatType.value ===0 ? "Default":"Group"
+       groupServices.groupUser(chatId.value,type).then(res => {
+         if (!!res) {
+           groupUsers.value = res
+         }
+      })
+   }
+
    /**
     * @description: 根据传入的聊天记录，更新 chatList
     * @param {any} item 聊天记录
@@ -63,12 +78,13 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     */
    const updateLastMessae=(groupId:string,messages:string,type:string,sendUserId:string)=>{
       const index = chatList.value.findIndex(p => p.conversationId === groupId) 
-      if(index!=-1){
-         chatList.value[index].content=messages
-         chatList.value[index].type=type
-         chatList.value[index].lastMessageTime=Date.now()
-         chatList.value[index].lastMessageSendUserId=sendUserId
+      if(index===-1){
+         return;
       }
+      chatList.value[index].content=messages
+      chatList.value[index].type=type
+      chatList.value[index].lastMessageTime=Date.now()
+      chatList.value[index].lastMessageSendUserId=sendUserId
    }
    /**
     * 组装消息item
@@ -80,12 +96,12 @@ export const chatChangeState = defineStore('ChatIdState', () => {
     * @param messageId
     * @returns 
     */
-   const composeMessage= (groupUsers:Array<any>,sendUserId:string,message:string,groupId:string,type:string,messageId:string)=>{
-       const userIndex=groupUsers.findIndex(p=>p.id===sendUserId)
+   const composeMessage= (sendUserId:string,message:string,groupId:string,type:string,messageId:string)=>{
+       const userIndex=groupUsers.value.findIndex(p=>p.id===sendUserId)
        if(userIndex===-1){
           return;
        }
-       const user = groupUsers[userIndex]
+       const user = groupUsers.value[userIndex]
        const index = chatList.value.findIndex(p=>p.conversationId===groupId)
        if(index ===-1)
        {
@@ -105,6 +121,13 @@ export const chatChangeState = defineStore('ChatIdState', () => {
           }
       return messages
    }
+   
+   const updateChatListWithDraw=(groupId:string,messageId:string)=>{
+      const index = chatList.value.findIndex(p => p.conversationId === groupId&&p.lastMessageId===messageId)
+      if(index!=-1){
+         chatList.value[index].withDraw=true
+      }
+   }
 
    return {
       chatId,
@@ -115,7 +138,9 @@ export const chatChangeState = defineStore('ChatIdState', () => {
       chatType,
       chatItem,
       updateLastMessae,
-      composeMessage
+      composeMessage,
+      loadgGroupUser,
+      updateChatListWithDraw
    }
 })
 

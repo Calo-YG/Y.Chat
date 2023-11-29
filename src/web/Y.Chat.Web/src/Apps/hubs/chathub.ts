@@ -7,7 +7,7 @@ import {chatChangeState} from './../../hooks/chatchange.ts'
 import mitt from "./../../utils/mitt.ts";
 
 const store = chatChangeState();
-const { updateLastMessae }=store;
+const { updateLastMessae , updateChatListWithDraw}=store;
 class ChatHub {
   private connection: signalR.HubConnection | undefined;
 
@@ -17,7 +17,6 @@ class ChatHub {
 
   private initHunConnection() {
     if (!this.connection) {
-
       const url = config.API + "/chat";
 
       this.connection = new signalR.HubConnectionBuilder()
@@ -49,7 +48,7 @@ class ChatHub {
         // 触发接收消息事件
         mitt.emit("ReciveMessage",data)
       })
-
+      //消息限制提示
       this.connection.on("MessageLimit",msg=>{
         ElNotification({
           title: "消息提示",
@@ -57,6 +56,15 @@ class ChatHub {
           type: "warning",
           position: "bottom-right",
         });
+      })
+      //处理消息撤回
+      this.connection.on('WithDrawMessage',(groupId,userId,messageId)=>{
+        updateChatListWithDraw(groupId,messageId)
+        mitt.emit("WithDrawMessage",{
+          groupId,
+          messageId,
+          userId
+        })
       })
     }
   }
@@ -97,15 +105,7 @@ class ChatHub {
 
   public withDrawMessage(messageId:string,groupid:string){
     this.initHunConnection();
-    this.connection!.send("WithDrawMessage",messageId,groupid)
-    .then(()=>{
-      ElNotification({
-        title: "消息提示",
-        message: "已撤回消息",
-        type: "success",
-        position: "bottom-right",
-      });
-    })
+    this.connection!.send("WithDrawMessage",messageId,groupid);
   }
 
   public close(){

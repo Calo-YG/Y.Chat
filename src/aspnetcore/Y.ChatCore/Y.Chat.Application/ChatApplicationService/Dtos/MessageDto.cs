@@ -19,5 +19,7 @@ namespace Y.Chat.Application.ChatApplicationService.Dtos
         public Guid ChatId { get; set; }
 
         public string Avatar { get; set; }
+
+        public string WithDraw { get; set; }
     }
 }

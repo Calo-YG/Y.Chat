@@ -17,5 +17,7 @@
         public Guid ChatId { get; set; }
 
         public string Avatar {  get; set; }   
+
+        public bool WithDraw { get; set; }
     }
 }

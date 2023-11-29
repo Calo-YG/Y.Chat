@@ -21,5 +21,7 @@ namespace Y.Chat.Application.ChatApplicationService.Dtos
         public bool Agree { get; set; }
 
         public bool Read { get; set; }
+
+        public DateTime CreationTime { get; set; }
     }
 }

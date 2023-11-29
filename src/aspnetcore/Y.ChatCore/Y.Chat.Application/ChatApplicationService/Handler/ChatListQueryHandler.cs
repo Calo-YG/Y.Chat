@@ -35,7 +35,8 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                              Avatar=c.Avatart,
                              LastSendUserId=m.UserId,
                              LastSendUserName=u.Name,
-                             ChatType=c.ChatType
+                             ChatType=c.ChatType,
+                             WithDraw = m.Withdraw
                          };
 
             var data =await result.ToListAsync();
@@ -65,7 +66,8 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                            Avatar = c.Avatart,
                            LastSendUserId = m.UserId,
                            LastSendUserName = u.Name,
-                           ChatType = c.ChatType
+                           ChatType = c.ChatType,
+                           WithDraw=m.Withdraw
                        };
 
             var result =await find.FirstOrDefaultAsync();

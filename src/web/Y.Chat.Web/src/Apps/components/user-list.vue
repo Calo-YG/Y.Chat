@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div>
+      <notifiy title="群聊通知" type="GroupRequest"></notifiy>
+      <notifiy title="好友通知" type="FriendRequest"></notifiy>
+    </div>
     <list :data="data">
       <template #default="{ item }">
         <user-group-item
@@ -22,6 +26,7 @@ import localCache from "../../services/localStorage.ts";
 import config from "../../config.ts";
 import UserGroupItem from "../components/user-group-item.vue";
 import list from "../components/list.vue";
+import Notifiy from '../components/notifiy.vue'
 
 const props = defineProps<{
   url: String;

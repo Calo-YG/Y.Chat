@@ -174,7 +174,7 @@ namespace Y.Chat.EntityCore.Hubs
 
                 await _eventBus.PublishAsync(cmd);
 
-                await Clients.Groups(groupId.ToString("N")).SendAsync(ChatConst.WithDraw);
+                await Clients.Groups(groupId.ToString("N")).SendAsync(ChatConst.WithDraw,groupId,messageId);
             }
             catch (Exception ex)
             {

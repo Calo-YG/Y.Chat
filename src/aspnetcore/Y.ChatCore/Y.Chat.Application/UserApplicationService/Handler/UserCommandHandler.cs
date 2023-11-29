@@ -116,5 +116,23 @@ namespace Y.Chat.Application.UserApplicationService.Handler
 
             await _chatListRepository.UpdateRangeAsync(chatlist);
         }
+        [EventHandler]
+        public async Task UpdateUser(UserUpdateCommand cmd)
+        {
+            var user = await _chatContext.Users.FirstOrDefaultAsync(p => p.Id == cmd.id);
+
+            if(user is null)
+            {
+                throw new UserFriendlyException("");
+            }
+
+            user.SetName(cmd.Name);
+            user.SetAutograph(cmd.Sign);
+            user.SetPassword(cmd.Password);
+
+            _chatContext.Update(user);
+
+            cmd.UnitOfWork.EntityState = Masa.BuildingBlocks.Data.UoW.EntityState.Changed;
+        }
     }
 }

@@ -90,5 +90,14 @@ namespace Y.Chat.Host.Services
 
             return query.Result;
         }
+
+        [Authorize]
+        [RoutePattern(HttpMethod = "Patch")]
+        public async Task Update(UserUpdateInput input)
+        {
+            var cmd = new UserUpdateCommand(input.Id, input.Sign, input.Name, input.Password);
+
+            await _eventBus.PublishAsync(cmd);
+        }
     }
 }

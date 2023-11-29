@@ -8,6 +8,7 @@ import router from './Apps/routers'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueVirtualScroller from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import './style/tailwind.css'
 
 const pinia = createPinia()
 

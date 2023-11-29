@@ -48,7 +48,7 @@ import {DynamicScroller} from 'vue-virtual-scroller'
 const store = chatChangeState();
 
 const { chatId } = storeToRefs(store);
-const { composeMessage , loadgGroupUser} = store
+const { composeMessage ,loadgGroupUser,updateChatListWithDraw} = store
 const messages = ref<Array<any>>([]);
 const page = ref(0);
 const pageSize = ref(15);
@@ -81,7 +81,7 @@ watch(chatId, (newValue) => {
   if (!!newValue) {
     messages.value = [];
     loadMessages();
-    loadGroupUsers();
+    loadgGroupUser()
   }
 });
 /**
@@ -249,7 +249,7 @@ const listenScroll=()=>{
  */
 const withDrawMessage=()=>{
   mitt.on("WithDrawMessage",(data:any)=>{
-     const {messageId} = data
+     const {messageId,groupId} = data
      const index = messages.value.findIndex((item:any) => item.id === messageId);
      if(index===-1){
       return;
@@ -258,11 +258,12 @@ const withDrawMessage=()=>{
      if(index<messages.value.length-1){
       return;
      }
+     updateChatListWithDraw(groupId,messageId)
   })
 }
 
 </script>
 
 <style lang="less" scoped>
-@import '../../style/messages.css'
+  @import '../../style/messages.css';
 </style>

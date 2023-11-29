@@ -19,6 +19,12 @@ export const chatChangeState = defineStore('ChatIdState', () => {
 
    const groupUsers = ref<Array<any>>([])
 
+   const noticeCount = ref(0)
+
+   const friendNotice= ref(0)
+
+   const groupNotice= ref(0)
+
    /**
     * @description: 根据传入的聊天 id，更新 chatId 和 chatItem
     * @param {string} chatid 聊天 id
@@ -129,6 +135,11 @@ export const chatChangeState = defineStore('ChatIdState', () => {
       }
    }
 
+   const updateNociteCount=(type:String)=>{
+      type==="friend"? friendNotice.value++:groupNotice.value++
+      noticeCount.value=friendNotice.value+groupNotice.value
+   }
+
    return {
       chatId,
       change,
@@ -140,7 +151,11 @@ export const chatChangeState = defineStore('ChatIdState', () => {
       updateLastMessae,
       composeMessage,
       loadgGroupUser,
-      updateChatListWithDraw
+      updateChatListWithDraw,
+      noticeCount,
+      friendNotice,
+      groupNotice,
+      updateNociteCount
    }
 })
 

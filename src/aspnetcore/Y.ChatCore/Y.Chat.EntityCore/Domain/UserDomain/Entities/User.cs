@@ -1,5 +1,6 @@
 ﻿using Masa.BuildingBlocks.Data;
 using Masa.BuildingBlocks.Ddd.Domain.Entities;
+using Masuit.Tools.Security;
 using Masuit.Tools.Systems;
 using Y.Chat.EntityCore.Domain.UserDomain.Shared;
 
@@ -38,8 +39,21 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
             Avatar = "";
         }
 
-        public void SetAccount(string account)
+        public void SetName(string? name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new UserFriendlyException("名称不能为空");
+            }
+            Name = name;
+        }
+
+        public void SetAccount(string? account)
+        {
+            if (string.IsNullOrEmpty(account))
+            {
+                throw new UserFriendlyException("账号不能为空");
+            }
             Account = account;
         }
         public void SetAvatar(string avatar)
@@ -47,9 +61,13 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
             Avatar = avatar;
         }
 
-        public void SetPassword(string password)
+        public void SetPassword(string? password)
         {
-            Password = password;
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new UserFriendlyException("密码不能为空");
+            }
+            Password = password.SHA256();
         }
 
         public void SetLoginType(LoginType loginType)
@@ -57,8 +75,12 @@ namespace Y.Chat.EntityCore.Domain.UserDomain.Entities
             LoginType = loginType;
         }
 
-        public void SetAutograph(string autograph)
+        public void SetAutograph(string? autograph)
         {
+            if (string.IsNullOrEmpty(autograph))
+            {
+                throw new UserFriendlyException("签名不能为空");
+            }
             Autograph = autograph;  
         }
     }

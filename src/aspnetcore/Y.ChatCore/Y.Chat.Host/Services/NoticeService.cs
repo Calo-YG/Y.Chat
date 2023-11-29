@@ -67,5 +67,14 @@ namespace Y.Chat.Host.Services
 
             return query.Result;
         }
+
+        [Authorize]
+        [RoutePattern(HttpMethod = "Delete")]
+        public async Task Delete(Guid id)
+        {
+            var cmd = new DeleteNoticeCommand(id);
+
+            await _eventBus.PublishAsync(cmd);
+        }
     }
 }

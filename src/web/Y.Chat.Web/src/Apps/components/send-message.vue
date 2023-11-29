@@ -1,9 +1,9 @@
 <template>
   <div class="send-container">
     <div class="menu">
-      <el-button type="info" class="menu-btn">
-        <Picture class="menu-icon" color="#2c2c34" />
-      </el-button>
+      <el-button type="info" class="menu-btn"
+          ><img :src="Emoji" class="menu-icon" /></el-button
+      >
       <el-upload
         :action="uploadChatFileApi"
         :before-upload="beforeUpload"
@@ -12,9 +12,9 @@
         :data="data"
         :headers="headers"
         :limit="3"
-        ><el-button type="info" class="menu-btn"
-          ><img :src="Emoji" class="menu-icon" /></el-button
-      ></el-upload>
+        ><el-button type="info" class="menu-btn">
+        <Picture class="menu-icon" color="#2c2c34" />
+      </el-button></el-upload>
     </div>
     <div class="message-input">
       <div
@@ -38,7 +38,7 @@ import { chatChangeState } from '../../hooks/chatchange.ts'
 import { Picture } from '@element-plus/icons-vue'
 import { Emoji } from '../../utils/static.ts'
 import mitt from '../../utils/mitt.ts'
-import uploadState '../../hooks/upload-state.ts'
+import {uploadState} from '../../hooks/upload-state.ts'
 
 const message = ref('')
 const type = ref('Text')
@@ -150,3 +150,4 @@ const uploadSuccess=(res:any)=>{
   }
 }
 </style>
+

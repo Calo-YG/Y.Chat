@@ -1,13 +1,17 @@
 ﻿using Masa.BuildingBlocks.Dispatcher.Events;
 using Masa.Contrib.Data.UoW.EFCore;
 using Masa.Contrib.Dispatcher.Events;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.Application.ChatApplicationService.Commands;
+using Y.Chat.Application.Hubs;
 using Y.Chat.EntityCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.ChatDomain.Events;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
+using Y.Chat.EntityCore.Domain.UserDomain.Entities;
+using Y.Chat.EntityCore.Hubs;
 
 namespace Y.Chat.Application.ChatApplicationService.Handler
 {
@@ -16,14 +20,17 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
         private readonly YChatContext _context;
         private readonly INoticeRepository _noticeRepository;
         private readonly IEventBus _eventbus;
+        private readonly IHubContext<ChatHub> _hubContext;
         
         public NoticeCommandHandler(YChatContext context,
             INoticeRepository noticeRepository,
-            IEventBus eventBus) 
+            IEventBus eventBus,
+            IHubContext<ChatHub> hubContext) 
         { 
             _context = context;
             _noticeRepository = noticeRepository;
             _eventbus = eventBus;
+            _hubContext = hubContext;
         }
 
         [EventHandler]
@@ -34,8 +41,27 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             List<Notice> notices = new List<Notice>();
 
             Notice notice;
+
+            Func<string,string, Task> sendNotice = async (param,type) =>
+            {
+                var key = ChatConst.GetOnlineKey(param);
+
+                var exists =await RedisHelper.ExistsAsync(ChatConst.GetOnlineKey(param));
+
+                if (!exists)
+                {
+                    return;
+                }
+
+                var connection = await RedisHelper.GetAsync(key);
+
+                await _hubContext.Clients.Groups("").SendAsync(ChatConst.Notice, type);
+            };
+
             if (cmd.IsGroup)
             {
+                var type = "Gropu";
+
                 var group =await _context.ChatGroups.FirstOrDefaultAsync(p => p.Id == cmd.ApplyGroupId);
 
                 if(group is null)
@@ -57,10 +83,14 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                         ,cmd.Remark);
 
                     notices.Add(notice);
+
+                    await sendNotice(user.ToString(), type);
                 }
             }
             else
             {
+                var type = "Friend";
+
                 var applyuser = await _context.Users.FirstOrDefaultAsync(p => p.Id == cmd.ApplyUserId);
 
                 if(applyuser is null)
@@ -73,7 +103,10 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
                     , "好友申请"
                     , NoticeType.FriendRequest
                     , cmd.Remark);
+
                 notices.Add(notice);
+
+                await sendNotice(applyuser.Id.ToString(), type);
             }
            await _noticeRepository.AddRangeAsync(notices);
            await _context.SaveChangesAsync();
@@ -117,6 +150,14 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             notice.SetRead();
 
             await _noticeRepository.UpdateAsync(notice);
+        }
+
+        [EventHandler]
+        public async Task Delete(DeleteNoticeCommand cmd)
+        {
+            await _noticeRepository.RemoveAsync(cmd.id);
+
+            cmd.UnitOfWork.EntityState = Masa.BuildingBlocks.Data.UoW.EntityState.Changed;
         }
     }
 }

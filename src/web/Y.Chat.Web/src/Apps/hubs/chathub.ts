@@ -7,7 +7,7 @@ import {chatChangeState} from './../../hooks/chatchange.ts'
 import mitt from "./../../utils/mitt.ts";
 
 const store = chatChangeState();
-const { updateLastMessae , updateChatListWithDraw}=store;
+const { updateLastMessae , updateChatListWithDraw,updateNociteCount}=store;
 class ChatHub {
   private connection: signalR.HubConnection | undefined;
 
@@ -65,6 +65,10 @@ class ChatHub {
           messageId,
           userId
         })
+      })
+      //处理通知消息
+      this.connection.on("Notifiy",type=>{
+         updateNociteCount(type)
       })
     }
   }

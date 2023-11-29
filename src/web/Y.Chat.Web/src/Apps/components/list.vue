@@ -1,6 +1,6 @@
 <template>
   <div v-if="!!props.data">
-    <ul class="infinite-list">
+    <ul class="infinite-list" v-if="!!props.data && props.data.length > 0">
       <li v-for="item in props.data" 
         :key="item" class="infinite-list-item">
         <slot name="default" :item="item"></slot>

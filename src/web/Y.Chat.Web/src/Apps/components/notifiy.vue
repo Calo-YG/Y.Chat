@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import localCache from "../../services/localStorage.ts";
-import { ref, watch , onMounted} from "vue";
+import { ref, watch } from "vue";
 import noticeService from "../../services/noticeService.ts";
 import type { INoticeDto } from "../../services/dtos.d.ts";
 import list from "../components/list.vue";
@@ -44,10 +44,6 @@ const load = ref(false);
 const visiable = ref(false);
 const userId = localCache.getCache("user")["userId"];
 
-onMounted(()=>{
-    const element = document.querySelector(".el-popper")
-    
-})
 
 watch(visiable, (val) => {
   if (!!val) {

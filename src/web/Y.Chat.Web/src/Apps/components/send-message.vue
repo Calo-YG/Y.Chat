@@ -1,29 +1,25 @@
 <template>
   <div class="send-container">
-    <div class="menu">
-      <el-button type="info" class="menu-btn"
-          ><img :src="Emoji" class="menu-icon" /></el-button
-      >
-      <el-upload
-        :action="uploadChatFileApi"
-        :before-upload="beforeUpload"
-        :show-file-list="false"
-        :on-success="uploadSuccess"
-        :data="data"
-        :headers="headers"
-        :limit="3"
-        ><el-button type="info" class="menu-btn">
-        <Picture class="menu-icon" color="#2c2c34" />
-      </el-button></el-upload>
-    </div>
-    <div class="message-input">
-      <div
-        contenteditable="true"
-        @input="inputhandler"
-        @keyup.enter="send"
-        id="messageinput"
-      ></div>
-    </div>
+    <QuillEditor theme="snow" toolbar="#my-toolbar" :modules="modules" style="border: none;">
+      <template #toolbar>
+        <div class="menu" id="my-toolbar">
+          <el-button type="info" class="menu-btn"
+            ><img :src="Emoji" class="menu-icon"
+          /></el-button>
+          <el-upload
+            :action="uploadChatFileApi"
+            :before-upload="beforeUpload"
+            :show-file-list="false"
+            :on-success="uploadSuccess"
+            :data="data"
+            :headers="headers"
+            :limit="3"
+            ><el-button type="info" class="menu-btn">
+              <Picture class="menu-icon" color="#2c2c34" /> </el-button
+          ></el-upload>
+        </div>
+      </template>
+    </QuillEditor>
     <div class="message-send">
       <el-button @click="send()" primary class="send-btn">发送</el-button>
     </div>
@@ -31,33 +27,30 @@
 </template>
 
 <script lang="ts" setup>
-import chathub from '../hubs/chathub.ts'
-import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
-import { chatChangeState } from '../../hooks/chatchange.ts'
-import { Picture } from '@element-plus/icons-vue'
-import { Emoji } from '../../utils/static.ts'
-import mitt from '../../utils/mitt.ts'
-import {uploadState} from '../../hooks/upload-state.ts'
+import chathub from "../hubs/chathub.ts";
+import { ref,computed } from "vue";
+import { storeToRefs } from "pinia";
+import { chatChangeState } from "../../hooks/chatchange.ts";
+import { Picture } from "@element-plus/icons-vue";
+import { Emoji } from "../../utils/static.ts";
+import mitt from "../../utils/mitt.ts";
+import { uploadState } from "../../hooks/upload-state.ts";
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-const message = ref('')
-const type = ref('Text')
+const message = ref("");
+const type = ref("Text");
 
-const { uploadChatFileApi, headers, beforeUpload} = uploadState()
-const store = chatChangeState()
-const { chatId } = storeToRefs(store)
-
+const { uploadChatFileApi, headers, beforeUpload } = uploadState();
+const store = chatChangeState();
+const { chatId } = storeToRefs(store);
 
 const data = {
-    chatId: chatId.value,
-}
+  chatId: chatId.value,
+};
 
-const inputhandler = () => {
-    const value = document.querySelector('#messageinput')!.textContent
-    if (!!value) {
-        message.value = value
-    }
-}
+const modules=computed(()=>{
+  return []
+})
 
 const send = () => {
     if (!!chatId && !!message.value) {
@@ -76,6 +69,7 @@ const uploadSuccess=(res:any)=>{
        console.info(res)
     }
   }
+
 </script>
 
 <style lang="less" scoped>
@@ -83,15 +77,13 @@ const uploadSuccess=(res:any)=>{
   margin: 0;
   padding: 0;
 }
-
 .send-container {
   border-top: #d5ebe1 1px solid;
 }
-
 .menu {
   margin-top: 5px;
+  border: none;
 }
-
 .menu-btn {
   width: 20px;
   height: 20px;
@@ -102,36 +94,14 @@ const uploadSuccess=(res:any)=>{
   border-radius: 5px;
   margin-left: 0px;
 }
-
 .menu-icon {
   width: 20px;
   height: 20px;
   background-color: #fff;
 }
-
-.message-input {
-  width: 100%;
-  height: 120px;
-  display: flex;
-  align-items: center;
-}
-
 .message-send {
   width: 100%;
   margin-top: 5px;
-}
-
-.message-input div {
-  flex: 1;
-  padding: 1px;
-  font-size: 14px;
-  width: 100%;
-  height: 120px;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  background-color: #efefef;
-  color: #2c2c34;
 }
 
 .send-btn {
@@ -150,4 +120,3 @@ const uploadSuccess=(res:any)=>{
   }
 }
 </style>
-

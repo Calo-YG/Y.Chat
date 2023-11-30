@@ -6,7 +6,7 @@
         <div class="overlaylong-Signin">
           <h2 class="overlaylongH2">Sign in</h2>
           <input type="text" placeholder="user" v-model="ruleForm.username" />
-          <input type="text" placeholder="password" v-model="ruleForm.password" />
+          <input type="password" placeholder="password" v-model="ruleForm.password" />
           <h3>Forgot your password?</h3>
           <button class="inupbutton" @click="submitForm">Sign in</button>
         </div>
@@ -52,6 +52,7 @@ const submitForm = () => {
     })
     return;
   }
+  localCache.clear()
   userService
     .login(ruleForm.value.username, ruleForm.value.password)
     .then((res: any) => {

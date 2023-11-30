@@ -3,7 +3,8 @@ import { defaultavatar } from "./../utils/static.ts"
 
 
 interface ChatHook{
-    checkurl:Function
+    checkurl:Function,
+    checkTextIsUrl:Function
 }
 
 const regex = new RegExp("^(http|https)://([\\w.]+/?)\\S*$")
@@ -20,8 +21,13 @@ export function chatHook(): ChatHook {
         return config.getFile(url);
     }
 
+    const checkTextIsUrl = (text: string) => {
+        return text.match(regex);
+    }
+
     // 返回一个对象，包含checkurl函数
     return {
-        checkurl
+        checkurl,
+        checkTextIsUrl
     }
 }

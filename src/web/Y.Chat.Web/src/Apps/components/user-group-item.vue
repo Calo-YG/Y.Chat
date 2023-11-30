@@ -59,7 +59,10 @@ const addchat = () => {
 </script>
 
 <style scoped lang="less">
-
+*{
+  margin: 0;
+  padding: 0;
+}
 .tip {
   height: 20px;
   line-height: 20px;
@@ -77,6 +80,7 @@ const addchat = () => {
   border-bottom: 1px solid #eee;
   background-color: #efefef;
   display: flex;
+  font-size: 12px;
 }
 .face {
   width: 44px;
@@ -103,7 +107,7 @@ const addchat = () => {
 .nickName span {
   height: 25px;
   line-height: 25px;
-  font-size: 16px;
+  font-size: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -132,5 +136,14 @@ const addchat = () => {
   width: 30px;
   height: 30px;
   margin-top: 15px;
+}
+.face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  position: absolute;
+  left: 10px;
+  margin-top: 8px;
+  object-fit: cover;
 }
 </style>

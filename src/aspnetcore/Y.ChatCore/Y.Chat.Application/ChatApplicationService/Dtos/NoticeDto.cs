@@ -23,5 +23,13 @@ namespace Y.Chat.Application.ChatApplicationService.Dtos
         public bool Read { get; set; }
 
         public DateTime CreationTime { get; set; }
+
+        public Guid SendUserId { get; set; }
+
+        public string ReciveUserName { get; set; }
+
+        public string Remark { get; set; }
+
+        public string SendAvatar { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Masa.BuildingBlocks.Data.UoW;
+﻿using CommunityToolkit.HighPerformance.Helpers;
+using Masa.BuildingBlocks.Data.UoW;
 using Masa.Contrib.Ddd.Domain.Repository.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
@@ -18,8 +19,10 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
         public  Task<List<NoticeModel>> UserNotice(Guid userId,NoticeType type)
         {
             var query = from n in Context.Notices
-                        join u in Context.Users on n.InviteUserId equals u.Id
-                        where n.RecivedUserId==userId && n.NoticeType==type && n.Agred==false
+                        join u in Context.Users on n.InviteUserId equals u.Id 
+                        join s in Context.Users on n.RecivedUserId equals s.Id 
+                        let t = u.Id == userId || s.Id == userId
+                        where t && n.NoticeType==type
                         select new NoticeModel
                         {
                             Id=n.Id,
@@ -31,7 +34,11 @@ namespace Y.Chat.EntityCore.Domain.ChatDomain.Repositories
                             Content=n.Content,
                             Agree=n.Agred,
                             Read=n.Read,
-                            CreationTime=n.CreationTime
+                            CreationTime=n.CreationTime,
+                            Remark=n.Remark ?? "",
+                            ReciveUserName=s.Name,
+                            SendUserId=s.Id,
+                            SendAvatar=s.Avatar
                         };
 
             return  query.ToListAsync();

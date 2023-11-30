@@ -1,6 +1,6 @@
 <template>
   <div class="left-bar">
-    <div class="box container">
+    <div class="container box">
       <div class="avatar">
         <el-badge is-dot type="success">
           <el-avatar shape="circle" :size="45" fit="fill" :src="avatar" />
@@ -23,12 +23,12 @@
     <div class="box main-box">
       <chat-serach :key="key"></chat-serach>
       <div class="notifiy-container" v-if="showcontact">
-        <notifiy title="群聊通知" type="GroupRequest" class="notify"></notifiy>
-        <notifiy title="好友通知" type="FriendRequest" class="notify"></notifiy>
+        <notifiy title="群聊通知" type="GroupRequest" class="notifiy"></notifiy>
+        <notifiy title="好友通知" type="FriendRequest" class="notifiy"></notifiy>
       </div>
       <div class="message-contact-box">
-        <chat-list v-if="showmessage"></chat-list>
-        <user-group-tab v-if="showcontact"></user-group-tab>
+        <chat-list v-show="showmessage"></chat-list>
+        <user-group-tab v-show="showcontact"></user-group-tab>
       </div>
     </div>
   </div>
@@ -110,7 +110,7 @@ li {
 .main-box {
   width: 210px;
   height: 100vh;
-  padding-left: 10px;
+  padding-left: 0px;
   overflow: none;
 }
 
@@ -140,8 +140,10 @@ li {
   margin-top: 10px;
   line-height: 40px;
   text-align: center;
+  background-color: rgb(243, 244, 246);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   &::hover{
-        background-color: #bdcbd2;
+        background-color: #95b5c4;
     }
 }
 .notifiy-container {
@@ -152,4 +154,5 @@ li {
   align-items: center;
   justify-content: center;
 }
+
 </style>

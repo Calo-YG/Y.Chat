@@ -81,7 +81,6 @@ class ChatHub {
     return "";
   }
 
-
   public start() {
     this.initHunConnection();
     this.connection?.start().then(() => {

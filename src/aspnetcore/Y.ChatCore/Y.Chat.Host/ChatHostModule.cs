@@ -1,6 +1,5 @@
 ﻿using Calo.Blog.Common.Authorization;
 using Calo.Blog.Common.Extensions;
-using Calo.Blog.Common.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -106,8 +105,14 @@ namespace Y.Chat.Host
                         }
                     }
                 );
-                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
+                foreach(var item in Directory.GetFiles(AppContext.BaseDirectory,"*.xml",SearchOption.AllDirectories))
+                {
+                    if (item.EndsWith("xml"))
+                    {
+                        options.IncludeXmlComments(item);
+                    }
+                }
                 options.OrderActionsBy(o => o.RelativePath);
             });
 
@@ -150,7 +155,7 @@ namespace Y.Chat.Host
 
             app.UseSerilogRequestLogging();
 
-            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMasaExceptionHandler();
 
             app.UseStaticFiles();
 

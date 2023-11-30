@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import { chatChangeState } from "../../hooks/chatchange.ts";
 import { storeToRefs } from "pinia";
-import { onMounted, ref, watch,computed } from "vue";
+import { onMounted, ref, watch,computed,onBeforeUnmount } from "vue";
 import messageService from "../../services/messageServices";
 import { chatHook } from "../../hooks/chathooks.ts";
 import localCache from "../../services/localStorage.ts";
@@ -262,6 +262,9 @@ const withDrawMessage=()=>{
   })
 }
 
+onBeforeUnmount(()=>{
+  mitt.all.clear()
+})
 </script>
 
 <style lang="less" scoped>

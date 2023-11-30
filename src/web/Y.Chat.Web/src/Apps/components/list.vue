@@ -29,7 +29,7 @@ const props = defineProps({
   align-items: center;
   justify-content: center;
   height: 50px;
-  margin: 10px;
+  margin: 0px;
   color: var(--el-color-primary);
 }
 .infinite-list .infinite-list-item + .list-item {

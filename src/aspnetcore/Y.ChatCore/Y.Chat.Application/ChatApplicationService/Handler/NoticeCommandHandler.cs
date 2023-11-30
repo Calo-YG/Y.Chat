@@ -1,5 +1,4 @@
 ﻿using Masa.BuildingBlocks.Dispatcher.Events;
-using Masa.Contrib.Data.UoW.EFCore;
 using Masa.Contrib.Dispatcher.Events;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +9,6 @@ using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.ChatDomain.Events;
 using Y.Chat.EntityCore.Domain.ChatDomain.Repositories;
 using Y.Chat.EntityCore.Domain.ChatDomain.Shared;
-using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 using Y.Chat.EntityCore.Hubs;
 
 namespace Y.Chat.Application.ChatApplicationService.Handler
@@ -55,12 +53,12 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
 
                 var connection = await RedisHelper.GetAsync(key);
 
-                await _hubContext.Clients.Groups("").SendAsync(ChatConst.Notice, type);
+                await _hubContext.Clients.Users("").SendAsync(ChatConst.Notice, type);
             };
 
             if (cmd.IsGroup)
             {
-                var type = "Gropu";
+                var type = "GroupRequest";
 
                 var group =await _context.ChatGroups.FirstOrDefaultAsync(p => p.Id == cmd.ApplyGroupId);
 
@@ -89,7 +87,7 @@ namespace Y.Chat.Application.ChatApplicationService.Handler
             }
             else
             {
-                var type = "Friend";
+                var type = "FriendRequest";
 
                 var applyuser = await _context.Users.FirstOrDefaultAsync(p => p.Id == cmd.ApplyUserId);
 

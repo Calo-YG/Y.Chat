@@ -29,12 +29,13 @@
                 >
               </div>
             </div>
-<div class="btn-container">
-  <el-button class="agree-btn"
-              :disabled="item.agree || isCurrentUser(item.requestUserId)"
-              >{{ item.agree ? "已同意" : "同意" }}</el-button
-            >
-</div>
+            <div class="btn-container">
+              <el-button
+                class="agree-btn"
+                :disabled="item.agree || isCurrentUser(item.requestUserId)"
+                >{{ item.agree ? "已同意" : "同意" }}</el-button
+              >
+            </div>
           </div>
         </template>
       </list>
@@ -116,6 +117,7 @@ const avatar = (item: INoticeDto) => {
 const formatDate = (creationTime: string) => {
   return dayjs(creationTime).format("YYYY:MM:DD");
 };
+
 </script>
 
 <style lang="less" scoped>
@@ -128,7 +130,8 @@ const formatDate = (creationTime: string) => {
   width: 90%;
   height: 60px;
   margin: 0px auto;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   border-radius: 10px;
 }
 
@@ -195,7 +198,7 @@ span {
   object-fit: cover;
 }
 
-.btn-container{
+.btn-container {
   width: 60px;
   height: 30px;
   float: right;
@@ -203,7 +206,7 @@ span {
   margin-right: 15px;
 }
 
-.agree-btn{
+.agree-btn {
   width: 60px;
   height: 30px;
   line-height: 30px;

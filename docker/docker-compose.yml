@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+   chat_web_host:
+     container_name: chat_web_host
+     command: sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
+     image: ${CI_IMG_REGISTRY}/${IMAGE_NAME}_server:dev
+     restart: always
+     networks:
+       - net
+     deploy:
+       replicas: 1
+       placement:
+         max_replicas_per_node: 1
+       resources:
+         limits:
+           memory: 2048M
+         reservations:
+           memory: 512M
+       restart_policy:
+         condition: on-failure
+         delay: 5s
+         max_attempts: 5
+       update_config:
+         parallelism: 1
+         delay: 10s
+     environment:
+     volumes:
+    
+   chat_web_ui:
+     container_name: chat_web_ui
+     command: sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
+     image: ${CI_IMG_REGISTRY}/${IMAGE_NAME}_vue:dev
+     restart: always
+     networks:
+       - net
+     deploy:
+       replicas: 1
+       placement:
+         max_replicas_per_node: 1
+       resources:
+         limits:
+         memory: 2048M
+       reservations:
+          memory: 512M
+       restart_policy:
+         condition: on-failure
+         delay: 5s
+         max_attempts: 5
+       update_config:
+         parallelism: 1
+         delay: 10s
+     depends_on:
+      - chat_web_host
+     environment:
+      # -APPCONFIG=${CI_APPCONFIG_DEV}
+
+
+

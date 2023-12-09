@@ -1,10 +1,11 @@
 version: '3.9'
 
+
 services:
    chat_web_host:
      container_name: chat_web_host
      command: sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
-     image: ${CI_IMG_REGISTRY}/${IMAGE_NAME}_server:dev
+     image: chat-web-host:devhost
      restart: always
      networks:
        - net
@@ -25,12 +26,13 @@ services:
          parallelism: 1
          delay: 10s
      environment:
+
      volumes:
     
    chat_web_ui:
      container_name: chat_web_ui
      command: sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
-     image: ${CI_IMG_REGISTRY}/${IMAGE_NAME}_vue:dev
+     image: chat-web-ui:devhost
      restart: always
      networks:
        - net

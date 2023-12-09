@@ -18,23 +18,24 @@ jobs:
             sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
       - name: Build Docker Image
         run: |
-          image_name="${{ secrets.USERNAME }}/${HOST-TAG}"
-          tag_name="${{secrets.IMAGETAG}}"
+          image_name="chat-web-host"
+          tag_name="devhost"
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
           fi
-          sudo docker build -t $image_name:$tag_name -f ${{ secrets.DOCKERFILE }} .
+          cd src/aspnetcore/Y.ChatCore/Y.Chat.Host
+          sudo docker build -t $image_name:$tag_name -f Dockerfile .
 
       - name: Build and push ALI
         id: ALI_build
         run: |
-          image_name="${{ secrets.USERNAME }}/${{secrets.HOSTTAG}}"
-          tag_name="${{secrets.HOSTTAG}}"
-          sudo docker tag  $image_name:latest registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
+          image_name="chat-web-host"
+          tag_name="devhost"
+          sudo docker tag  $image_name:$tag_name registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
           sudo docker push registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
 
   build:
-    name:chat-web-host
+    name:chat-web-ui
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -44,17 +45,18 @@ jobs:
             sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
       - name: Build Docker Image
         run: |
-          image_name="${{ secrets.USERNAME }}/${WEBUITAG}"
-          tag_name="${{secrets.IMAGETAG}}"
+          image_name="chat-web-ui"
+          tag_name="devhost"
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
           fi
-          sudo docker build -t $image_name:$tag_name -f ${{ secrets.DOCKERFILE }} .
+          cd src/web/Y.Chat.Web
+          sudo docker build -t $image_name:$tag_name -f Dockerfile .
 
       - name: Build and push ALI
         id: ALI_build
         run: |
-          image_name="${{ secrets.USERNAME }}/${HOST-TAG}"
-          tag_name="${{secrets.IMAGETAG}}"
-          sudo docker tag  $image_name:latest registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
+          image_name="chat-web-ui"
+          tag_name="devhost"
+          sudo docker tag  $image_name:$tag_name registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
           sudo docker push registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name

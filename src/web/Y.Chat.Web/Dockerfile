@@ -5,17 +5,19 @@ FROM node:20.9.0 as build
 # 设置项目目录
 WORKDIR /app
 
-COPY package*.json ./
-RUN echo "COPY is success"
-
-RUN yarn
-RUN echo "install is success"
-
 COPY . .
 
+# 还原 node_modules
+RUN npm config get registry
+RUN yarn install --frozen-lockfile
+RUN ls -l
+RUN echo "package restore is success"
+
 # 编译项目
+# RUN npm run build
 RUN yarn build
 RUN echo "build is success"
+
 
 FROM nginx
 

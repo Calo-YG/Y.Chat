@@ -1,6 +1,6 @@
 # 定制的镜像都是基于 FROM 的镜像，这里将node:12.18.4设成基础镜像
 # node后面跟的tag，可以在docker hub中（上方网址）查找项目所需的tag
-FROM node:20.9.0 as build
+FROM node:16.20.2-alpine as builder
 
 # 设置项目目录
 WORKDIR /app

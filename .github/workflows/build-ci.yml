@@ -24,7 +24,6 @@ jobs:
           fi
           cd ./src/aspnetcore/Y.ChatCore/Y.Chat.Host
           sudo docker build -t $image_name:$tag_name -f Dockerfile .
-
       - name: Build and push ALI
         id: ALI_build
         run: |

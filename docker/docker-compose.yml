@@ -24,8 +24,6 @@ services:
          parallelism: 1
          delay: 10s
      environment:
-
-     volumes:
     
    chat_web_ui:
      container_name: chat_web_ui
@@ -53,6 +51,19 @@ services:
       - chat_web_host
      environment:
       # -APPCONFIG=${CI_APPCONFIG_DEV}
+   nginx:
+    image: nginx:1.16.1
+    ports:
+      - "5100:5100"
+      - "5200:5200"
+      - "5155:5155"
+    networks:
+      - fantasy_net
+    volumes:
+      - "nginx_log:/var/log/nginx"
+    configs:
+      - source: nginx_conf
+        target: /etc/nginx/nginx.conf
 
 
 

@@ -25,7 +25,7 @@ RUN echo "package restore is success"
 
 # 以nginx:1.12.2为基础镜像
 # nginx后面跟的tag，可以在docker hub中（上方网址）查找项目所需的tag
-FROM nginx:1.12.2
+FROM nginx:1.16.1
 
 # 修改/usr/share/nginx/html里面的内容为前端需要部署的静态文件，这样前端就跑在nginx上了
 WORKDIR /usr/share/nginx/html

@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  y.chat.host:
-    image: ${DOCKER_REGISTRY-}ychathost
-    build:
-      context: .
-      dockerfile: Y.Chat.Host/Dockerfile

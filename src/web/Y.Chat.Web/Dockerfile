@@ -20,9 +20,9 @@ RUN echo "build is success"
 FROM nginx:1.16.1
 
 # 修改/usr/share/nginx/html里面的内容为前端需要部署的静态文件，这样前端就跑在nginx上了
-WORKDIR /usr/share/nginx/html
-RUN rm -f *
-COPY --from=build /app/dist .
+# 复制 nginx.conf 配置文件到镜像中
+COPY ["nginx-default.conf", "/etc/nginx/nginx.conf"]
 
-# 替换default.conf文件，解决单页面部署后刷新404问题
-COPY --from=build /app/nginx-default.conf /etc/nginx/conf.d/default.conf
+
+# 从编译镜像复制编译结果到此镜像
+COPY --from=builder /app/dist /usr/share/nginx/html

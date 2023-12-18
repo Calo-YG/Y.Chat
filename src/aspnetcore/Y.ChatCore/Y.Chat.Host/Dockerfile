@@ -11,11 +11,13 @@ ARG BUILD_CONFIGURATION=Release
 
 WORKDIR /src
 
+RUN ls
+
 COPY ["Y.Chat.Host/Y.Chat.Host.csproj", "Y.Chat.Host/"]
 COPY ["Y.Chat.Application/Y.Chat.Application.csproj", "Y.Chat.Application/"]
-COPY ["./Y.Chat.EntityCore/Y.Chat.EntityCore.csproj", "Y.Chat.EntityCore/"]
+COPY ["Y.Chat.EntityCore/Y.Chat.EntityCore.csproj", "Y.Chat.EntityCore/"]
 
-RUN dotnet restore "./Y.Chat.Host/./Y.Chat.Host.csproj"
+RUN dotnet restore "./Y.Chat.Host/Y.Chat.Host.csproj"
 COPY . .
 WORKDIR "/src/Y.Chat.Host"
 

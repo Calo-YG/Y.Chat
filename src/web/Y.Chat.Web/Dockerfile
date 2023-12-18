@@ -2,17 +2,21 @@
 # node后面跟的tag，可以在docker hub中（上方网址）查找项目所需的tag
 FROM node:20.9.0 as build
 
-COPY package*.json ./
-RUN echo "COPY is success"
-
-RUN yarn
-RUN echo "install is success"
-
+WORKDIR /app
 COPY . .
 
+
+# 还原 node_modules
+RUN npm config get registry
+RUN yarn install --frozen-lockfile
+RUN ls -l
+RUN echo "package restore is success"
+
 # 编译项目
+# RUN npm run build
 RUN yarn build
 RUN echo "build is success"
+
 
 
 # 以nginx:1.12.2为基础镜像

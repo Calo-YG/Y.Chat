@@ -9,7 +9,7 @@ COPY . .
 
 # 还原 node_modules
 RUN npm config get registry
-RUN yarn install --frozen-lockfile
+RUN yarn 
 RUN ls -l
 RUN echo "package restore is success"
 

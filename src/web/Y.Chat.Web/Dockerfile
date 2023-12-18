@@ -2,25 +2,17 @@
 # node后面跟的tag，可以在docker hub中（上方网址）查找项目所需的tag
 FROM node:20.9.0 as build
 
-# 指定工作目录。用 WORKDIR 指定的工作目录，会在构建镜像的每一层中都存在。
-# WORKDIR 指定的工作目录，必须是提前创建好的
-# 将 angular 前端源码复制到 /app 目录中
-WORKDIR /app
+COPY package*.json ./
+RUN echo "COPY is success"
+
+RUN yarn
+RUN echo "install is success"
+
 COPY . .
 
-# RUN：用于执行命令
-# 清理npm缓存
-# 以下两个RUN命令可简化为RUN npm cache verify && npm cache clean -f
-RUN npm cache verify
-RUN npm cache clean -f
-
-# 安装依赖并构建
-RUN npm install --registry https://registry.npm.taobao.org && npm run build
-# 还原 node_modules
-RUN npm config get registry
-RUN yarn install --frozen-lockfile
-RUN ls -l
-RUN echo "package restore is success"
+# 编译项目
+RUN yarn run build
+RUN echo "build is success"
 
 
 # 以nginx:1.12.2为基础镜像

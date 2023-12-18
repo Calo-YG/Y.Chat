@@ -3,17 +3,22 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
 ARG BUILD_CONFIGURATION=Release
+
 WORKDIR /src
+
 COPY ["Y.Chat.Host/Y.Chat.Host.csproj", "Y.Chat.Host/"]
 COPY ["Y.Chat.Application/Y.Chat.Application.csproj", "Y.Chat.Application/"]
 COPY ["Y.Chat.EntityCore/Y.Chat.EntityCore.csproj", "Y.Chat.EntityCore/"]
+
 RUN dotnet restore "./Y.Chat.Host/./Y.Chat.Host.csproj"
 COPY . .
 WORKDIR "/src/Y.Chat.Host"
+
 RUN dotnet build "./Y.Chat.Host.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

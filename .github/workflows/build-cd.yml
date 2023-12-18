@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: run docker compose
         run: |
+            echo "Current Working Directory: $(pwd)"
             cd docker
             sudo docker-compose -f docker-compose.yml up -d
  

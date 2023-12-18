@@ -1,64 +1,47 @@
 version: '3.9'
 
+volumes:
+  nginx_log:
+  hostbolg_logs:
+  vueblog_assets:
+
+configs:
+  nginx_conf:
+    file: ./env/nginx/nginx.conf
+
 services:
    chat_web_host:
      container_name: chat_web_host
      image: registry.cn-hangzhou.aliyuncs.com/sdwyg/blogo:devhost
      restart: always
      networks:
-       - net
-     deploy:
-       replicas: 1
-       placement:
-         max_replicas_per_node: 1
-       resources:
-         limits:
-           memory: 2048M
-         reservations:
-           memory: 512M
-       restart_policy:
-         condition: on-failure
-         delay: 5s
-         max_attempts: 5
-       update_config:
-         parallelism: 1
-         delay: 10s
+       - calo-net
+     volumes:
+      - "hostbolg_logs:/app/App_Data/Logs"
      environment:
+      - ASPNETCORE_HTTP_PORTS=80
+      - ConnectionString_Default=Server=120.26.216.57;Database=YChatDbTest;MultipleActiveResultSets=true;TrustServerCertificate=true;Uid=SA;Pwd=wyg154511LHL;
+      - App__CorsOrigins=http://localhost:1545,http://localhost:5173,http://localhost:1545,http://120.26.216.57:1545
+        App_RedisSetting_Connstr=124.71.15.19:6379,password=154511,defaultDatabase=1,ssl=false,writeBuffer=10240,poolsize=50,prefix=Y.Chat
     
    chat_web_ui:
      container_name: chat_web_ui
      image: registry.cn-hangzhou.aliyuncs.com/sdwyg/blogo:devui
      restart: always
      networks:
-       - net
-     deploy:
-       replicas: 1
-       placement:
-         max_replicas_per_node: 1
-       resources:
-         limits:
-         memory: 2048M
-       reservations:
-          memory: 512M
-       restart_policy:
-         condition: on-failure
-         delay: 5s
-         max_attempts: 5
-       update_config:
-         parallelism: 1
-         delay: 10s
+       -calo-net
      depends_on:
       - chat_web_host
-     environment:
-      # -APPCONFIG=${CI_APPCONFIG_DEV}
+     volumes:
+      - vueblog_assets:/usr/share/nginx/html/assets
+
+
    nginx:
     image: nginx:1.16.1
     ports:
-      - "5100:5100"
-      - "5200:5200"
-      - "5155:5155"
+      - "1545:1545"
     networks:
-      - fantasy_net
+      - calo_net
     volumes:
       - "nginx_log:/var/log/nginx"
     configs:

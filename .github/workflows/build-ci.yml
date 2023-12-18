@@ -57,14 +57,13 @@ jobs:
           tag_name="devui"
           sudo docker tag  $image_name:$tag_name registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
           sudo docker push registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
-
+  
   deploy:
     runs-on: self-hosted
-    needs: [build_host, build_web]
     steps:
       - name: run docker compose
         run: |
-            ls
+            ls -l
             cd docker
             sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
             if  docker-compose -p chat_web_host ps > /dev/null 2>&1; then

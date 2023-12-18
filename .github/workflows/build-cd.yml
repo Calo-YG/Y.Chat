@@ -1,26 +1,21 @@
-# name: build_ci
+name: build-cd
 
-# on:
-#   push:
-#     branches: [wyg]
-#   pull_request:
-#     branches: [wyg]
- 
-# jobs:
-#   deploy:
-#     runs-on: self-hosted
-#     steps:
-#       - name: run docker compose
-#         needs: 
-#         run: |
-#             ls
-#             cd docker
-#             sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
-#             if  docker-compose -p chat_web_host ps > /dev/null 2>&1; then
-#               # 服务存在，停止并删除
-#               docker compose -f docker-compose.yml -p chat_web_host down
-#               echo "compose chat_web_host removed."
-#               sleep 10
-#             fi
-#             sudo docker compose -f docker-compose.yml -p chat_web_host pull && docker compose -f docker-compose.yml -p chat_web_host up -d
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: run docker compose
+        run: |
+            ls -l
+            cd docker
+            sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
+            if  docker-compose -p chat_web_host ps > /dev/null 2>&1; then
+              # 服务存在，停止并删除
+              docker compose -f docker-compose.yml -p chat_web_host down
+              echo "compose chat_web_host removed."
+              sleep 10
+            fi
+            sudo docker compose -f docker-compose.yml -p chat_web_host pull && docker compose -f docker-compose.yml -p chat_web_host up -d
  

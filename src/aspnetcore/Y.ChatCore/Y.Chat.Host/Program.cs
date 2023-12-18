@@ -45,7 +45,14 @@ builder.Services.AddMasaMinimalAPIs(options =>
 });
 
 var app = builder.Build();  
-  
+
+await using var context = app.Services.CreateScope().ServiceProvider.GetService<YChatContext>();
+
+{
+    // 自动迁移数据库
+    context!.Database.EnsureCreated();
+}
+
 app.MapDefaultEndpoints();
 
 await app.InitApplicationAsync();
@@ -54,4 +61,4 @@ app.MapHub<ChatHub>("/chat");
 
 app.MapMasaMinimalAPIs();
 
-app.Run();
+await app.RunAsync();

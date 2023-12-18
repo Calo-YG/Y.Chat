@@ -19,7 +19,7 @@ RUN yarn build
 RUN echo "build is success"
 
 
-FROM nginx
+FROM nginx:latest
 
 # 修改/usr/share/nginx/html里面的内容为前端需要部署的静态文件，这样前端就跑在nginx上了
 # 复制 nginx.conf 配置文件到镜像中

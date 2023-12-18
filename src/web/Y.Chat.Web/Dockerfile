@@ -14,7 +14,7 @@ RUN echo "install is success"
 COPY . .
 
 # 编译项目
-RUN yarn run build
+RUN yarn build
 RUN echo "build is success"
 
 FROM nginx

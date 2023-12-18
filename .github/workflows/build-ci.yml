@@ -7,7 +7,7 @@ on:
     branches: [wyg]
 
 jobs:
-  build:
+  build_host:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,7 +22,7 @@ jobs:
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
           fi
-          cd src/aspnetcore/Y.ChatCore/Y.Chat.Host
+          cd ./src/aspnetcore/Y.ChatCore/Y.Chat.Host
           sudo docker build -t $image_name:$tag_name -f Dockerfile .
 
       - name: Build and push ALI
@@ -33,7 +33,7 @@ jobs:
           sudo docker tag  $image_name:$tag_name registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
           sudo docker push registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
 
-  build:
+  build_web:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -44,17 +44,35 @@ jobs:
       - name: Build Docker Image
         run: |
           image_name="chat-web-ui"
-          tag_name="devhost"
+          tag_name="devui"
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
           fi
-          cd src/web/Y.Chat.Web
+          cd ./src/web/Y.Chat.Web
           sudo docker build -t $image_name:$tag_name -f Dockerfile .
 
       - name: Build and push ALI
         id: ALI_build
         run: |
           image_name="chat-web-ui"
-          tag_name="devhost"
+          tag_name="devui"
           sudo docker tag  $image_name:$tag_name registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
           sudo docker push registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
+
+  deploy:
+    runs-on: self-hosted
+    needs: [build_host, build_web]
+    steps:
+      - name: run docker compose
+        needs: 
+        run: |
+            ls
+            cd docker
+            sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
+            if  docker-compose -p chat_web_host ps > /dev/null 2>&1; then
+              # 服务存在，停止并删除
+              docker compose -f docker-compose.yml -p chat_web_host down
+              echo "compose chat_web_host removed."
+              sleep 10
+            fi
+            sudo docker compose -f docker-compose.yml -p chat_web_host pull && docker compose -f docker-compose.yml -p chat_web_host up -d

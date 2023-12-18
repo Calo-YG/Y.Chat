@@ -9,6 +9,11 @@ configs:
   nginx_conf:
     file: ./env/nginx/nginx.conf
 
+networks:
+  calo-net:
+    driver: bridge
+    attachable: true
+
 services:
    chat_web_host:
      container_name: chat_web_host
@@ -39,7 +44,8 @@ services:
    nginx:
     image: nginx:1.16.1
     ports:
-      - "1545:1545"
+      - "7143:7143"
+      - "4173:4173"
     networks:
       - calo_net
     volumes:

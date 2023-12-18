@@ -1,9 +1,9 @@
 let url:string;
 
 if (import.meta.env.MODE === "development") {
-    url = "http://localhost:5088"
+    url = "http://localhost:5173"
 } else {
-    url = '';
+    url = 'http://120.26.216.57:5173';
 }
 
 const config = {

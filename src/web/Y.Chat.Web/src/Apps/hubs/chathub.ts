@@ -1,10 +1,10 @@
 import * as signalR from "@microsoft/signalr";
 import config from "../../config";
 import * as msgpack from "@microsoft/signalr-protocol-msgpack";
-import localStorage from './../../services/localStorage.ts'
+import localStorage from './../../services/localStorage'
 import { ElNotification } from 'element-plus'
-import {chatChangeState} from './../../hooks/chatchange.ts'
-import mitt from "./../../utils/mitt.ts";
+import {chatChangeState} from './../../hooks/chatchange'
+import mitt from "./../../utils/mitt";
 
 const store = chatChangeState();
 const { updateLastMessae , updateChatListWithDraw,updateNociteCount}=store;
@@ -33,7 +33,7 @@ class ChatHub {
 
         .build();
 
-      this.connection.keepAliveIntervalInMilliseconds = 5;
+      this.connection.keepAliveIntervalInMilliseconds = 15 * 100; // 心跳检测15s
 
       this.connection.on("ReciveMessage",(groupid,sendUserId,msg,type,messageId)=>{
         const data={

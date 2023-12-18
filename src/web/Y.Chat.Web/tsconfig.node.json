@@ -16,5 +16,12 @@
       "@build/*": ["build/*"]
     },
   },
-  "include": ["vite.config.ts"]
+  "include": [   
+  "src/**/*.ts",
+  "src/**/*.d.ts",
+  "src/**/*.tsx",
+  "src/**/*.vue",
+  "build/**/*.ts",
+  "build/**/*.d.ts",
+  "vite.config.ts"]
 }

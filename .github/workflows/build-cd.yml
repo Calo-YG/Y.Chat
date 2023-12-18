@@ -6,6 +6,11 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: login aliyun
+        run: |
+            sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com       
       - name: run docker compose
         run: |
             ls -l

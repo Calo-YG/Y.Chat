@@ -2,6 +2,8 @@
 # node后面跟的tag，可以在docker hub中（上方网址）查找项目所需的tag
 FROM node:20.9.0 as build
 
+WORKDIR /app
+
 COPY package*.json ./
 RUN echo "COPY is success"
 

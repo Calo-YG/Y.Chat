@@ -22,7 +22,7 @@ jobs:
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
           fi
-          cd ./src/aspnetcore/Y.ChatCore/Y.Chat.Host
+          cd ./src/aspnetcore/Y.ChatCore
           sudo docker build -t $image_name:$tag_name -f Dockerfile .
       - name: Build and push ALI
         id: ALI_build

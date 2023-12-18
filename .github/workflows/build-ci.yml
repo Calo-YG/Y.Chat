@@ -64,10 +64,9 @@ jobs:
     needs: [build_host, build_web]
     steps:
       - name: run docker compose
-        needs: 
         run: |
             ls
-            cd docker
+            cd ./docker
             sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hongkong.aliyuncs.com
             if  docker-compose -p chat_web_host ps > /dev/null 2>&1; then
               # 服务存在，停止并删除

@@ -60,6 +60,7 @@ jobs:
   
   deploy:
     runs-on: self-hosted
+    needs: [build_web,build_host]
     steps:
       - name: run docker compose
         run: |

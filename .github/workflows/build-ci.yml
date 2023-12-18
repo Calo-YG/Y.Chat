@@ -23,7 +23,7 @@ jobs:
            docker rmi $image_name:$tag_name
           fi
           cd ./src/aspnetcore/Y.ChatCore
-          sudo docker build -t $image_name:$tag_name -f Dockerfile .
+          sudo docker build -t $image_name:$tag_name -f /Y.Chat.Host/Dockerfile .
       - name: Build and push ALI
         id: ALI_build
         run: |

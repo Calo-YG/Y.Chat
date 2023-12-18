@@ -2,6 +2,7 @@
 # node后面跟的tag，可以在docker hub中（上方网址）查找项目所需的tag
 FROM node:20.9.0 as build
 
+# 设置项目目录
 WORKDIR /app
 
 COPY package*.json ./
@@ -13,13 +14,10 @@ RUN echo "install is success"
 COPY . .
 
 # 编译项目
-RUN yarn build
+RUN yarn run build
 RUN echo "build is success"
 
-
-# 以nginx:1.12.2为基础镜像
-# nginx后面跟的tag，可以在docker hub中（上方网址）查找项目所需的tag
-FROM nginx:1.16.1
+FROM nginx
 
 # 修改/usr/share/nginx/html里面的内容为前端需要部署的静态文件，这样前端就跑在nginx上了
 # 复制 nginx.conf 配置文件到镜像中

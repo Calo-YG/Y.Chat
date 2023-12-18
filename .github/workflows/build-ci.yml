@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    name:chat-web-host
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,7 +34,6 @@ jobs:
           sudo docker push registry.cn-hongkong.aliyuncs.com/sdwyg/blogo:$tag_name
 
   build:
-    name:chat-web-ui
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

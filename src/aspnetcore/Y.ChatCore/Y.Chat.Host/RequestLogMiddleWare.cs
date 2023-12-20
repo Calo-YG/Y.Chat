@@ -40,13 +40,7 @@ namespace Y.Chat.Host
                     await HandRequestLog(context, stopwatch, ex);
                     throw;
                 }
-                finally
-                {
-                    if (notex)
-                    {
-                        await HandRequestLog(context, stopwatch, null);
-                    }
-                }
+                await HandRequestLog(context, stopwatch, null);
             }
             else
             {

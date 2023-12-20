@@ -53,11 +53,11 @@ await using var context = app.Services.CreateScope().ServiceProvider.GetService<
     context!.Database.EnsureCreated();
 }
 
-app.MapDefaultEndpoints();
-
 await app.InitApplicationAsync();
 
 app.MapHub<ChatHub>("/chat");
+
+app.UseMiddleware<RequestLogMiddleWare>();
 
 app.MapMasaMinimalAPIs();
 

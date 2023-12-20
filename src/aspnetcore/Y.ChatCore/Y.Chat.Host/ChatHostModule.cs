@@ -135,6 +135,11 @@ namespace Y.Chat.Host
                     )
             );
 
+            Configure<RequestLogOptions>(options =>
+            {
+                options.LogPath = "/api";
+            });
+
             context.Services.AddAutoInject(Assembly.GetExecutingAssembly());
 
             context.Services.AddScoped<IGroupApplicationService, GroupService>();
@@ -160,6 +165,8 @@ namespace Y.Chat.Host
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

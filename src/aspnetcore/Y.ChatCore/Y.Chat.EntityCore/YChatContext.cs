@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.FileDomain.Entitis;
+using Y.Chat.EntityCore.Domain.SystemDomain;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 
 namespace Y.Chat.EntityCore
@@ -26,6 +27,9 @@ namespace Y.Chat.EntityCore
         public DbSet<Friends> Friends { get; set; }
 
         public DbSet<SystemMessage> SystemMessages { get; set; }
+
+        public DbSet<RequestLogInfo> RequestLogInfos { get; set; }
+
         public YChatContext(MasaDbContextOptions<YChatContext> masaDbContextOptions) : base(masaDbContextOptions)
         {
         }

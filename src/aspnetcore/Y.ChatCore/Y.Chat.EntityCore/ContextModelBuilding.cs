@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Y.Chat.EntityCore.Domain.ChatDomain.Entities;
 using Y.Chat.EntityCore.Domain.FileDomain.Entitis;
+using Y.Chat.EntityCore.Domain.SystemDomain;
 using Y.Chat.EntityCore.Domain.UserDomain.Entities;
 
 namespace Y.Chat.EntityCore
@@ -92,6 +93,18 @@ namespace Y.Chat.EntityCore
 
                 options.HasOne(p => p.ChatGroup).WithMany().HasForeignKey(p => p.GroupId);
             });
+            #endregion
+
+            #region System
+
+            builder.Entity<RequestLogInfo>(options =>
+            {
+                options.TryConfigureConcurrencyStamp();
+                options.HasKey(p => p.Id);
+
+                options.Property(p => p.Exception).HasMaxLength(550);
+            });
+
             #endregion
 
             #region 初始化数据

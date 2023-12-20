@@ -12,15 +12,15 @@ using Y.Chat.EntityCore;
 namespace Y.Chat.EntityCore.Migrations
 {
     [DbContext(typeof(YChatContext))]
-    [Migration("20231120161654_Update-ChatList-1")]
-    partial class UpdateChatList1
+    [Migration("20231219082654_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -117,13 +117,13 @@ namespace Y.Chat.EntityCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9a46221e-ee1a-e580-f079-3a0effb21773"),
+                            Id = new Guid("87dcbed7-e1b5-bff9-bab4-3a0f935c3619"),
                             Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
-                            CreationTime = new DateTime(2023, 11, 20, 16, 16, 54, 643, DateTimeKind.Utc).AddTicks(5604),
+                            CreationTime = new DateTime(2023, 12, 19, 8, 26, 54, 361, DateTimeKind.Utc).AddTicks(7148),
                             Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Description = "世界频道欢迎来访",
                             GroupNumber = "3164522207",
-                            ModificationTime = new DateTime(2023, 11, 20, 16, 16, 54, 643, DateTimeKind.Utc).AddTicks(5605),
+                            ModificationTime = new DateTime(2023, 12, 19, 8, 26, 54, 361, DateTimeKind.Utc).AddTicks(7149),
                             Modifier = new Guid("00000000-0000-0000-0000-000000000000"),
                             Name = "世界频道"
                         });
@@ -168,26 +168,26 @@ namespace Y.Chat.EntityCore.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("dba9a606-c418-6396-8c8e-3a0effb21773"),
-                            GroupId = new Guid("9a46221e-ee1a-e580-f079-3a0effb21773"),
-                            CreationTime = new DateTime(2023, 11, 21, 0, 16, 54, 643, DateTimeKind.Local).AddTicks(5627),
+                            UserId = new Guid("251aa9a0-7fdb-1819-1814-3a0f935c3619"),
+                            GroupId = new Guid("87dcbed7-e1b5-bff9-bab4-3a0f935c3619"),
+                            CreationTime = new DateTime(2023, 12, 19, 16, 26, 54, 361, DateTimeKind.Local).AddTicks(7169),
                             Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Grouper = false,
-                            Id = new Guid("07f54bbb-da84-6831-f3fe-3a0effb21773"),
+                            Id = new Guid("6751933e-5cc6-0f91-c2f4-3a0f935c3619"),
                             IsAdmin = false,
-                            ModificationTime = new DateTime(2023, 11, 20, 16, 16, 54, 643, DateTimeKind.Utc).AddTicks(5619),
+                            ModificationTime = new DateTime(2023, 12, 19, 8, 26, 54, 361, DateTimeKind.Utc).AddTicks(7163),
                             Modifier = new Guid("00000000-0000-0000-0000-000000000000")
                         },
                         new
                         {
-                            UserId = new Guid("cabed7f6-055a-6e31-5f86-3a0effb21773"),
-                            GroupId = new Guid("9a46221e-ee1a-e580-f079-3a0effb21773"),
-                            CreationTime = new DateTime(2023, 11, 21, 0, 16, 54, 643, DateTimeKind.Local).AddTicks(5652),
+                            UserId = new Guid("adee9180-084b-38c1-d05c-3a0f935c3619"),
+                            GroupId = new Guid("87dcbed7-e1b5-bff9-bab4-3a0f935c3619"),
+                            CreationTime = new DateTime(2023, 12, 19, 16, 26, 54, 361, DateTimeKind.Local).AddTicks(7178),
                             Creator = new Guid("00000000-0000-0000-0000-000000000000"),
                             Grouper = false,
-                            Id = new Guid("0bb1d58b-f431-386b-1f0f-3a0effb21773"),
+                            Id = new Guid("7ea84ad0-7263-63d5-227a-3a0f935c3619"),
                             IsAdmin = false,
-                            ModificationTime = new DateTime(2023, 11, 20, 16, 16, 54, 643, DateTimeKind.Utc).AddTicks(5651),
+                            ModificationTime = new DateTime(2023, 12, 19, 8, 26, 54, 361, DateTimeKind.Utc).AddTicks(7176),
                             Modifier = new Guid("00000000-0000-0000-0000-000000000000")
                         });
                 });
@@ -222,6 +222,9 @@ namespace Y.Chat.EntityCore.Migrations
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Withdraw")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -365,6 +368,48 @@ namespace Y.Chat.EntityCore.Migrations
                     b.ToTable("FileSystems");
                 });
 
+            modelBuilder.Entity("Y.Chat.EntityCore.Domain.SystemDomain.RequestLogInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Exception")
+                        .HasMaxLength(550)
+                        .HasColumnType("nvarchar(550)");
+
+                    b.Property<string>("Ip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Method")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Param")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("RequestUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RequestLogInfos");
+                });
+
             modelBuilder.Entity("Y.Chat.EntityCore.Domain.UserDomain.Entities.EmailRecords", b =>
                 {
                     b.Property<Guid>("Id")
@@ -478,7 +523,7 @@ namespace Y.Chat.EntityCore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dba9a606-c418-6396-8c8e-3a0effb21773"),
+                            Id = new Guid("251aa9a0-7fdb-1819-1814-3a0f935c3619"),
                             Account = "3164522206",
                             Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
                             Email = "3164522206@qq.com",
@@ -488,7 +533,7 @@ namespace Y.Chat.EntityCore.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cabed7f6-055a-6e31-5f86-3a0effb21773"),
+                            Id = new Guid("adee9180-084b-38c1-d05c-3a0f935c3619"),
                             Account = "3164522207",
                             Avatar = "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4",
                             Email = "3164522206@qq.com",

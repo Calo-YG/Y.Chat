@@ -41,7 +41,7 @@ namespace Y.Chat.EntityCore.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ConversationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UnReadCount = table.Column<int>(type: "int", nullable: false),
-                    LastMessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastMessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     Avatart = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ChatType = table.Column<int>(type: "int", nullable: false),
@@ -63,6 +63,7 @@ namespace Y.Chat.EntityCore.Migrations
                     MessageType = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Withdraw = table.Column<bool>(type: "bit", nullable: false),
                     Creator = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Modifier = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -152,6 +153,26 @@ namespace Y.Chat.EntityCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RequestLogInfos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Method = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Ip = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Param = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Success = table.Column<bool>(type: "bit", nullable: false),
+                    Exception = table.Column<string>(type: "nvarchar(550)", maxLength: 550, nullable: true),
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RequestUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestLogInfos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SystemMessages",
                 columns: table => new
                 {
@@ -218,15 +239,15 @@ namespace Y.Chat.EntityCore.Migrations
             migrationBuilder.InsertData(
                 table: "ChatGroups",
                 columns: new[] { "Id", "Avatar", "CreationTime", "Creator", "Description", "GroupNumber", "ModificationTime", "Modifier", "Name", "UserId" },
-                values: new object[] { new Guid("6e71ca99-6d81-8c18-f6ca-3a0ef5d3e188"), "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4", new DateTime(2023, 11, 18, 18, 17, 36, 904, DateTimeKind.Utc).AddTicks(4906), new Guid("00000000-0000-0000-0000-000000000000"), "世界频道欢迎来访", "3164522207", new DateTime(2023, 11, 18, 18, 17, 36, 904, DateTimeKind.Utc).AddTicks(4908), new Guid("00000000-0000-0000-0000-000000000000"), "世界频道", null });
+                values: new object[] { new Guid("87dcbed7-e1b5-bff9-bab4-3a0f935c3619"), "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4", new DateTime(2023, 12, 19, 8, 26, 54, 361, DateTimeKind.Utc).AddTicks(7148), new Guid("00000000-0000-0000-0000-000000000000"), "世界频道欢迎来访", "3164522207", new DateTime(2023, 12, 19, 8, 26, 54, 361, DateTimeKind.Utc).AddTicks(7149), new Guid("00000000-0000-0000-0000-000000000000"), "世界频道", null });
 
             migrationBuilder.InsertData(
                 table: "GroupUsers",
                 columns: new[] { "GroupId", "UserId", "CreationTime", "Creator", "Grouper", "Id", "IsAdmin", "ModificationTime", "Modifier", "NickName" },
                 values: new object[,]
                 {
-                    { new Guid("6e71ca99-6d81-8c18-f6ca-3a0ef5d3e188"), new Guid("87b4c3ab-5eaf-703e-e2b6-3a0ef5d3e188"), new DateTime(2023, 11, 19, 2, 17, 36, 904, DateTimeKind.Local).AddTicks(4962), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("56ee8498-43a8-707d-a924-3a0ef5d3e188"), false, new DateTime(2023, 11, 18, 18, 17, 36, 904, DateTimeKind.Utc).AddTicks(4959), new Guid("00000000-0000-0000-0000-000000000000"), null },
-                    { new Guid("6e71ca99-6d81-8c18-f6ca-3a0ef5d3e188"), new Guid("e47236af-a5a5-6d2e-3e71-3a0ef5d3e188"), new DateTime(2023, 11, 19, 2, 17, 36, 904, DateTimeKind.Local).AddTicks(4935), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("ba988693-193f-ba6a-fecd-3a0ef5d3e188"), false, new DateTime(2023, 11, 18, 18, 17, 36, 904, DateTimeKind.Utc).AddTicks(4923), new Guid("00000000-0000-0000-0000-000000000000"), null }
+                    { new Guid("87dcbed7-e1b5-bff9-bab4-3a0f935c3619"), new Guid("251aa9a0-7fdb-1819-1814-3a0f935c3619"), new DateTime(2023, 12, 19, 16, 26, 54, 361, DateTimeKind.Local).AddTicks(7169), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("6751933e-5cc6-0f91-c2f4-3a0f935c3619"), false, new DateTime(2023, 12, 19, 8, 26, 54, 361, DateTimeKind.Utc).AddTicks(7163), new Guid("00000000-0000-0000-0000-000000000000"), null },
+                    { new Guid("87dcbed7-e1b5-bff9-bab4-3a0f935c3619"), new Guid("adee9180-084b-38c1-d05c-3a0f935c3619"), new DateTime(2023, 12, 19, 16, 26, 54, 361, DateTimeKind.Local).AddTicks(7178), new Guid("00000000-0000-0000-0000-000000000000"), false, new Guid("7ea84ad0-7263-63d5-227a-3a0f935c3619"), false, new DateTime(2023, 12, 19, 8, 26, 54, 361, DateTimeKind.Utc).AddTicks(7176), new Guid("00000000-0000-0000-0000-000000000000"), null }
                 });
 
             migrationBuilder.InsertData(
@@ -234,8 +255,8 @@ namespace Y.Chat.EntityCore.Migrations
                 columns: new[] { "Id", "Account", "Autograph", "Avatar", "Email", "LoginType", "Name", "Password" },
                 values: new object[,]
                 {
-                    { new Guid("87b4c3ab-5eaf-703e-e2b6-3a0ef5d3e188"), "3164522207", null, "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4", "3164522206@qq.com", 0, "wyg", "zDPJCnWP9Y4Vzpe0s5pNRGz1crROpP9HrjkwlF9Q7x4=" },
-                    { new Guid("e47236af-a5a5-6d2e-3e71-3a0ef5d3e188"), "3164522206", null, "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4", "3164522206@qq.com", 0, "admin", "zDPJCnWP9Y4Vzpe0s5pNRGz1crROpP9HrjkwlF9Q7x4=" }
+                    { new Guid("251aa9a0-7fdb-1819-1814-3a0f935c3619"), "3164522206", null, "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4", "3164522206@qq.com", 0, "admin", "zDPJCnWP9Y4Vzpe0s5pNRGz1crROpP9HrjkwlF9Q7x4=" },
+                    { new Guid("adee9180-084b-38c1-d05c-3a0f935c3619"), "3164522207", null, "https://avatars.githubusercontent.com/u/74019004?s=400&u=bf9fc0cb7908138aed27fdd71cce648f29b624f5&v=4", "3164522206@qq.com", 0, "wyg", "zDPJCnWP9Y4Vzpe0s5pNRGz1crROpP9HrjkwlF9Q7x4=" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -283,6 +304,9 @@ namespace Y.Chat.EntityCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notices");
+
+            migrationBuilder.DropTable(
+                name: "RequestLogInfos");
 
             migrationBuilder.DropTable(
                 name: "SystemMessages");
